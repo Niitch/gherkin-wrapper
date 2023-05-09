@@ -31,8 +31,8 @@ export abstract class Wrapper<T> {
     };
   }
 
-  public test(filePath: string) {
-    const gherkinDocument = parse(filePath);
+  public test(filePath: string, encoding?: BufferEncoding) {
+    const gherkinDocument = parse(filePath, encoding);
     if (gherkinDocument.feature) this.runFeature(gherkinDocument.feature);
   }
 

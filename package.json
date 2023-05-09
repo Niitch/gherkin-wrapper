@@ -1,11 +1,11 @@
 {
   "name": "gherkin-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A wrapper that allows any test runner to handle the gherkin format",
   "author": "Florian Nitcheu Tcheumo",
   "license": "ISC",
-  "main": "lib/playwright.js",
-  "types": "lib/playwright.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "npx playwright test -c .\\tests\\playwright\\",
     "build": "npx rimraf lib && tsc",
