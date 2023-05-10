@@ -1,6 +1,6 @@
 {
   "name": "gherkin-wrapper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A wrapper that allows any test runner to handle the gherkin format",
   "author": "Florian Nitcheu Tcheumo",
   "license": "ISC",
@@ -11,9 +11,10 @@
     "build": "npx rimraf lib && tsc",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "tslint -p tsconfig.json",
-    "prepare" : "npm run build",
+    "prepare": "npm run build",
     "preversion": "npm run lint",
-    "version": "npm run format && git add -A src"
+    "version": "npm run format && git add -A src",
+    "postversion": "git push"
   },
   "dependencies": {
     "@cucumber/gherkin": "^26.2.0",
