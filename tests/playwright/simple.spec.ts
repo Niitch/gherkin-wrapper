@@ -9,17 +9,18 @@ const test = base.extend<{value: string}>({
     }
 })
 
-const wrapper = new GherkinWrapper.forPlaywright(test)
+const wrapper = new GherkinWrapper.forPlaywright(base)
 
-wrapper.when("the Maker starts a game", () => null)
-wrapper.then("the Maker waits for a Breaker to join", () => null)
+wrapper.when("the Maker starts a game", () => {})
+wrapper.then("the Maker waits for a Breaker to join", () => {})
 
-wrapper.given(/the Maker has started a game with the word "(.*)"/, ({ value }, { match }) => {
+wrapper.given(/the Maker has started a game with the word "(.*)"/, async ({ page }, { match }) => {
     console.log('fixture is being used')
     console.log(match)
+    await page.goto('https://www.google.com/')
 })
 
-wrapper.when(/the Breaker.*/, () => null)
-wrapper.then(/the Breaker.*/, () => null)
+wrapper.when(/the Breaker.*/, () => {})
+wrapper.then(/the Breaker.*/, () => {})
 
 wrapper.test('./tests/simple.feature')

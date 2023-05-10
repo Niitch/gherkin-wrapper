@@ -77,7 +77,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     this.testRunner(
       scenario.name,
       provideFixture(async (args: TestArgs<T>) => {
-        for (const s of steps) this.runStep({ ...s, args });
+        for (const s of steps) await this.runStep({ ...s, args });
       }),
     );
   }
