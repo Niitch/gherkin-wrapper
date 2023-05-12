@@ -96,7 +96,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     await this.testRunner.step(step.keyword + step.text, async () => {
       this.testRunner.skip(
         !test,
-        `No test function found for step '${step.keyword + step.text}'. You shoul add one using the GherkinWrapper.${
+        `No test function found for step '${step.keyword + step.text}'. You should add one using the GherkinWrapper.${
           LibraryMethodByStepType[step.keywordType as StepKeywordType]
         } method`,
       );
