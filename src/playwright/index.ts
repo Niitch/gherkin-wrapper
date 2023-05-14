@@ -3,6 +3,7 @@ import { TestFunction } from '../common/library';
 import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
 import { Wrapper as Base } from '../common/wrapper';
 import { test as baseTestRunner } from '@playwright/test';
+import { makeHtmlReporter } from './reporters';
 
 type BaseTestRunner = typeof baseTestRunner;
 type TestArgs<T extends BaseTestRunner> = Parameters<Parameters<T>[1]>[0];
@@ -17,6 +18,8 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     super(library);
     this.testRunner = testRunner;
   }
+
+  static htmlReporter = makeHtmlReporter;
 
   protected runFeature(feature: Feature) {
     this.testRunner.describe(feature.name, () => {
@@ -58,7 +61,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
           scenario.examples = [];
           scenario.steps = scenario.steps.map((step) => {
             ex.tableHeader?.cells.map((cell, j) => {
-              step.text = step.text.replace('<' + cell.value + '>', row.cells[j].value);
+              step.text = step.text.replace('<' + cell.value + '>', '<' + row.cells[j].value + '>');
             });
             return step;
           });

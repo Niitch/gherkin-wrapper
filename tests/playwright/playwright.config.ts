@@ -17,9 +17,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   // Reporter to use
-  reporter: 'list',
-
-  use: {
+  reporter: './reporter.ts',
+  //reporter: 'list',
+    
+  use: {  
   },
   // Configure projects for major browsers.
   projects: [
