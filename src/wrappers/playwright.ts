@@ -1,7 +1,7 @@
-import { Library, LibraryMethodByStepType, WrapperArgs } from '../common/library';
-import { TestFunction } from '../common/library';
-import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
+import { Library, LibraryMethodByStepType, WrapperArgs, TestFunction } from '../common/library';
 import { Wrapper as Base } from '../common/wrapper';
+import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
+import { DataTable } from '@cucumber/cucumber';
 import { test as baseTestRunner } from '@playwright/test';
 
 type BaseTestRunner = typeof baseTestRunner;
@@ -100,7 +100,12 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
           LibraryMethodByStepType[step.keywordType as StepKeywordType]
         } method`,
       );
-      await test?.(args, { ...wrapperArgs, dataTable: step.dataTable, docString: step.docString?.content });
+      await test?.(args, {
+        ...wrapperArgs,
+        rawdataTable: step.dataTable,
+        dataTable: step.dataTable ? new DataTable(step.dataTable) : undefined,
+        docString: step.docString?.content,
+      });
     });
   }
 

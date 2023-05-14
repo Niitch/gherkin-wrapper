@@ -1,10 +1,12 @@
 import { Page, test } from "@playwright/test";
 import GherkinWrapper from "../../src";
+import { DataTable as RawDataTable } from "@cucumber/messages";
+import { DataTable } from "@cucumber/cucumber";
 
 const wrapper = new GherkinWrapper.forPlaywright(test)
 
-const defaultHandler = async ({page}: {page: Page}, wrapperArgs) => {
-    console.log(JSON.stringify(wrapperArgs, null, 2))
+const defaultHandler = async ({page}: {page: Page}, {dataTable, rawdataTable}: {dataTable?: DataTable, rawdataTable?: RawDataTable}) => {
+    if (dataTable) console.log(dataTable.raw(), rawdataTable)
     await page.waitForTimeout(1000)
 }
 
