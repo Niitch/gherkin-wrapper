@@ -1,36 +1,53 @@
 import { Library, TestFunction, usableStepType } from './library';
 import { Background, Feature, Rule, Scenario, Step } from '@cucumber/messages';
 import { parse } from './parser';
+import { Hooks } from './hooks';
 
-export abstract class Wrapper<T> {
-  private _library = new Library<T>();
+export interface BaseWrapperOptions<TestArgs> {
+  library?: Library<TestArgs>,
+  hooks?: Hooks,
+}
 
-  get library() {
-    return this._library;
+export abstract class Wrapper<TestArgs, WrapperOptions extends BaseWrapperOptions<TestArgs> = BaseWrapperOptions<TestArgs>> {
+  readonly library = new Library<TestArgs>();
+  readonly hooks = new Hooks();
+  
+  constructor(options: WrapperOptions = {} as WrapperOptions) {
+    if (options.library) this.library = options.library
+    if (options.hooks) this.hooks = options.hooks
   }
 
-  constructor(library?: Library<T>) {
-    if (library) this._library = library;
+  get given(): typeof this.library.given {
+    return this.library.given.bind(this.library)
+  }
+  get when(): typeof this.library.when {
+    return this.library.when.bind(this.library)
+  }
+  get then(): typeof this.library.then {
+    return this.library.then.bind(this.library)
   }
 
-  public given(spec: string | RegExp, test: TestFunction<T>) {
-    this._library.given(spec, test);
+  get on() {
+    return this.hooks.on.bind(this.hooks)
   }
-  public when(spec: string | RegExp, test: TestFunction<T>) {
-    this._library.when(spec, test);
+  get trigger() {
+    return this.hooks.trigger.bind(this.hooks)
   }
-  public then(spec: string | RegExp, test: TestFunction<T>) {
-    this._library.then(spec, test);
+  beforeAutomation(callback: (...args: any[]) => any) {
+    this.hooks.beforeAutomation = callback
   }
-
-  protected getTestFunction(step: Step, prevStepType: Parameters<typeof this._library.find>[0]) {
+  afterAutomation(callback: (...args: any[]) => any) {
+    this.hooks.afterAutomation = callback
+  }
+  
+  protected getTestFunction(step: Step, prevStepType: Parameters<typeof this.library.find>[0]) {
     const keywordType = usableStepType(step.keywordType, prevStepType);
     return {
-      ...this._library.find(keywordType, step.text),
+      ...this.library.find(keywordType, step.text),
       keywordType,
     };
   }
-
+  
   public test(filePath: string, encoding?: BufferEncoding) {
     const gherkinDocument = parse(filePath, encoding);
     if (gherkinDocument.feature) this.runFeature(gherkinDocument.feature);

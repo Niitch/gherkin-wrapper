@@ -1,21 +1,37 @@
-import { Library, LibraryMethodByStepType, WrapperArgs } from '../common/library';
+import { LibraryMethodByStepType, WrapperArgs } from '../common/library';
 import { TestFunction } from '../common/library';
 import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
-import { Wrapper as Base } from '../common/wrapper';
+import { Wrapper as Base, BaseWrapperOptions } from '../common/wrapper';
 import { test as baseTestRunner } from '@playwright/test';
 
 type BaseTestRunner = typeof baseTestRunner;
 type TestArgs<T extends BaseTestRunner> = Parameters<Parameters<T>[1]>[0];
-type ScenarioWrapper<T extends BaseTestRunner> = (
+type FixtureProvider<T extends BaseTestRunner> = (
   stepsRunner: (args: TestArgs<T>) => Promise<any>,
 ) => (args: TestArgs<T>) => Promise<any>;
+
+interface StepRunnerArgs<T extends TestArgs<BaseTestRunner>> {
+  step: Step,
+  fn?: TestFunction<T>,
+  runnerArgs: T,
+  wrapperArgs: WrapperArgs,
+}
 
 class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   private testRunner: T;
 
-  constructor(testRunner: T, library?: Library<TestArgs<T>>) {
-    super(library);
+  constructor(testRunner: T, options?: BaseWrapperOptions<TestArgs<T>>) {
+    super(options);
     this.testRunner = testRunner;
+    if (!this.hooks.beforeAutomation)
+      this.hooks.beforeAutomation = (args: StepRunnerArgs<TestArgs<T>>) => {
+        this.testRunner.skip(
+          !args.fn,
+          `No test function found for step '${args.step.keyword + args.step.text}'. You shoul add one using the GherkinWrapper.${
+            LibraryMethodByStepType[args.step.keywordType as StepKeywordType]
+          } method`,
+        )
+      }
   }
 
   protected runFeature(feature: Feature) {
@@ -40,8 +56,8 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     const provideFixture = this.buildFixtureProvider(steps);
 
     this.testRunner.beforeEach(
-      provideFixture(async (args: TestArgs<T>) => {
-        for (const s of steps) this.runStep({ ...s, args });
+      provideFixture(async (runnerArgs: TestArgs<T>) => {
+        for (const s of steps) this.runStep({ ...s, runnerArgs });
       }),
     );
   }
@@ -68,39 +84,26 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     for (const s of scenarios) this.runScenario(s);
   }
 
-  protected runScenario(scenario: Scenario) {
+  protected runScenario(scenario: Scenario) {    
     if (scenario.examples.length) return this.runScenarioOutline(scenario);
-
+    
     const steps = this.prepareSteps(scenario);
     const provideFixture = this.buildFixtureProvider(steps);
-
+    
     this.testRunner(
       scenario.name,
-      provideFixture(async (args: TestArgs<T>) => {
-        for (const s of steps) await this.runStep({ ...s, args });
+      provideFixture(async (runnerArgs: TestArgs<T>) => {
+        for (const {name} of scenario.tags) this.trigger(name, [])
+        for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
     );
   }
 
-  protected async runStep({
-    step,
-    test,
-    args,
-    wrapperArgs,
-  }: {
-    step: Step;
-    test?: TestFunction<TestArgs<T>>;
-    args: TestArgs<T>;
-    wrapperArgs: WrapperArgs;
-  }) {
-    await this.testRunner.step(step.keyword + step.text, async () => {
-      this.testRunner.skip(
-        !test,
-        `No test function found for step '${step.keyword + step.text}'. You shoul add one using the GherkinWrapper.${
-          LibraryMethodByStepType[step.keywordType as StepKeywordType]
-        } method`,
-      );
-      await test?.(args, { ...wrapperArgs, dataTable: step.dataTable, docString: step.docString?.content });
+  protected async runStep(args: StepRunnerArgs<TestArgs<T>>) {
+    await this.testRunner.step(args.step.keyword + args.step.text, async () => {
+      await this.hooks.beforeAutomation?.(args)
+      await args.fn?.(args.runnerArgs, { ...args.wrapperArgs, dataTable: args.step.dataTable, docString: args.step.docString?.content });
+      await this.hooks.afterAutomation?.(args)
     });
   }
 
@@ -110,13 +113,13 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     }, [] as (ReturnType<typeof this.getTestFunction> & { step: Step })[]);
   }
 
-  private buildFixtureProvider(steps: { test?: TestFunction<TestArgs<T>> }[]): ScenarioWrapper<T> {
+  private buildFixtureProvider(steps: { fn?: TestFunction<TestArgs<T>> }[]): FixtureProvider<T> {
     const requiredFixtureNames =
       '{' +
       [
         ...new Set(
           steps
-            .map(({ test }) => fixtureParameterNames(test))
+            .map(({ fn }) => fixtureParameterNames(fn))
             .reduce((list, fixtureNames) => list.concat(fixtureNames), []),
         ),
       ].join(',') +
@@ -124,7 +127,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     return new Function(
       'runSteps',
       `return ((${requiredFixtureNames}) => runSteps(${requiredFixtureNames}))`,
-    ) as ScenarioWrapper<T>;
+    ) as FixtureProvider<T>;
   }
 }
 

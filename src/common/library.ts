@@ -10,7 +10,7 @@ export type TestFunction<T> = (frameworkArgs: T, wrapperArgs: WrapperArgs) => an
 
 type TestSpecs<T> = {
   spec: string | RegExp;
-  test: TestFunction<T>;
+  fn: TestFunction<T>;
 };
 
 export function usableStepType(
@@ -44,22 +44,22 @@ export class Library<T> {
     [StepKeywordType.OUTCOME]: [],
   };
 
-  public given(spec: string | RegExp, test: TestFunction<T>) {
-    this._storage[StepKeywordType.CONTEXT].push({ spec, test });
+  public given(spec: string | RegExp, fn: TestFunction<T>) {
+    this._storage[StepKeywordType.CONTEXT].push({ spec, fn });
   }
 
-  public when(spec: string | RegExp, test: TestFunction<T>) {
-    this._storage[StepKeywordType.ACTION].push({ spec, test });
+  public when(spec: string | RegExp, fn: TestFunction<T>) {
+    this._storage[StepKeywordType.ACTION].push({ spec, fn });
   }
 
-  public then(spec: string | RegExp, test: TestFunction<T>) {
-    this._storage[StepKeywordType.OUTCOME].push({ spec, test });
+  public then(spec: string | RegExp, fn: TestFunction<T>) {
+    this._storage[StepKeywordType.OUTCOME].push({ spec, fn });
   }
 
   public find(
     type: StepKeywordType.CONTEXT | StepKeywordType.ACTION | StepKeywordType.OUTCOME | undefined,
     spec: string,
-  ): { test?: TestFunction<T>; wrapperArgs: WrapperArgs } {
+  ): { fn?: TestFunction<T>; wrapperArgs: WrapperArgs } {
     const _default = { wrapperArgs: {} };
 
     if (!type) return _default;
@@ -69,7 +69,7 @@ export class Library<T> {
     });
     if (!item) return _default;
     return {
-      test: item.test,
+      fn: item.fn,
       wrapperArgs: {
         match: spec.match(item.spec) as RegExpMatchArray,
       },
