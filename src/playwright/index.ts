@@ -22,20 +22,28 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   static htmlReporter = makeHtmlReporter;
 
   protected runFeature(feature: Feature) {
-    this.testRunner.describe(feature.name, () => {
-      for (const child of feature.children)
-        if (child.rule) this.runRule(child.rule);
-        else if (child.background) this.runBackground(child.background);
-        else if (child.scenario) this.runScenario(child.scenario);
-    });
+    this.testRunner.describe(
+      feature.name,
+      () => {
+        for (const child of feature.children)
+          if (child.rule) this.runRule(child.rule);
+          else if (child.background) this.runBackground(child.background);
+          else if (child.scenario) this.runScenario(child.scenario);
+      },
+      feature.location,
+    );
   }
 
   protected runRule(rule: Rule) {
-    this.testRunner.describe(rule.name, () => {
-      for (const child of rule.children)
-        if (child.scenario) this.runScenario(child.scenario);
-        else if (child.background) this.runBackground(child.background);
-    });
+    this.testRunner.describe(
+      rule.name,
+      () => {
+        for (const child of rule.children)
+          if (child.scenario) this.runScenario(child.scenario);
+          else if (child.background) this.runBackground(child.background);
+      },
+      rule.location,
+    );
   }
 
   protected runBackground(background: Background) {
@@ -82,6 +90,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
       provideFixture(async (args: TestArgs<T>) => {
         for (const s of steps) await this.runStep({ ...s, args });
       }),
+      scenario.location,
     );
   }
 
@@ -96,15 +105,19 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     args: TestArgs<T>;
     wrapperArgs: WrapperArgs;
   }) {
-    await this.testRunner.step(step.keyword + step.text, async () => {
-      this.testRunner.skip(
-        !test,
-        `No test function found for step '${step.keyword + step.text}'. You shoul add one using the GherkinWrapper.${
-          LibraryMethodByStepType[step.keywordType as StepKeywordType]
-        } method`,
-      );
-      await test?.(args, { ...wrapperArgs, dataTable: step.dataTable, docString: step.docString?.content });
-    });
+    await this.testRunner.step(
+      step.keyword + step.text,
+      async () => {
+        this.testRunner.skip(
+          !test,
+          `No test function found for step '${step.keyword + step.text}'. You shoul add one using the GherkinWrapper.${
+            LibraryMethodByStepType[step.keywordType as StepKeywordType]
+          } method`,
+        );
+        await test?.(args, { ...wrapperArgs, dataTable: step.dataTable, docString: step.docString?.content });
+      },
+      step.location,
+    );
   }
 
   private prepareSteps(backgroundOrScenario: Background | Scenario) {

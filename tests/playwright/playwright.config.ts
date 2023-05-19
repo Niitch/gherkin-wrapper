@@ -17,7 +17,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   // Reporter to use
-  reporter: './reporter.ts',
+  reporter: 'html',
   //reporter: 'list',
     
   use: {  

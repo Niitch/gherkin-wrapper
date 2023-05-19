@@ -1,5 +1,6 @@
 import { test as base } from "@playwright/test";
 import GherkinWrapper from "../../src/";
+import path from 'path'
 
 
 const test = base.extend<{value: string}>({
@@ -23,4 +24,4 @@ wrapper.given(/the Maker has started a game with the word "(.*)"/, async ({ page
 wrapper.when(/the Breaker.*/, () => {})
 wrapper.then(/the Breaker.*/, () => {})
 
-wrapper.test('./tests/simple.feature')
+wrapper.test(path.resolve(__dirname + "\\..\\simple.feature"))

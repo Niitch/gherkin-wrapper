@@ -1,6 +1,8 @@
 import { PlaywrightTestArgs, test } from "@playwright/test";
 import GherkinWrapper from "../../src";
 import { TestFunction } from "../../src/common/library";
+import path from 'path'
+
 
 const wrapper = new GherkinWrapper.forPlaywright(test)
 
@@ -13,4 +15,4 @@ wrapper.given(/.*/, defaultHandler)
 wrapper.when(/.*/, defaultHandler)
 wrapper.then(/.*/, defaultHandler)
 
-wrapper.test(__dirname + '/../complexe.feature')
+wrapper.test(path.resolve(__dirname + "\\..\\complexe.feature"))
