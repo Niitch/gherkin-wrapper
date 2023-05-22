@@ -1,25 +1,45 @@
-import { Library, LibraryMethodByStepType, WrapperArgs, TestFunction } from '../common/library';
-import { Wrapper as Base } from '../common/wrapper';
+import { LibraryMethodByStepType, WrapperArgs } from '../common/library';
+import { TestFunction } from '../common/library';
 import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
+import { Wrapper as Base, BaseWrapperOptions } from '../common/wrapper';
 import { DataTable } from '@cucumber/cucumber';
 import { test as baseTestRunner } from '@playwright/test';
 
 type BaseTestRunner = typeof baseTestRunner;
 type TestArgs<T extends BaseTestRunner> = Parameters<Parameters<T>[1]>[0];
-type ScenarioWrapper<T extends BaseTestRunner> = (
+type FixtureProvider<T extends BaseTestRunner> = (
   stepsRunner: (args: TestArgs<T>) => Promise<any>,
 ) => (args: TestArgs<T>) => Promise<any>;
+
+interface StepRunnerArgs<T extends TestArgs<BaseTestRunner>> {
+  step: Step;
+  fn?: TestFunction<T>;
+  runnerArgs: T;
+  wrapperArgs: WrapperArgs;
+}
 
 class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   private testRunner: T;
 
-  constructor(testRunner: T, library?: Library<TestArgs<T>>) {
-    super(library);
+  constructor(testRunner: T, options?: BaseWrapperOptions<TestArgs<T>>) {
+    super(options);
     this.testRunner = testRunner;
+    if (!this.hooks.beforeStep)
+      this.hooks.beforeStep = (args: StepRunnerArgs<TestArgs<T>>) => {
+        this.testRunner.skip(
+          !args.fn,
+          `No test function found for step '${
+            args.step.keyword + args.step.text
+          }'. You shoul add one using the GherkinWrapper.${
+            LibraryMethodByStepType[args.step.keywordType as StepKeywordType]
+          } method`,
+        );
+      };
   }
 
   protected runFeature(feature: Feature) {
     this.testRunner.describe(feature.name, () => {
+      for (const { name: tag } of feature.tags) this.triggerTag(tag, [feature]);
       for (const child of feature.children)
         if (child.rule) this.runRule(child.rule);
         else if (child.background) this.runBackground(child.background);
@@ -29,6 +49,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
 
   protected runRule(rule: Rule) {
     this.testRunner.describe(rule.name, () => {
+      for (const { name: tag } of rule.tags) this.triggerTag(tag, [rule]);
       for (const child of rule.children)
         if (child.scenario) this.runScenario(child.scenario);
         else if (child.background) this.runBackground(child.background);
@@ -40,8 +61,8 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     const provideFixture = this.buildFixtureProvider(steps);
 
     this.testRunner.beforeEach(
-      provideFixture(async (args: TestArgs<T>) => {
-        for (const s of steps) this.runStep({ ...s, args });
+      provideFixture(async (runnerArgs: TestArgs<T>) => {
+        for (const s of steps) this.runStep({ ...s, runnerArgs });
       }),
     );
   }
@@ -76,36 +97,23 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
 
     this.testRunner(
       scenario.name,
-      provideFixture(async (args: TestArgs<T>) => {
-        for (const s of steps) await this.runStep({ ...s, args });
+      provideFixture(async (runnerArgs: TestArgs<T>) => {
+        for (const { name: tag } of scenario.tags) this.triggerTag(tag, [scenario]);
+        for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
     );
   }
 
-  protected async runStep({
-    step,
-    test,
-    args,
-    wrapperArgs,
-  }: {
-    step: Step;
-    test?: TestFunction<TestArgs<T>>;
-    args: TestArgs<T>;
-    wrapperArgs: WrapperArgs;
-  }) {
-    await this.testRunner.step(step.keyword + step.text, async () => {
-      this.testRunner.skip(
-        !test,
-        `No test function found for step '${step.keyword + step.text}'. You should add one using the GherkinWrapper.${
-          LibraryMethodByStepType[step.keywordType as StepKeywordType]
-        } method`,
-      );
-      await test?.(args, {
-        ...wrapperArgs,
-        rawdataTable: step.dataTable,
-        dataTable: step.dataTable ? new DataTable(step.dataTable) : undefined,
-        docString: step.docString?.content,
+  protected async runStep(args: StepRunnerArgs<TestArgs<T>>) {
+    await this.testRunner.step(args.step.keyword + args.step.text, async () => {
+      await this.hooks.beforeStep?.(args);
+      await args.fn?.(args.runnerArgs, {
+        ...args.wrapperArgs,
+        rawdataTable: args.step.dataTable,
+        dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
+        docString: args.step.docString?.content,
       });
+      await this.hooks.afterStep?.(args);
     });
   }
 
@@ -115,13 +123,13 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     }, [] as (ReturnType<typeof this.getTestFunction> & { step: Step })[]);
   }
 
-  private buildFixtureProvider(steps: { test?: TestFunction<TestArgs<T>> }[]): ScenarioWrapper<T> {
+  private buildFixtureProvider(steps: { fn?: TestFunction<TestArgs<T>> }[]): FixtureProvider<T> {
     const requiredFixtureNames =
       '{' +
       [
         ...new Set(
           steps
-            .map(({ test }) => fixtureParameterNames(test))
+            .map(({ fn }) => fixtureParameterNames(fn))
             .reduce((list, fixtureNames) => list.concat(fixtureNames), []),
         ),
       ].join(',') +
@@ -129,7 +137,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     return new Function(
       'runSteps',
       `return ((${requiredFixtureNames}) => runSteps(${requiredFixtureNames}))`,
-    ) as ScenarioWrapper<T>;
+    ) as FixtureProvider<T>;
   }
 }
 
