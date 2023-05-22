@@ -1,8 +1,10 @@
-import { DataTable, DocString, StepKeywordType } from '@cucumber/messages';
+import { DataTable as RawDataTable, DocString, StepKeywordType } from '@cucumber/messages';
+import { DataTable } from '@cucumber/cucumber';
 
 export type WrapperArgs = {
   match?: RegExpMatchArray;
   dataTable?: DataTable;
+  rawdataTable?: RawDataTable;
   docString?: DocString['content'];
 };
 

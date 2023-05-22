@@ -2,6 +2,7 @@ import { LibraryMethodByStepType, WrapperArgs } from '../common/library';
 import { TestFunction } from '../common/library';
 import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
 import { Wrapper as Base, BaseWrapperOptions } from '../common/wrapper';
+import { DataTable } from '@cucumber/cucumber';
 import { test as baseTestRunner } from '@playwright/test';
 
 type BaseTestRunner = typeof baseTestRunner;
@@ -108,7 +109,8 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
       await this.hooks.beforeStep?.(args);
       await args.fn?.(args.runnerArgs, {
         ...args.wrapperArgs,
-        dataTable: args.step.dataTable,
+        rawdataTable: args.step.dataTable,
+        dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
         docString: args.step.docString?.content,
       });
       await this.hooks.afterStep?.(args);
