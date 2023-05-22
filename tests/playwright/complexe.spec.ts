@@ -4,7 +4,7 @@ import GherkinWrapper from "../../src";
 
 const wrapper = new GherkinWrapper.forPlaywright(test)
 
-wrapper.on('@skip', () => {
+wrapper.beforeTag('@skip', () => {
     test.skip(true, 'Tagged @skip')
 })
 

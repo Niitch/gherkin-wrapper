@@ -4,42 +4,45 @@ import { parse } from './parser';
 import { Hooks } from './hooks';
 
 export interface BaseWrapperOptions<TestArgs> {
-  library?: Library<TestArgs>,
-  hooks?: Hooks,
+  library?: Library<TestArgs>;
+  hooks?: Hooks;
 }
 
-export abstract class Wrapper<TestArgs, WrapperOptions extends BaseWrapperOptions<TestArgs> = BaseWrapperOptions<TestArgs>> {
+export abstract class Wrapper<
+  TestArgs,
+  WrapperOptions extends BaseWrapperOptions<TestArgs> = BaseWrapperOptions<TestArgs>,
+> {
   readonly library = new Library<TestArgs>();
   readonly hooks = new Hooks();
-  
+
   constructor(options: WrapperOptions = {} as WrapperOptions) {
-    if (options.library) this.library = options.library
-    if (options.hooks) this.hooks = options.hooks
+    if (options.library) this.library = options.library;
+    if (options.hooks) this.hooks = options.hooks;
   }
 
   get given(): typeof this.library.given {
-    return this.library.given.bind(this.library)
+    return this.library.given.bind(this.library);
   }
   get when(): typeof this.library.when {
-    return this.library.when.bind(this.library)
+    return this.library.when.bind(this.library);
   }
   get then(): typeof this.library.then {
-    return this.library.then.bind(this.library)
+    return this.library.then.bind(this.library);
   }
 
-  get on() {
-    return this.hooks.on.bind(this.hooks)
+  get beforeTag() {
+    return this.hooks.beforeTag.bind(this.hooks);
   }
-  get trigger() {
-    return this.hooks.trigger.bind(this.hooks)
+  protected get triggerTag() {
+    return this.hooks.triggerTag.bind(this.hooks);
   }
-  beforeAutomation(callback: (...args: any[]) => any) {
-    this.hooks.beforeAutomation = callback
+  beforeStep(callback: (...args: any[]) => any) {
+    this.hooks.beforeStep = callback;
   }
-  afterAutomation(callback: (...args: any[]) => any) {
-    this.hooks.afterAutomation = callback
+  afterStep(callback: (...args: any[]) => any) {
+    this.hooks.afterStep = callback;
   }
-  
+
   protected getTestFunction(step: Step, prevStepType: Parameters<typeof this.library.find>[0]) {
     const keywordType = usableStepType(step.keywordType, prevStepType);
     return {
@@ -47,7 +50,7 @@ export abstract class Wrapper<TestArgs, WrapperOptions extends BaseWrapperOption
       keywordType,
     };
   }
-  
+
   public test(filePath: string, encoding?: BufferEncoding) {
     const gherkinDocument = parse(filePath, encoding);
     if (gherkinDocument.feature) this.runFeature(gherkinDocument.feature);

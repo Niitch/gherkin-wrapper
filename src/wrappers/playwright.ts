@@ -11,10 +11,10 @@ type FixtureProvider<T extends BaseTestRunner> = (
 ) => (args: TestArgs<T>) => Promise<any>;
 
 interface StepRunnerArgs<T extends TestArgs<BaseTestRunner>> {
-  step: Step,
-  fn?: TestFunction<T>,
-  runnerArgs: T,
-  wrapperArgs: WrapperArgs,
+  step: Step;
+  fn?: TestFunction<T>;
+  runnerArgs: T;
+  wrapperArgs: WrapperArgs;
 }
 
 class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
@@ -23,19 +23,22 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   constructor(testRunner: T, options?: BaseWrapperOptions<TestArgs<T>>) {
     super(options);
     this.testRunner = testRunner;
-    if (!this.hooks.beforeAutomation)
-      this.hooks.beforeAutomation = (args: StepRunnerArgs<TestArgs<T>>) => {
+    if (!this.hooks.beforeStep)
+      this.hooks.beforeStep = (args: StepRunnerArgs<TestArgs<T>>) => {
         this.testRunner.skip(
           !args.fn,
-          `No test function found for step '${args.step.keyword + args.step.text}'. You shoul add one using the GherkinWrapper.${
+          `No test function found for step '${
+            args.step.keyword + args.step.text
+          }'. You shoul add one using the GherkinWrapper.${
             LibraryMethodByStepType[args.step.keywordType as StepKeywordType]
           } method`,
-        )
-      }
+        );
+      };
   }
 
   protected runFeature(feature: Feature) {
     this.testRunner.describe(feature.name, () => {
+      for (const { name: tag } of feature.tags) this.triggerTag(tag, [feature]);
       for (const child of feature.children)
         if (child.rule) this.runRule(child.rule);
         else if (child.background) this.runBackground(child.background);
@@ -45,6 +48,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
 
   protected runRule(rule: Rule) {
     this.testRunner.describe(rule.name, () => {
+      for (const { name: tag } of rule.tags) this.triggerTag(tag, [rule]);
       for (const child of rule.children)
         if (child.scenario) this.runScenario(child.scenario);
         else if (child.background) this.runBackground(child.background);
@@ -84,16 +88,16 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     for (const s of scenarios) this.runScenario(s);
   }
 
-  protected runScenario(scenario: Scenario) {    
+  protected runScenario(scenario: Scenario) {
     if (scenario.examples.length) return this.runScenarioOutline(scenario);
-    
+
     const steps = this.prepareSteps(scenario);
     const provideFixture = this.buildFixtureProvider(steps);
-    
+
     this.testRunner(
       scenario.name,
       provideFixture(async (runnerArgs: TestArgs<T>) => {
-        for (const {name} of scenario.tags) this.trigger(name, [])
+        for (const { name: tag } of scenario.tags) this.triggerTag(tag, [scenario]);
         for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
     );
@@ -101,9 +105,13 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
 
   protected async runStep(args: StepRunnerArgs<TestArgs<T>>) {
     await this.testRunner.step(args.step.keyword + args.step.text, async () => {
-      await this.hooks.beforeAutomation?.(args)
-      await args.fn?.(args.runnerArgs, { ...args.wrapperArgs, dataTable: args.step.dataTable, docString: args.step.docString?.content });
-      await this.hooks.afterAutomation?.(args)
+      await this.hooks.beforeStep?.(args);
+      await args.fn?.(args.runnerArgs, {
+        ...args.wrapperArgs,
+        dataTable: args.step.dataTable,
+        docString: args.step.docString?.content,
+      });
+      await this.hooks.afterStep?.(args);
     });
   }
 

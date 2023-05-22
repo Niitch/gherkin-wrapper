@@ -1,24 +1,20 @@
 export class Hooks {
+  // Lifecycle based hooks
 
-    // Lifecycle based hooks
+  beforeStep?: (...args: any[]) => any;
+  afterStep?: (...args: any[]) => any;
 
-    beforeAutomation?: (...args: any[]) => any
-    afterAutomation?: (...args: any[]) => any
-    
+  // Tag based hooks
 
-    // Tag based hooks
+  private _tagBased: {
+    [tag: string]: (...args: any[]) => any;
+  } = {};
 
-    private _tagBased: {
-        [tag: string]: (...args: any[]) => any,
-    } = {}
+  beforeTag(tag: string, callback: (...args: any[]) => any) {
+    this._tagBased[tag] = callback;
+  }
 
-
-    on(tag: string, callback: (...args: any[]) => any) {
-        this._tagBased[tag] = callback
-    }
-
-    trigger(tag: string, ...args: any[]) {
-        return this._tagBased[tag]?.(...args)
-    }
-
+  triggerTag(tag: string, ...args: any[]) {
+    return this._tagBased[tag]?.(...args);
+  }
 }
