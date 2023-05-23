@@ -33,7 +33,7 @@ export const LibraryMethodByStepType = {
   [StepKeywordType.UNKNOWN]: 'given|when|then',
 };
 
-export class Library<T> {
+export class Library<in T> {
   private _storage: {
     [StepKeywordType.CONTEXT]: TestSpecs<T>[];
     [StepKeywordType.ACTION]: TestSpecs<T>[];
