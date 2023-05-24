@@ -80,7 +80,7 @@ export class Library<T> {
 
     if (!type) return _default;
     let item = this._storage[type].find(doesMatch);
-    if (!item) item = this._storage[StepKeywordType.UNKNOWN].find(doesMatch);
+    if (!item && type !== StepKeywordType.UNKNOWN) item = this._storage[StepKeywordType.UNKNOWN].find(doesMatch);
     if (!item) return _default;
     return {
       fn: item.fn,
