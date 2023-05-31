@@ -8,7 +8,10 @@ export type WrapperArgs = {
   docString?: DocString['content'];
 };
 
-export type TestFunction<T> = (frameworkArgs: T, wrapperArgs: WrapperArgs) => any;
+export type TestFunction<T> = (
+  frameworkArgs: T & { [key: string | number | symbol]: any },
+  wrapperArgs: WrapperArgs,
+) => any;
 
 type TestSpecs<T> = {
   spec: string | RegExp;

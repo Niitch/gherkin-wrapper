@@ -10,7 +10,7 @@ wrapper.beforeTag('@skip', () => {
     test.skip(true, 'Tagged @skip')
 })
 
-const defaultHandler = async ({page}: {page: Page}, {dataTable, rawdataTable}: {dataTable?: DataTable, rawdataTable?: RawDataTable}) => {
+const defaultHandler = async ({page, fake}: {page: Page, fake?}, {dataTable, rawdataTable}: {dataTable?: DataTable, rawdataTable?: RawDataTable}) => {
     if (dataTable) console.log(dataTable.raw(), rawdataTable)
     await page.waitForTimeout(1000)
 }
