@@ -1,4 +1,4 @@
-import forPlaywright from './playwright';
+import forPlaywright from './wrappers/playwright';
 
 export { Library, Wrapper } from './common';
 
