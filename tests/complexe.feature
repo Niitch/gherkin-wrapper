@@ -5,7 +5,8 @@
 Feature: Web page
 
   Background: Internet
-  Given the internet connection is up
+  Given an internet connection is up
+  And a browser is running
 
   @important
   Rule: Web page has expected title
@@ -22,19 +23,19 @@ Feature: Web page
         | playwright.dev | Playwright |
         | www.google.com | Google |
         
-  @depreciated
-  Scenario: Google.com has expected title
-    Given i am on the "www.google.com" website home page
-    Then the page title should contain "Google"
+    @depreciated @skip
+    Scenario: Google.com has expected title
+      Given i am on the "www.google.com" website home page
+      Then the page title should contain "Google"
 
   @more
   Example: Loading data
-    Given these colors:
+    * colors:
       | name | code |
       | red | F00 |
       | green | 0F0 |
       | blue | 00F |
-    And this content:
+    * content:
       """
       Hello world !
       """

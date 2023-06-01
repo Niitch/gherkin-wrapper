@@ -1,32 +1,55 @@
 import { Library, TestFunction, usableStepType } from './library';
 import { Background, Feature, Rule, Scenario, Step } from '@cucumber/messages';
 import { parse } from './parser';
+import { Hooks } from './hooks';
 
-export abstract class Wrapper<T> {
-  private _library = new Library<T>();
+export interface BaseWrapperOptions<TestArgs> {
+  library?: Library<TestArgs>;
+  hooks?: Hooks;
+}
 
-  get library() {
-    return this._library;
+export abstract class Wrapper<
+  TestArgs,
+  WrapperOptions extends BaseWrapperOptions<TestArgs> = BaseWrapperOptions<TestArgs>,
+> {
+  readonly library = new Library<TestArgs>();
+  readonly hooks = new Hooks();
+
+  constructor(options: WrapperOptions = {} as WrapperOptions) {
+    if (options.library) this.library = options.library;
+    if (options.hooks) this.hooks = options.hooks;
   }
 
-  constructor(library?: Library<T>) {
-    if (library) this._library = library;
+  get given(): typeof this.library.given {
+    return this.library.given.bind(this.library);
+  }
+  get when(): typeof this.library.when {
+    return this.library.when.bind(this.library);
+  }
+  get then(): typeof this.library.then {
+    return this.library.then.bind(this.library);
+  }
+  get any(): typeof this.library.any {
+    return this.library.any.bind(this.library);
   }
 
-  public given(spec: string | RegExp, test: TestFunction<T>) {
-    this._library.given(spec, test);
+  get beforeTag() {
+    return this.hooks.beforeTag.bind(this.hooks);
   }
-  public when(spec: string | RegExp, test: TestFunction<T>) {
-    this._library.when(spec, test);
+  protected get triggerTag() {
+    return this.hooks.triggerTag.bind(this.hooks);
   }
-  public then(spec: string | RegExp, test: TestFunction<T>) {
-    this._library.then(spec, test);
+  beforeStep(callback: (...args: any[]) => any) {
+    this.hooks.beforeStep = callback;
+  }
+  afterStep(callback: (...args: any[]) => any) {
+    this.hooks.afterStep = callback;
   }
 
-  protected getTestFunction(step: Step, prevStepType: Parameters<typeof this._library.find>[0]) {
+  protected getTestFunction(step: Step, prevStepType: Parameters<typeof this.library.find>[0]) {
     const keywordType = usableStepType(step.keywordType, prevStepType);
     return {
-      ...this._library.find(keywordType, step.text),
+      ...this.library.find(keywordType, step.text),
       keywordType,
     };
   }

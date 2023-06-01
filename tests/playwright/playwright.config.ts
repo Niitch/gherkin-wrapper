@@ -18,10 +18,10 @@ export default defineConfig({
 
   // Reporter to use
   reporter: 'html',
-  //reporter: 'list',
-    
-  use: {  
+
+  use: {
   },
+  
   // Configure projects for major browsers.
   projects: [
     {
