@@ -4,7 +4,6 @@ import GherkinWrapper from "../../src/";
 
 const test = base.extend<{value: string}>({
     value: async ({}, use) => {
-        //console.log('fixture is being loaded')
         await use('go')
     }
 })
@@ -17,8 +16,6 @@ wrapper.when("the Maker starts a game", () => {})
 wrapper.then("the Maker waits for a Breaker to join", () => {})
 
 wrapper.given(/the Maker has started a game with the word "(.*)"/, async ({ page, value, fake }, { match }) => {
-    //console.log('fixture is being used')
-    //console.log(match)
     await page.goto('https://www.google.com/')
     expect(value).toBe('go')
 })

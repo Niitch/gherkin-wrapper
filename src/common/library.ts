@@ -22,11 +22,14 @@ export function usableStepType(
   stepType: StepKeywordType | undefined,
   prevUsableStepType?: Parameters<Library<unknown>['find']>[0],
 ) {
-  if (!stepType) return;
-  if (stepType !== StepKeywordType.CONJUNCTION && stepType !== StepKeywordType.UNKNOWN) return stepType;
-  if (!prevUsableStepType)
-    throw new Error(`First step cannot be of type ${StepKeywordType.CONJUNCTION} or ${StepKeywordType.UNKNOWN}.`);
-  return prevUsableStepType;
+  if (!stepType || stepType === StepKeywordType.UNKNOWN) return prevUsableStepType || StepKeywordType.UNKNOWN;
+
+  if (stepType === StepKeywordType.CONJUNCTION) {
+    if (!prevUsableStepType) throw new Error(`First step cannot be of type ${StepKeywordType.CONJUNCTION}.`);
+    return prevUsableStepType;
+  }
+
+  return stepType;
 }
 
 // useful in logs and error messages
@@ -43,10 +46,12 @@ export class Library<T> {
     [StepKeywordType.CONTEXT]: TestSpecs<T>[];
     [StepKeywordType.ACTION]: TestSpecs<T>[];
     [StepKeywordType.OUTCOME]: TestSpecs<T>[];
+    [StepKeywordType.UNKNOWN]: TestSpecs<T>[];
   } = {
     [StepKeywordType.CONTEXT]: [],
     [StepKeywordType.ACTION]: [],
     [StepKeywordType.OUTCOME]: [],
+    [StepKeywordType.UNKNOWN]: [],
   };
 
   public given(spec: string | RegExp, fn: TestFunction<T>) {
@@ -61,17 +66,24 @@ export class Library<T> {
     this._storage[StepKeywordType.OUTCOME].push({ spec, fn });
   }
 
+  public any(spec: string | RegExp, fn: TestFunction<T>) {
+    this._storage[StepKeywordType.UNKNOWN].push({ spec, fn });
+  }
+
   public find(
-    type: StepKeywordType.CONTEXT | StepKeywordType.ACTION | StepKeywordType.OUTCOME | undefined,
+    type: StepKeywordType.CONTEXT | StepKeywordType.ACTION | StepKeywordType.OUTCOME | StepKeywordType.UNKNOWN,
     spec: string,
   ): { fn?: TestFunction<T>; wrapperArgs: WrapperArgs } {
     const _default = { wrapperArgs: {} };
 
-    if (!type) return _default;
-    const item = this._storage[type].find((o) => {
+    const doesMatch = (o: TestSpecs<T>) => {
       if (typeof o.spec === 'string') return o.spec === spec;
       return o.spec.test(spec);
-    });
+    };
+
+    if (!type) return _default;
+    let item = this._storage[type].find(doesMatch);
+    if (!item) item = this._storage[StepKeywordType.UNKNOWN].find(doesMatch);
     if (!item) return _default;
     return {
       fn: item.fn,
