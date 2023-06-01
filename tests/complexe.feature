@@ -5,7 +5,8 @@
 Feature: Web page
 
   Background: Internet
-  Given the internet connection is up
+  Given an internet connection is up
+  And a browser is running
 
   @important
   Rule: Web page has expected title
@@ -30,12 +31,12 @@ Feature: Web page
 
   @more
   Example: Loading data
-    Given these colors:
+    * colors:
       | name | code |
       | red | F00 |
       | green | 0F0 |
       | blue | 00F |
-    And this content:
+    * content:
       """
       Hello world !
       """

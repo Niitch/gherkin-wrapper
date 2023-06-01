@@ -29,6 +29,9 @@ export abstract class Wrapper<
   get then(): typeof this.library.then {
     return this.library.then.bind(this.library);
   }
+  get any(): typeof this.library.any {
+    return this.library.any.bind(this.library);
+  }
 
   get beforeTag() {
     return this.hooks.beforeTag.bind(this.hooks);
