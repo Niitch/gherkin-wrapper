@@ -1,4 +1,4 @@
-import { Library, TestFunction, usableStepType } from './library';
+import { Library, usableStepType } from './library';
 import { Background, Feature, Rule, Scenario, Step } from '@cucumber/messages';
 import { parse } from './parser';
 import { Hooks } from './hooks';
@@ -29,7 +29,7 @@ export abstract class Wrapper<
   get then(): typeof this.library.then {
     return this.library.then.bind(this.library);
   }
-
+  
   get beforeTag() {
     return this.hooks.beforeTag.bind(this.hooks);
   }
@@ -42,7 +42,7 @@ export abstract class Wrapper<
   afterStep(callback: (...args: any[]) => any) {
     this.hooks.afterStep = callback;
   }
-
+  
   protected getTestFunction(step: Step, prevStepType: Parameters<typeof this.library.find>[0]) {
     const keywordType = usableStepType(step.keywordType, prevStepType);
     return {
@@ -55,7 +55,7 @@ export abstract class Wrapper<
     const gherkinDocument = parse(filePath, encoding);
     if (gherkinDocument.feature) this.runFeature(gherkinDocument.feature);
   }
-
+  
   protected abstract runFeature(feature: Feature): void;
   protected abstract runBackground(background: Background): void;
   protected abstract runRule(scenario: Rule): void;

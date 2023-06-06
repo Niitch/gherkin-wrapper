@@ -1,7 +1,4 @@
-import forPlaywright from './wrappers/playwright';
+export * from './common';
 
-export { Library, Wrapper } from './common';
-
-export default {
-  forPlaywright,
-};
+import GherkinWrapper from './wrappers';
+export default GherkinWrapper;

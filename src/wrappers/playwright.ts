@@ -37,36 +37,40 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
       };
   }
 
+  /** @internal */
   protected runFeature(feature: Feature) {
     this.testRunner.describe(feature.name, () => {
       for (const { name: tag } of feature.tags) this.triggerTag(tag, [feature]);
       for (const child of feature.children)
-        if (child.rule) this.runRule(child.rule);
-        else if (child.background) this.runBackground(child.background);
-        else if (child.scenario) this.runScenario(child.scenario);
+      if (child.rule) this.runRule(child.rule);
+      else if (child.background) this.runBackground(child.background);
+      else if (child.scenario) this.runScenario(child.scenario);
     });
   }
-
+  
+  /** @internal */
   protected runRule(rule: Rule) {
     this.testRunner.describe(rule.name, () => {
       for (const { name: tag } of rule.tags) this.triggerTag(tag, [rule]);
       for (const child of rule.children)
-        if (child.scenario) this.runScenario(child.scenario);
-        else if (child.background) this.runBackground(child.background);
+      if (child.scenario) this.runScenario(child.scenario);
+      else if (child.background) this.runBackground(child.background);
     });
   }
-
+  
+  /** @internal */
   protected runBackground(background: Background) {
     const steps = this.prepareSteps(background);
     const provideFixture = this.buildFixtureProvider(steps);
-
+    
     this.testRunner.beforeEach(
       provideFixture(async (runnerArgs: TestArgs<T>) => {
         for (const s of steps) this.runStep({ ...s, runnerArgs });
-      }),
+      })
     );
   }
-
+  
+  /** @internal */
   protected runScenarioOutline(scenarioOutline: Scenario) {
     const scenarios: Scenario[] = [];
 
@@ -88,22 +92,24 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
 
     for (const s of scenarios) this.runScenario(s);
   }
-
+      
+  /** @internal */
   protected runScenario(scenario: Scenario) {
     if (scenario.examples.length) return this.runScenarioOutline(scenario);
 
     const steps = this.prepareSteps(scenario);
     const provideFixture = this.buildFixtureProvider(steps);
-
+    
     this.testRunner(
       scenario.name,
       provideFixture(async (runnerArgs: TestArgs<T>) => {
         for (const { name: tag } of scenario.tags) this.triggerTag(tag, [scenario]);
         for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
-    );
+      );
   }
-
+  
+  /** @internal */
   protected async runStep(args: StepRunnerArgs<TestArgs<T>>) {
     await this.testRunner.step(args.step.keyword + args.step.text, async () => {
       await this.hooks.beforeStep?.(args);
@@ -116,25 +122,27 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
       await this.hooks.afterStep?.(args);
     });
   }
-
+  
+  /** @internal */
   private prepareSteps(backgroundOrScenario: Background | Scenario) {
     return backgroundOrScenario.steps.reduce((list, step, index) => {
       return list.concat([{ step, ...this.getTestFunction(step, list[index - 1]?.keywordType) }]);
     }, [] as (ReturnType<typeof this.getTestFunction> & { step: Step })[]);
   }
-
+  
+  /** @internal */
   private buildFixtureProvider(steps: { fn?: TestFunction<TestArgs<T>> }[]): FixtureProvider<T> {
     const requiredFixtureNames =
-      '{' +
+    '{' +
       [
         ...new Set(
           steps
-            .map(({ fn }) => fixtureParameterNames(fn))
+          .map(({ fn }) => fixtureParameterNames(fn))
             .reduce((list, fixtureNames) => list.concat(fixtureNames), []),
         ),
       ].join(',') +
       '}';
-    return new Function(
+      return new Function(
       'runSteps',
       `return ((${requiredFixtureNames}) => runSteps(${requiredFixtureNames}))`,
     ) as FixtureProvider<T>;
@@ -145,12 +153,15 @@ export default Wrapper;
 
 // playwright functions to identify fixture parameters
 
+/** @internal */
 const signatureSymbol = Symbol('signature');
+/** @internal */
 function fixtureParameterNames(fn: any) {
   if (typeof fn !== 'function') return [];
   if (!fn[signatureSymbol]) fn[signatureSymbol] = innerFixtureParameterNames(fn);
   return fn[signatureSymbol];
 }
+/** @internal */
 function innerFixtureParameterNames(fn: (...args: any[]) => any) {
   const text = filterOutComments(fn.toString());
   const match = text.match(/(?:async)?(?:\s+function)?[^(]*\(([^)]*)/);
@@ -171,6 +182,7 @@ function innerFixtureParameterNames(fn: (...args: any[]) => any) {
   }
   return props;
 }
+/** @internal */
 function filterOutComments(s: string) {
   const result: string[] = [];
   let commentState = 'none';
@@ -192,6 +204,7 @@ function filterOutComments(s: string) {
   }
   return result.join('');
 }
+/** @internal */
 function splitByComma(s: string) {
   const result: string[] = [];
   const stack: string[] = [];
