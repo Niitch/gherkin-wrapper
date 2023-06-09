@@ -20,9 +20,11 @@ interface StepRunnerArgs<T extends TestArgs<BaseTestRunner>> {
 
 class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   private testRunner: T;
+  private readonly sym: symbol;
 
-  constructor(testRunner: T, options?: BaseWrapperOptions<TestArgs<T>>) {
+  constructor(testRunner: T, options?: BaseWrapperOptions) {
     super(options);
+    this.sym = Reflect.ownKeys(testRunner).find((key) => key.toString() === 'Symbol(testType)') as symbol;
     this.testRunner = testRunner;
     if (!this.hooks.beforeStep)
       this.hooks.beforeStep = (args: StepRunnerArgs<TestArgs<T>>) => {
@@ -107,7 +109,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   protected async runStep(args: StepRunnerArgs<TestArgs<T>>) {
     await this.testRunner.step(args.step.keyword + args.step.text, async () => {
       await this.hooks.beforeStep?.(args);
-      await args.fn?.(args.runnerArgs, {
+      await args.fn?.(args.runnerArgs as Parameters<TestFunction<TestArgs<T>>>[0], {
         ...args.wrapperArgs,
         rawdataTable: args.step.dataTable,
         dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
@@ -124,14 +126,14 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   }
 
   private buildFixtureProvider(steps: { fn?: TestFunction<TestArgs<T>> }[]): FixtureProvider<T> {
+    // @ts-expect-error access to playwright internal testTypeImplementation
+    const availableFixtures: string[] = this.testRunner[this.sym].fixtures.flatMap((value) =>
+      Object.keys(value.fixtures),
+    );
     const requiredFixtureNames =
       '{' +
       [
-        ...new Set(
-          steps
-            .map(({ fn }) => fixtureParameterNames(fn))
-            .reduce((list, fixtureNames) => list.concat(fixtureNames), []),
-        ),
+        ...new Set(steps.flatMap(({ fn }) => fixtureParameterNames(fn)).filter((f) => availableFixtures.includes(f))),
       ].join(',') +
       '}';
     return new Function(
@@ -145,11 +147,9 @@ export default Wrapper;
 
 // playwright functions to identify fixture parameters
 
-const signatureSymbol = Symbol('signature');
 function fixtureParameterNames(fn: any) {
   if (typeof fn !== 'function') return [];
-  if (!fn[signatureSymbol]) fn[signatureSymbol] = innerFixtureParameterNames(fn);
-  return fn[signatureSymbol];
+  return innerFixtureParameterNames(fn);
 }
 function innerFixtureParameterNames(fn: (...args: any[]) => any) {
   const text = filterOutComments(fn.toString());

@@ -8,7 +8,13 @@ export type WrapperArgs = {
   docString?: DocString['content'];
 };
 
-export type TestFunction<T> = (frameworkArgs: T, wrapperArgs: WrapperArgs) => any;
+type KeyValue = { [k: string | number | symbol]: any };
+
+type WithDefault<Base, Default> = {
+  [K in keyof (Base & Omit<KeyValue, keyof Base>)]: K extends keyof Base ? Base[K] : Default;
+};
+
+export type TestFunction<Base> = (frameworkArgs: WithDefault<Base, undefined>, wrapperArgs: WrapperArgs) => any;
 
 type TestSpecs<T> = {
   spec: string | RegExp;

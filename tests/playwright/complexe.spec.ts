@@ -8,8 +8,7 @@ wrapper.beforeTag('@skip', () => {
     test.skip(true, 'Tagged @skip')
 })
 
-
-wrapper.any(/.*/, async ({page}, {dataTable}) => {
+wrapper.any(/.*/, async ({page, fake}, {dataTable}) => {
     if (dataTable) console.log(dataTable)
     await page.waitForTimeout(1000)
 })
