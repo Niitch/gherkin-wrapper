@@ -3,19 +3,16 @@ import { Background, Feature, Rule, Scenario, Step } from '@cucumber/messages';
 import { parse } from './parser';
 import { Hooks } from './hooks';
 
-export interface BaseWrapperOptions<TestArgs> {
-  library?: Library<TestArgs>;
+export interface BaseWrapperOptions {
+  library?: Library<any>;
   hooks?: Hooks;
 }
 
-export abstract class Wrapper<
-  TestArgs,
-  WrapperOptions extends BaseWrapperOptions<TestArgs> = BaseWrapperOptions<TestArgs>,
-> {
+export abstract class Wrapper<TestArgs, Options extends BaseWrapperOptions = BaseWrapperOptions> {
   readonly library = new Library<TestArgs>();
   readonly hooks = new Hooks();
 
-  constructor(options: WrapperOptions = {} as WrapperOptions) {
+  constructor(options: Options = {} as Options) {
     if (options.library) this.library = options.library;
     if (options.hooks) this.hooks = options.hooks;
   }
@@ -29,7 +26,10 @@ export abstract class Wrapper<
   get then(): typeof this.library.then {
     return this.library.then.bind(this.library);
   }
-  
+  get any(): typeof this.library.any {
+    return this.library.any.bind(this.library);
+  }
+
   get beforeTag() {
     return this.hooks.beforeTag.bind(this.hooks);
   }
