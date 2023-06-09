@@ -109,7 +109,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
   protected async runStep(args: StepRunnerArgs<TestArgs<T>>) {
     await this.testRunner.step(args.step.keyword + args.step.text, async () => {
       await this.hooks.beforeStep?.(args);
-      await args.fn?.(args.runnerArgs, {
+      await args.fn?.(args.runnerArgs as Parameters<TestFunction<TestArgs<T>>>[0], {
         ...args.wrapperArgs,
         rawdataTable: args.step.dataTable,
         dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
