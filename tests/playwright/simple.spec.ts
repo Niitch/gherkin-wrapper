@@ -1,5 +1,6 @@
 import { test as base, expect } from "@playwright/test";
 import GherkinWrapper from "../../src/";
+import { PlaywrightLibrary } from "../../src/playwright";
 
 interface fixture {
     /** A simple text value */
@@ -11,6 +12,8 @@ const test = base.extend<fixture>({
         await use('go')
     }
 })
+
+const libray = new PlaywrightLibrary<typeof test>()
 
 const wrapper = new GherkinWrapper.forPlaywright(test)
 
@@ -29,4 +32,4 @@ wrapper.then(/the Breaker.*/, () => {})
 
 const anotherWrapper = new GherkinWrapper.forPlaywright(base, {library: wrapper.library})
 
-anotherWrapper.test('./tests/simple.feature')
+wrapper.test('./tests/simple.feature')

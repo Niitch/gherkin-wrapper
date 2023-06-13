@@ -2,48 +2,51 @@ import { Library, usableStepType } from './library';
 import { Background, Feature, Rule, Scenario, Step } from '@cucumber/messages';
 import { parse } from './parser';
 import { Hooks } from './hooks';
+import { BaseWrapperOptions } from '.';
 
-export interface BaseWrapperOptions {
-  library?: Library<any>;
-  hooks?: Hooks;
-}
+/**
+ * Generic gherkin wrapper
+ *
+ * @typeParam RunnerArgs Type of the object holding the runner arguments and passed to {@link StepFunction | step functions} and {@link StepHook | step related hooks}
+ * @typeParam Options Type of the object holding the options the wrapper accepts
+ */
+export abstract class Wrapper<RunnerArgs, Options extends BaseWrapperOptions = BaseWrapperOptions> {
+  /** The wrapper step function library */
+  readonly library = new Library<RunnerArgs>();
+  /** The wrapper hook library */
+  readonly hooks = new Hooks<RunnerArgs>();
 
-export abstract class Wrapper<TestArgs, Options extends BaseWrapperOptions = BaseWrapperOptions> {
-  readonly library = new Library<TestArgs>();
-  readonly hooks = new Hooks();
-
+  /**
+   * Generic gherkin wrapper
+   *
+   * @typeParam RunnerArgs Type of the object holding the runner arguments and passed to {@link StepFunction | step functions} and {@link StepHook | step related hooks}
+   * @typeParam Options Type of the object holding the options the wrapper accepts
+   * @param options wrapper options
+   */
   constructor(options: Options = {} as Options) {
     if (options.library) this.library = options.library;
     if (options.hooks) this.hooks = options.hooks;
   }
 
-  get given(): typeof this.library.given {
-    return this.library.given.bind(this.library);
-  }
-  get when(): typeof this.library.when {
-    return this.library.when.bind(this.library);
-  }
-  get then(): typeof this.library.then {
-    return this.library.then.bind(this.library);
-  }
-  get any(): typeof this.library.any {
-    return this.library.any.bind(this.library);
-  }
+  /** @group Methods */
+  given = this.library.given.bind(this.library);
+  /** @group Methods */
+  when = this.library.when.bind(this.library);
+  /** @group Methods */
+  then = this.library.then.bind(this.library);
+  /** @group Methods */
+  any = this.library.any.bind(this.library);
 
-  get beforeTag() {
-    return this.hooks.beforeTag.bind(this.hooks);
-  }
-  protected get triggerTag() {
-    return this.hooks.triggerTag.bind(this.hooks);
-  }
-  beforeStep(callback: (...args: any[]) => any) {
-    this.hooks.beforeStep = callback;
-  }
-  afterStep(callback: (...args: any[]) => any) {
-    this.hooks.afterStep = callback;
-  }
-  
-  protected getTestFunction(step: Step, prevStepType: Parameters<typeof this.library.find>[0]) {
+  /** @group Methods */
+  beforeTag = this.hooks.beforeTag.bind(this.hooks);
+  /** @group Methods */
+  beforeStep = this.hooks.beforeStep.bind(this.hooks);
+  /** @group Methods */
+  afterStep = this.hooks.afterStep.bind(this.hooks);
+  /** @group Methods */
+
+  /** @internal */
+  protected getStepFunction(step: Step, prevStepType: Parameters<typeof this.library.find>[0]) {
     const keywordType = usableStepType(step.keywordType, prevStepType);
     return {
       ...this.library.find(keywordType, step.text),
@@ -51,15 +54,26 @@ export abstract class Wrapper<TestArgs, Options extends BaseWrapperOptions = Bas
     };
   }
 
+  /**
+   * Run tests for a feature file.
+   * @param filePath path to the feature file
+   * @param encoding encoding of the feature file (default: 'utf-8')
+   */
   public test(filePath: string, encoding?: BufferEncoding) {
     const gherkinDocument = parse(filePath, encoding);
     if (gherkinDocument.feature) this.runFeature(gherkinDocument.feature);
   }
-  
+
+  /** @internal */
   protected abstract runFeature(feature: Feature): void;
+  /** @internal */
   protected abstract runBackground(background: Background): void;
+  /** @internal */
   protected abstract runRule(scenario: Rule): void;
+  /** @internal */
   protected abstract runScenarioOutline(scenarioOutline: Scenario): void;
+  /** @internal */
   protected abstract runScenario(scenario: Scenario): void;
+  /** @internal */
   protected abstract runStep(...args: any[]): void;
 }

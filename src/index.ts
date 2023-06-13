@@ -1,4 +1,5 @@
-export * from './common';
+import { PlaywrightWrapper } from './playwright';
 
-import GherkinWrapper from './wrappers';
-export default GherkinWrapper;
+export default {
+  forPlaywright: PlaywrightWrapper,
+};

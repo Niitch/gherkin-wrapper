@@ -1,26 +1,7 @@
-import { DataTable as RawDataTable, DocString, StepKeywordType } from '@cucumber/messages';
-import { DataTable } from '@cucumber/cucumber';
+import { StepKeywordType } from '@cucumber/messages';
+import { StepFunction, TestSpec, WrapperArgs } from '.';
 
-export type WrapperArgs = {
-  match?: RegExpMatchArray;
-  dataTable?: DataTable;
-  rawdataTable?: RawDataTable;
-  docString?: DocString['content'];
-};
-
-type KeyValue = { [k: string | number | symbol]: any };
-
-type WithDefault<Base, Default> = {
-  [K in keyof (Base & Omit<KeyValue, keyof Base>)]: K extends keyof Base ? Base[K] : Default;
-};
-
-export type TestFunction<Base> = (frameworkArgs: WithDefault<Base, undefined>, wrapperArgs: WrapperArgs) => any;
-
-type TestSpecs<T> = {
-  spec: string | RegExp;
-  fn: TestFunction<T>;
-};
-
+/** @internal */
 export function usableStepType(
   stepType: StepKeywordType | undefined,
   prevUsableStepType?: Parameters<Library<unknown>['find']>[0],
@@ -35,21 +16,27 @@ export function usableStepType(
   return stepType;
 }
 
-// useful in logs and error messages
+/** @internal useful in logs and error messages */
 export const LibraryMethodByStepType = {
   [StepKeywordType.CONTEXT]: 'given',
   [StepKeywordType.ACTION]: 'when',
   [StepKeywordType.OUTCOME]: 'then',
   [StepKeywordType.CONJUNCTION]: 'given|when|then',
-  [StepKeywordType.UNKNOWN]: 'given|when|then',
+  [StepKeywordType.UNKNOWN]: 'given|when|then|any',
 };
 
-export class Library<T> {
+/**
+ * Generic step function library
+ *
+ * @typeParam RunnerArgs Type of the object holding the runner arguments and passed to the {@link StepFunction | step functions}
+ */
+export class Library<RunnerArgs> {
+  /** @internal */
   private _storage: {
-    [StepKeywordType.CONTEXT]: TestSpecs<T>[];
-    [StepKeywordType.ACTION]: TestSpecs<T>[];
-    [StepKeywordType.OUTCOME]: TestSpecs<T>[];
-    [StepKeywordType.UNKNOWN]: TestSpecs<T>[];
+    [StepKeywordType.CONTEXT]: TestSpec<RunnerArgs>[];
+    [StepKeywordType.ACTION]: TestSpec<RunnerArgs>[];
+    [StepKeywordType.OUTCOME]: TestSpec<RunnerArgs>[];
+    [StepKeywordType.UNKNOWN]: TestSpec<RunnerArgs>[];
   } = {
     [StepKeywordType.CONTEXT]: [],
     [StepKeywordType.ACTION]: [],
@@ -57,31 +44,74 @@ export class Library<T> {
     [StepKeywordType.UNKNOWN]: [],
   };
 
-  public given(spec: string | RegExp, fn: TestFunction<T>) {
-    this._storage[StepKeywordType.CONTEXT].push({ spec, fn });
+  /**
+   * Generic step function library
+   *
+   * @typeParam RunnerArgs Type of the object holding the runner arguments and passed to the {@link StepFunction | step functions}
+   */
+  constructor() {
+    // nothing to do
   }
 
-  public when(spec: string | RegExp, fn: TestFunction<T>) {
-    this._storage[StepKeywordType.ACTION].push({ spec, fn });
+  /**
+   * Register a step function to be run against "context" steps having a text that match a pattern.
+   *
+   * @remark The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+   *
+   * @param pattern the pattern
+   * @param fn the step function
+   */
+  public given(pattern: string | RegExp, fn: StepFunction<RunnerArgs>) {
+    this._storage[StepKeywordType.CONTEXT].push({ pattern, fn });
   }
 
-  public then(spec: string | RegExp, fn: TestFunction<T>) {
-    this._storage[StepKeywordType.OUTCOME].push({ spec, fn });
+  /**
+   * Register a step function to be run against "action" steps having a text that match a pattern.
+   *
+   * @remark The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+   *
+   * @param pattern the pattern
+   * @param fn the step function
+   */
+  public when(pattern: string | RegExp, fn: StepFunction<RunnerArgs>) {
+    this._storage[StepKeywordType.ACTION].push({ pattern, fn });
   }
 
-  public any(spec: string | RegExp, fn: TestFunction<T>) {
-    this._storage[StepKeywordType.UNKNOWN].push({ spec, fn });
+  /**
+   * Register a step function to be run against "outcome" steps having a text that match a pattern.
+   *
+   * @remark The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+   *
+   * @param pattern the pattern
+   * @param fn the step function
+   */
+  public then(pattern: string | RegExp, fn: StepFunction<RunnerArgs>) {
+    this._storage[StepKeywordType.OUTCOME].push({ pattern, fn });
   }
 
+  /**
+   * Register a step function to be run against any steps having a text that match a pattern.
+   *
+   * @remark The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+   * @remark Functions registered using a given|when|then method are prioritized over functions registered using this method.
+   *
+   * @param pattern the pattern
+   * @param fn the step function
+   */
+  public any(pattern: string | RegExp, fn: StepFunction<RunnerArgs>) {
+    this._storage[StepKeywordType.UNKNOWN].push({ pattern, fn });
+  }
+
+  /** @internal */
   public find(
     type: StepKeywordType.CONTEXT | StepKeywordType.ACTION | StepKeywordType.OUTCOME | StepKeywordType.UNKNOWN,
-    spec: string,
-  ): { fn?: TestFunction<T>; wrapperArgs: WrapperArgs } {
+    text: string,
+  ): { fn?: StepFunction<RunnerArgs>; wrapperArgs: WrapperArgs } {
     const _default = { wrapperArgs: {} };
 
-    const doesMatch = (o: TestSpecs<T>) => {
-      if (typeof o.spec === 'string') return o.spec === spec;
-      return o.spec.test(spec);
+    const doesMatch = (o: TestSpec<RunnerArgs>) => {
+      if (typeof o.pattern === 'string') return o.pattern === text;
+      return o.pattern.test(text);
     };
 
     if (!type) return _default;
@@ -91,7 +121,7 @@ export class Library<T> {
     return {
       fn: item.fn,
       wrapperArgs: {
-        match: spec.match(item.spec) as RegExpMatchArray,
+        match: text.match(item.pattern) as RegExpMatchArray,
       },
     };
   }

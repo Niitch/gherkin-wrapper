@@ -11,7 +11,7 @@
     "build": "npx rimraf lib && tsc",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "tslint -p tsconfig.json",
-    "doc": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts src/wrappers",
+    "doc": "typedoc",
     "prepare": "npm run build",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
