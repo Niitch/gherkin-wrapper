@@ -1,0 +1,8 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPoints": ["src/index.ts", "src/playwright", "src/common"],
+    "out": "docs/api",
+    "plugin": ["typedoc-plugin-markdown"],
+    "readme": "none",
+    "name": "Gherkin wrapper - API Reference"
+}

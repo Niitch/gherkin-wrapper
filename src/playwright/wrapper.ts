@@ -1,25 +1,79 @@
-import { Library, LibraryMethodByStepType, WrapperArgs } from '../common/library';
-import { TestFunction } from '../common/library';
+import { LibraryMethodByStepType } from '../common/library';
 import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
-import { Wrapper as Base } from '../common/wrapper';
-import { test as baseTestRunner } from '@playwright/test';
+import { Wrapper as Base, StepFunction, WrapperArgs } from '../common';
+import { DataTable } from '@cucumber/cucumber';
+import { PlaywrightBaseTestObject, RunnerArgs, WrapperOptions } from '.';
 
-type BaseTestRunner = typeof baseTestRunner;
-type TestArgs<T extends BaseTestRunner> = Parameters<Parameters<T>[1]>[0];
-type ScenarioWrapper<T extends BaseTestRunner> = (
-  stepsRunner: (args: TestArgs<T>) => Promise<any>,
-) => (args: TestArgs<T>) => Promise<any>;
+/** @internal */
+type FixtureProvider<T extends PlaywrightBaseTestObject> = (
+  stepsRunner: (args: RunnerArgs<T>) => Promise<any>,
+) => (args: RunnerArgs<T>) => Promise<any>;
 
-class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
+/** @internal */
+interface StepRunnerArgs<T extends RunnerArgs<PlaywrightBaseTestObject>> {
+  step: Step;
+  fn?: StepFunction<T>;
+  runnerArgs: T;
+  wrapperArgs: WrapperArgs;
+}
+
+/**
+ * A GherkinWrapper for the Playwright test runner.
+ *
+ * **Usage**
+ * ```ts
+ * import { test } from "@playwright/test";
+ * import GherkinWrapper from "gherkin-wrapper"
+ *
+ * const wrapper = new GherkinWrapper.forPlaywright(test)
+ * wrapper.given(...)
+ * wrapper.when(...)
+ * wrapper.then(...)
+ * wrapper.test('feature.file')
+ * ```
+ */
+export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<RunnerArgs<T>> {
+  /** @internal */
   private testRunner: T;
+  /** @internal */
+  private readonly sym: symbol;
 
-  constructor(testRunner: T, library?: Library<TestArgs<T>>) {
-    super(library);
+  /**
+   * A GherkinWrapper for the Playwright test runner.
+   *
+   * **Usage**
+   * ```ts
+   * import { test } from "@playwright/test";
+   * import GherkinWrapper from "gherkin-wrapper"
+   *
+   * const wrapper = new GherkinWrapper.forPlaywright(test)
+   * wrapper.given(...)
+   * wrapper.when(...)
+   * wrapper.then(...)
+   * wrapper.test('feature.file')
+   * ```
+   * @param testRunner a playwright test object
+   * @param options wrapper options
+   */
+  constructor(testRunner: T, options?: WrapperOptions) {
+    super(options);
+    this.sym = Reflect.ownKeys(testRunner).find((key) => key.toString() === 'Symbol(testType)') as symbol;
     this.testRunner = testRunner;
+    if (!options?.hooks)
+      this.hooks.beforeStep(({ target, fn }) => {
+        this.testRunner.skip(
+          !fn,
+          `No test function found for step '${target.keyword + target.text}'. Consider adding one using the wrapper ${
+            LibraryMethodByStepType[target.keywordType as StepKeywordType]
+          } method`,
+        );
+      });
   }
 
+  /** @internal */
   protected runFeature(feature: Feature) {
     this.testRunner.describe(feature.name, () => {
+      for (const { name: tag } of feature.tags) this.hooks.triggerTag(tag, { target: feature });
       for (const child of feature.children)
         if (child.rule) this.runRule(child.rule);
         else if (child.background) this.runBackground(child.background);
@@ -27,25 +81,29 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     });
   }
 
+  /** @internal */
   protected runRule(rule: Rule) {
     this.testRunner.describe(rule.name, () => {
+      for (const { name: tag } of rule.tags) this.hooks.triggerTag(tag, { target: rule });
       for (const child of rule.children)
         if (child.scenario) this.runScenario(child.scenario);
         else if (child.background) this.runBackground(child.background);
     });
   }
 
+  /** @internal */
   protected runBackground(background: Background) {
     const steps = this.prepareSteps(background);
     const provideFixture = this.buildFixtureProvider(steps);
 
     this.testRunner.beforeEach(
-      provideFixture(async (args: TestArgs<T>) => {
-        for (const s of steps) this.runStep({ ...s, args });
+      provideFixture(async (runnerArgs: RunnerArgs<T>) => {
+        for (const s of steps) this.runStep({ ...s, runnerArgs });
       }),
     );
   }
 
+  /** @internal */
   protected runScenarioOutline(scenarioOutline: Scenario) {
     const scenarios: Scenario[] = [];
 
@@ -68,6 +126,7 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
     for (const s of scenarios) this.runScenario(s);
   }
 
+  /** @internal */
   protected runScenario(scenario: Scenario) {
     if (scenario.examples.length) return this.runScenarioOutline(scenario);
 
@@ -76,68 +135,75 @@ class Wrapper<T extends BaseTestRunner> extends Base<TestArgs<T>> {
 
     this.testRunner(
       scenario.name,
-      provideFixture(async (args: TestArgs<T>) => {
-        for (const s of steps) await this.runStep({ ...s, args });
+      provideFixture(async (runnerArgs: RunnerArgs<T>) => {
+        for (const { name: tag } of scenario.tags) this.hooks.triggerTag(tag, { target: scenario });
+        for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
     );
   }
 
-  protected async runStep({
-    step,
-    test,
-    args,
-    wrapperArgs,
-  }: {
-    step: Step;
-    test?: TestFunction<TestArgs<T>>;
-    args: TestArgs<T>;
-    wrapperArgs: WrapperArgs;
-  }) {
-    await this.testRunner.step(step.keyword + step.text, async () => {
-      this.testRunner.skip(
-        !test,
-        `No test function found for step '${step.keyword + step.text}'. You should add one using the GherkinWrapper.${
-          LibraryMethodByStepType[step.keywordType as StepKeywordType]
-        } method`,
+  /** @internal */
+  protected async runStep(args: StepRunnerArgs<RunnerArgs<T>>) {
+    await this.testRunner.step(args.step.keyword + args.step.text, async () => {
+      await Promise.all(
+        this.hooks.triggerLifecycle(
+          'beforeStep',
+          { target: args.step, fn: args.fn },
+          args.runnerArgs,
+          args.wrapperArgs as WrapperArgs,
+        ),
       );
-      await test?.(args, { ...wrapperArgs, dataTable: step.dataTable, docString: step.docString?.content });
+      await args.fn?.(args.runnerArgs as Parameters<StepFunction<RunnerArgs<T>>>[0], {
+        ...(args.wrapperArgs as WrapperArgs),
+        rawdataTable: args.step.dataTable,
+        dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
+        docString: args.step.docString?.content,
+      });
+      await Promise.all(
+        this.hooks.triggerLifecycle(
+          'afterStep',
+          { target: args.step, fn: args.fn },
+          args.runnerArgs,
+          args.wrapperArgs as WrapperArgs,
+        ),
+      );
     });
   }
 
+  /** @internal */
   private prepareSteps(backgroundOrScenario: Background | Scenario) {
     return backgroundOrScenario.steps.reduce((list, step, index) => {
-      return list.concat([{ step, ...this.getTestFunction(step, list[index - 1]?.keywordType) }]);
-    }, [] as (ReturnType<typeof this.getTestFunction> & { step: Step })[]);
+      return list.concat([{ step, ...this.getStepFunction(step, list[index - 1]?.keywordType) }]);
+    }, [] as (ReturnType<typeof this.getStepFunction> & { step: Step })[]);
   }
 
-  private buildFixtureProvider(steps: { test?: TestFunction<TestArgs<T>> }[]): ScenarioWrapper<T> {
+  /** @internal */
+  private buildFixtureProvider(steps: { fn?: StepFunction<RunnerArgs<T>> }[]): FixtureProvider<T> {
+    // @ts-expect-error access to playwright internal testTypeImplementation
+    const availableFixtures: string[] = this.testRunner[this.sym].fixtures.flatMap((value) =>
+      Object.keys(value.fixtures),
+    );
     const requiredFixtureNames =
       '{' +
       [
-        ...new Set(
-          steps
-            .map(({ test }) => fixtureParameterNames(test))
-            .reduce((list, fixtureNames) => list.concat(fixtureNames), []),
-        ),
+        ...new Set(steps.flatMap(({ fn }) => fixtureParameterNames(fn)).filter((f) => availableFixtures.includes(f))),
       ].join(',') +
       '}';
     return new Function(
       'runSteps',
       `return ((${requiredFixtureNames}) => runSteps(${requiredFixtureNames}))`,
-    ) as ScenarioWrapper<T>;
+    ) as FixtureProvider<T>;
   }
 }
 
-export default Wrapper;
-
 // playwright functions to identify fixture parameters
 
-const signatureSymbol = Symbol('signature');
+/** @internal */
 function fixtureParameterNames(fn: any) {
   if (typeof fn !== 'function') return [];
-  if (!fn[signatureSymbol]) fn[signatureSymbol] = innerFixtureParameterNames(fn);
-  return fn[signatureSymbol];
+  return innerFixtureParameterNames(fn);
 }
+/** @internal */
 function innerFixtureParameterNames(fn: (...args: any[]) => any) {
   const text = filterOutComments(fn.toString());
   const match = text.match(/(?:async)?(?:\s+function)?[^(]*\(([^)]*)/);
@@ -158,6 +224,7 @@ function innerFixtureParameterNames(fn: (...args: any[]) => any) {
   }
   return props;
 }
+/** @internal */
 function filterOutComments(s: string) {
   const result: string[] = [];
   let commentState = 'none';
@@ -179,6 +246,7 @@ function filterOutComments(s: string) {
   }
   return result.join('');
 }
+/** @internal */
 function splitByComma(s: string) {
   const result: string[] = [];
   const stack: string[] = [];

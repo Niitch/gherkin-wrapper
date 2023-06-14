@@ -6,10 +6,10 @@ Make any test framework handle the Gherkin format.
 
 <br>
 
-## Contents
+## Table of contents
 
 - [Usage](#usage)
-- [Docs](#docs)
+- [Documentation](./docs/README.md)
 
 <br>
 
@@ -91,56 +91,3 @@ npx playwright test example.spec.ts
 ```
 
 ---
-
-## Docs
-
-Test function
--
-```typescript
-type TestFunction = (ra: RunnerArg, wa: WrapperArg) => any
-```
-
-- `RunnerArg`: The main arguement usually passed by the chosen test runner to the test function.
-- `WrapperArg`: An object built by the wrapper with the following
-
-WrapperArg
--
-```typescript
-type WrapperArg = {
-    match?: RegExpMatchArray;
-    dataTable?: DataTable;
-    docString?: string;
-}
-```
-
-- `match`: The result of the match between a test registration spec and the text of a step definition in the feature file 
-- `dataTable`, `docString`: The data table or docstring you may have add to a step definition in the feature file
-
-GherkinWrapper
--
-```typescript
-class GherkinWrapper {
-    given(spec: string | RegExp, test: TestFunction): void
-    when(spec: string | RegExp, test: TestFunction): void
-    then(spec: string | RegExp, test: TestFunction): void
-
-    test(filePath: string): void
-}
-```
-
-- `given`, `when`, `then`
-    
-    Register a test function. When calling the `test` method, the function will be run when the wrapper find a step with then right keyword that match the specification.
-
-    Arguements:
-    - `spec`: A string or RegExp that should match step descriptions in the feature file
-    - `test`: The function to run on `spec` matches.
-
-<br>
-
-- `test`
-    
-    Execute tests specified in a feature file. Each step should match a test function registerd with the `given`, `when` or `then` methods.
-
-    Arguements:
-    - `filePath`: A path to a feature file

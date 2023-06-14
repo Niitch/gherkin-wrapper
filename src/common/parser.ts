@@ -2,6 +2,7 @@ import * as Gherkin from '@cucumber/gherkin';
 import { IdGenerator } from '@cucumber/messages';
 import { readFileSync } from 'fs';
 
+/** @internal */
 export function parse(filePath: string, encoding: BufferEncoding = 'utf8') {
   const uuidFn = IdGenerator.uuid();
   const builder = new Gherkin.AstBuilder(uuidFn);
