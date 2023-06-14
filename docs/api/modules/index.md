@@ -22,4 +22,4 @@
 
 #### Defined in
 
-[index.ts:3](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/index.ts#L3)
+[index.ts:3](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/index.ts#L3)
