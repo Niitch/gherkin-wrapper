@@ -40,7 +40,7 @@ Generic hook library
 
 #### Defined in
 
-[common/hooks.ts:23](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/hooks.ts#L23)
+[common/hooks.ts:23](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/hooks.ts#L23)
 
 ## Methods
 
@@ -67,7 +67,7 @@ Register a hook that runs after each step.
 
 #### Defined in
 
-[common/hooks.ts:49](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/hooks.ts#L49)
+[common/hooks.ts:49](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/hooks.ts#L49)
 
 ___
 
@@ -94,7 +94,7 @@ Register a hook that runs before each step.
 
 #### Defined in
 
-[common/hooks.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/hooks.ts#L36)
+[common/hooks.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/hooks.ts#L36)
 
 ___
 
@@ -122,4 +122,4 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[common/hooks.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/hooks.ts#L73)
+[common/hooks.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/hooks.ts#L73)

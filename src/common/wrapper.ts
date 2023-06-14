@@ -29,21 +29,20 @@ export abstract class Wrapper<RunnerArgs, Options extends BaseWrapperOptions = B
   }
 
   /** @group Methods */
-  given = this.library.given.bind(this.library);
+  given: typeof this.library.given = this.library.given.bind(this.library);
   /** @group Methods */
-  when = this.library.when.bind(this.library);
+  when: typeof this.library.when = this.library.when.bind(this.library);
   /** @group Methods */
-  then = this.library.then.bind(this.library);
+  then: typeof this.library.then = this.library.then.bind(this.library);
   /** @group Methods */
-  any = this.library.any.bind(this.library);
+  any: typeof this.library.any = this.library.any.bind(this.library);
 
   /** @group Methods */
-  beforeTag = this.hooks.beforeTag.bind(this.hooks);
+  beforeTag: typeof this.hooks.beforeTag = this.hooks.beforeTag.bind(this.hooks);
   /** @group Methods */
-  beforeStep = this.hooks.beforeStep.bind(this.hooks);
+  beforeStep: typeof this.hooks.beforeStep = this.hooks.beforeStep.bind(this.hooks);
   /** @group Methods */
-  afterStep = this.hooks.afterStep.bind(this.hooks);
-  /** @group Methods */
+  afterStep: typeof this.hooks.afterStep = this.hooks.afterStep.bind(this.hooks);
 
   /** @internal */
   protected getStepFunction(step: Step, prevStepType: Parameters<typeof this.library.find>[0]) {

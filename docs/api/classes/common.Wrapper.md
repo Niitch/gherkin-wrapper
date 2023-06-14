@@ -64,7 +64,7 @@ Generic gherkin wrapper
 
 #### Defined in
 
-[common/wrapper.ts:26](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L26)
+[common/wrapper.ts:26](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L26)
 
 ## Properties
 
@@ -76,7 +76,7 @@ The wrapper hook library
 
 #### Defined in
 
-[common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L17)
+[common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L17)
 
 ___
 
@@ -88,7 +88,7 @@ The wrapper step function library
 
 #### Defined in
 
-[common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L15)
+[common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L15)
 
 ## Methods
 
@@ -112,7 +112,7 @@ The wrapper step function library
 
 #### Defined in
 
-[common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L45)
+[common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L45)
 
 ___
 
@@ -137,7 +137,7 @@ ___
 
 #### Defined in
 
-[common/wrapper.ts:38](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L38)
+[common/wrapper.ts:38](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L38)
 
 ___
 
@@ -161,7 +161,7 @@ ___
 
 #### Defined in
 
-[common/wrapper.ts:43](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L43)
+[common/wrapper.ts:43](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L43)
 
 ___
 
@@ -186,7 +186,7 @@ ___
 
 #### Defined in
 
-[common/wrapper.ts:41](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L41)
+[common/wrapper.ts:41](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L41)
 
 ___
 
@@ -211,7 +211,7 @@ ___
 
 #### Defined in
 
-[common/wrapper.ts:32](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L32)
+[common/wrapper.ts:32](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L32)
 
 ___
 
@@ -236,7 +236,7 @@ ___
 
 #### Defined in
 
-[common/wrapper.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L36)
+[common/wrapper.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L36)
 
 ___
 
@@ -261,7 +261,7 @@ ___
 
 #### Defined in
 
-[common/wrapper.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L34)
+[common/wrapper.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L34)
 
 ___
 
@@ -284,4 +284,4 @@ Run tests for a feature file.
 
 #### Defined in
 
-[common/wrapper.ts:62](https://github.com/Niitch/gherkin-wrapper/blob/eca89a7/src/common/wrapper.ts#L62)
+[common/wrapper.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/wrapper.ts#L61)
