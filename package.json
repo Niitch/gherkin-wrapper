@@ -1,6 +1,6 @@
 {
   "name": "gherkin-wrapper",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A wrapper that allows any test runner to handle the gherkin format",
   "author": "Florian Nitcheu Tcheumo",
   "license": "ISC",
