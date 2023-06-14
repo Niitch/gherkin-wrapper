@@ -6,6 +6,11 @@
   "license": "ISC",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js",
+    "./common": "./lib/common/index.js",
+    "./playwright": "./lib/playwright/index.js"
+  },
   "scripts": {
     "test": "npx playwright test -c .\\tests\\playwright\\",
     "build": "npx rimraf lib && tsc",
