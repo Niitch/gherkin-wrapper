@@ -26,7 +26,7 @@
 
 ### StepFunction
 
-Ƭ **StepFunction**<`RunnerArgs`\>: (`runnerArgs`: `WithDefaults`<`RunnerArgs`, `undefined`\>, `wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
+Ƭ **StepFunction**<`RunnerArgs`\>: (`runnerArgs`: `WithDefault`<`RunnerArgs`, `undefined`\>, `wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
 
 #### Type parameters
 
@@ -44,7 +44,7 @@ Type of a step function
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `runnerArgs` | `WithDefaults`<`RunnerArgs`, `undefined`\> | an object holding arguments provided by the runner |
+| `runnerArgs` | `WithDefault`<`RunnerArgs`, `undefined`\> | an object holding arguments provided by the runner |
 | `wrapperArgs` | [`WrapperArgs`](../interfaces/common.WrapperArgs.md) | an object holding arguments provided by the wrapper |
 
 ##### Returns
@@ -53,7 +53,7 @@ Type of a step function
 
 #### Defined in
 
-[common/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/12707b4/src/common/index.ts#L34)
+[src/common/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L34)
 
 ___
 
@@ -89,7 +89,7 @@ Type of a step hook
 
 #### Defined in
 
-[common/index.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/12707b4/src/common/index.ts#L73)
+[src/common/index.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L73)
 
 ___
 
@@ -116,4 +116,4 @@ Type of a tag related hook
 
 #### Defined in
 
-[common/index.ts:62](https://github.com/Niitch/gherkin-wrapper/blob/12707b4/src/common/index.ts#L62)
+[src/common/index.ts:62](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L62)

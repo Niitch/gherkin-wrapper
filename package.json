@@ -24,8 +24,8 @@
     "lint": "tslint -p tsconfig.json",
     "doc": "typedoc",
     "prepare": "npm run build",
-    "preversion": "npm run lint && npm run doc",
-    "version": "npm run format && git add -A src",
+    "preversion": "npm run lint",
+    "version": "npm run format && npm run doc && git add -A .",
     "postversion": "git push"
   },
   "dependencies": {

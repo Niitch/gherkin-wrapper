@@ -29,7 +29,7 @@ The function to run against the matching steps
 
 #### Defined in
 
-[common/index.ts:48](https://github.com/Niitch/gherkin-wrapper/blob/12707b4/src/common/index.ts#L48)
+[src/common/index.ts:48](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L48)
 
 ___
 
@@ -41,4 +41,4 @@ The pattern a step text should match
 
 #### Defined in
 
-[common/index.ts:46](https://github.com/Niitch/gherkin-wrapper/blob/12707b4/src/common/index.ts#L46)
+[src/common/index.ts:46](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L46)
