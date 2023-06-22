@@ -1,16 +1,23 @@
 {
   "name": "gherkin-wrapper",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "A wrapper that allows any test runner to handle the gherkin format",
+  "keywords": ["playwright", "gherkin", "bdd", "wrapper"],
   "author": "Florian Nitcheu Tcheumo",
   "license": "ISC",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js",
+    "./common": "./lib/common/index.js",
+    "./playwright": "./lib/playwright/index.js"
+  },
   "scripts": {
     "test": "npx playwright test -c .\\tests\\playwright\\",
     "build": "npx rimraf lib && tsc",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "tslint -p tsconfig.json",
+    "doc": "typedoc",
     "prepare": "npm run build",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
@@ -26,9 +33,15 @@
     "prettier": "^2.8.8",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.24.7",
+    "typedoc-plugin-markdown": "^3.15.3",
     "typescript": "^5.0.4"
   },
   "files": [
     "lib/**/*"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Niitch/gherkin-wrapper.git"
+  }
 }

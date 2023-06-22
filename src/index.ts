@@ -1,7 +1,5 @@
-import forPlaywright from './wrappers/playwright';
-
-export { Library, Wrapper } from './common';
+import { PlaywrightWrapper } from './playwright';
 
 export default {
-  forPlaywright,
+  forPlaywright: PlaywrightWrapper,
 };
