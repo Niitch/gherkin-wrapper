@@ -34,7 +34,6 @@ interface StepRunnerArgs<T extends RunnerArgs<PlaywrightBaseTestObject>> {
  * ```
  */
 export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<RunnerArgs<T>> {
-
   /** @internal */
   private _describe: (location: any, title: string, callback: () => void) => void;
   /** @internal */
@@ -44,9 +43,9 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
   /** @internal */
   private _beforeEach: (location: any, callback: (args: RunnerArgs<T>) => any) => void;
   /** @internal */
-  private _fixtures: {fixtures: {[k: string]: any}}[]
+  private _fixtures: { fixtures: { [k: string]: any } }[];
   /** @internal */
-  private _info: PlaywrightBaseTestObject['info']
+  private _info: PlaywrightBaseTestObject['info'];
 
   /**
    * A GherkinWrapper for the Playwright test runner.
@@ -71,12 +70,12 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
     const sym = Reflect.ownKeys(testRunner).find((key) => key.toString() === 'Symbol(testType)') as symbol;
     // @ts-expect-error
     const testRunnerImpl = testRunner[sym];
-    this._fixtures = testRunnerImpl.fixtures
+    this._fixtures = testRunnerImpl.fixtures;
     this._describe = testRunnerImpl._describe.bind(testRunnerImpl, 'default');
     this._createTest = testRunnerImpl._createTest.bind(testRunnerImpl, 'default');
     this._step = testRunnerImpl._step.bind(testRunnerImpl);
     this._beforeEach = testRunnerImpl._hook.bind(testRunnerImpl, 'beforeEach');
-    this._info = testRunner.info.bind(testRunner)
+    this._info = testRunner.info.bind(testRunner);
 
     if (!options?.hooks)
       this.hooks.beforeStep(({ target, fn }) => {
@@ -135,17 +134,15 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
           scenario.name += ' (' + (i + 1) + ')';
           scenario.examples = [];
           scenario.steps = scenario.steps.map((model) => {
-            const step = cloneDeep(model)
+            const step = cloneDeep(model);
             ex.tableHeader?.cells.forEach((cell, j) => {
               step.text = step.text.replace('<' + cell.value + '>', '<' + row.cells[j].value + '>');
             });
-            Object.assign(step.location, row.location)
+            Object.assign(step.location, row.location);
             return step;
           });
           scenarios.push(scenario);
         });
-
-    //console.log(scenarios.map(s => s.steps))
 
     for (const s of scenarios) this.runScenario(s, scenarioOutline);
   }
@@ -161,7 +158,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
       scenario.location,
       scenario.name,
       provideFixture(async (runnerArgs: RunnerArgs<T>) => {
-        if (outline) this._info().annotations.push({type: `Built from scenario outline "${outline.name}"`})
+        if (outline) this._info().annotations.push({ type: 'Built from scenario outline', description: outline.name });
         for (const { name: tag } of scenario.tags) this.hooks.triggerTag(tag, { target: scenario });
         for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
@@ -205,9 +202,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
 
   /** @internal */
   private buildFixtureProvider(steps: { fn?: StepFunction<RunnerArgs<T>> }[]): FixtureProvider<T> {
-    const availableFixtures = this._fixtures.flatMap((value) =>
-      Object.keys(value.fixtures),
-    );
+    const availableFixtures = this._fixtures.flatMap((value) => Object.keys(value.fixtures));
     const requiredFixtureNames =
       '{' +
       [
