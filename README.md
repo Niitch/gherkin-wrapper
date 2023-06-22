@@ -2,46 +2,6 @@
 
 Make any test framework handle the Gherkin format.
 
-`npm install gherkin-wrapper`
-
-<br>
-
-## Table of contents
-
-- [Usage](#usage)
-- [Documentation](./docs/README.md)
-
-<br>
-
----
-
-_**What is it for ?**_
-
-Since I've learnt about the Gherkin format for test specs definitions, I couldn't find a way to use complexe test runners like the Playwright one with a gherkin support without loosing most of the features brought by the runner.
-Most of the time, it was "Cucumber + another test tool". But tools like Cucumber want to act as the test runner, hence restrincting the "other test tool" features.
-
-I wanted something that allows you to use a given test runner at its full potential and makes it handle the Ghearkin format. So I made one!
-
-_**How does it work ?**_
-
-It's basically a wrapper for your favorite test runner.
-
-Just like with Cucumber, you define your steps using `given`, `when` and `then` methods provided by the wrapper.
-Then, you launch your tests the very same way you used to for your test runner.
-The wrapper will read the feature files and build the tests for the your runner to run.
-
-_**What's next ?**_
-
-As you could tell, the wrapper only works for Playwright for now. I plan on adding support for more popular test runners.
-
-> _What test runner should I work on next ?_
->
-> Feel free to add an issue about the test runner you want to get wrapped. I'll work on the most commented ones.
-
-I'll continue to improve the handling the gherkin format and maybe add a custom html reporter for Playwright.
-
----
-
 ## Usage
 
 Given the following feature file:
@@ -91,3 +51,24 @@ npx playwright test example.spec.ts
 ```
 
 ---
+
+_**What is it for ?**_
+
+Since I've learnt about the Gherkin format for test specs definitions, I couldn't find a way to use complexe test runners like the Playwright one with a gherkin support without loosing most of the features brought by the runner.
+Most of the time, it was "Cucumber + another test tool". But tools like Cucumber want to act as the test runner, hence restrincting the "other test tool" features.
+
+I wanted something that allows you to use a given test runner at its full potential and makes it handle the Ghearkin format. So I made one!
+
+_**How does it work ?**_
+
+It's basically a wrapper for your favorite test runner.
+
+Just like with Cucumber, you define your steps using `given`, `when` and `then` methods provided by the wrapper.
+Then, you launch your tests the very same way you used to for your test runner.
+The wrapper will read the feature files and build the tests for the your runner to run.
+
+_**What's next ?**_
+
+As you could tell, the wrapper only works for Playwright for now. I plan on adding support for more popular test runners.
+
+I'll continue to improve the handling the gherkin format and maybe add a custom html reporter for Playwright.

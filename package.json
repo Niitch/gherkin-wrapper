@@ -2,6 +2,7 @@
   "name": "gherkin-wrapper",
   "version": "0.2.1",
   "description": "A wrapper that allows any test runner to handle the gherkin format",
+  "keywords": ["playwright", "gherkin", "bdd", "wrapper"],
   "author": "Florian Nitcheu Tcheumo",
   "license": "ISC",
   "main": "lib/index.js",
@@ -38,5 +39,9 @@
   },
   "files": [
     "lib/**/*"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Niitch/gherkin-wrapper.git"
+  }
 }
