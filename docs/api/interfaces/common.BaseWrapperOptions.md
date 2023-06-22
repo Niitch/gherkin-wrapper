@@ -27,7 +27,7 @@ The minimal wrapper options
 
 #### Defined in
 
-[common/index.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L56)
+[src/common/index.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L56)
 
 ___
 
@@ -37,4 +37,4 @@ ___
 
 #### Defined in
 
-[common/index.ts:55](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L55)
+[src/common/index.ts:55](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L55)

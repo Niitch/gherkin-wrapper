@@ -17,10 +17,10 @@ export interface WrapperArgs {
 }
 
 /** @internal */
-export type KeyValue = { [k: string | number | symbol]: any };
+type KeyValue = { [k: string | number | symbol]: any };
 
 /** @internal */
-export type WithDefault<Base, Default> = {
+type WithDefault<Base, Default> = {
   [K in keyof (Base & Omit<KeyValue, keyof Base>)]: K extends keyof Base ? Base[K] : Default;
 };
 

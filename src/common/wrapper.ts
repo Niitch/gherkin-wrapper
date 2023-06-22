@@ -28,20 +28,41 @@ export abstract class Wrapper<RunnerArgs, Options extends BaseWrapperOptions = B
     if (options.hooks) this.hooks = options.hooks;
   }
 
-  /** @group Methods */
+  /**
+   * {@inheritDoc common!Library#given}
+   * @group Methods
+   */
   given: typeof this.library.given = this.library.given.bind(this.library);
-  /** @group Methods */
+  /**
+   * {@inheritDoc common!Library#when}
+   * @group Methods
+   */
   when: typeof this.library.when = this.library.when.bind(this.library);
-  /** @group Methods */
+  /**
+   * {@inheritDoc common!Library#then}
+   * @group Methods
+   */
   then: typeof this.library.then = this.library.then.bind(this.library);
-  /** @group Methods */
+  /**
+   * {@inheritDoc common!Library#any}
+   * @group Methods
+   */
   any: typeof this.library.any = this.library.any.bind(this.library);
 
-  /** @group Methods */
+  /**
+   * {@inheritDoc common!Hooks#beforeTag}
+   * @group Methods
+   */
   beforeTag: typeof this.hooks.beforeTag = this.hooks.beforeTag.bind(this.hooks);
-  /** @group Methods */
+  /**
+   * {@inheritDoc common!Hooks#beforeStep}
+   * @group Methods
+   */
   beforeStep: typeof this.hooks.beforeStep = this.hooks.beforeStep.bind(this.hooks);
-  /** @group Methods */
+  /**
+   * {@inheritDoc common!Hooks#afterStep}
+   * @group Methods
+   */
   afterStep: typeof this.hooks.afterStep = this.hooks.afterStep.bind(this.hooks);
 
   /** @internal */

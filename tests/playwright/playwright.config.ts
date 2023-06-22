@@ -21,6 +21,7 @@ export default defineConfig({
 
   use: {
   },
+  
   // Configure projects for major browsers.
   projects: [
     {

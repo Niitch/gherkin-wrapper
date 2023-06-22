@@ -27,9 +27,9 @@ wrapper.given(/the Maker has started a game with the word "(.*)"/, async ({ page
 })
 
 wrapper.when(/the Breaker.*/, () => {})
-wrapper.then(/the Breaker.*/, () => {})
+//wrapper.then(/the Breaker.*/, () => {})
 
 
 const anotherWrapper = new GherkinWrapper.forPlaywright(base, {library: wrapper.library})
 
-wrapper.test('./tests/simple.feature')
+wrapper.test("./tests/simple.feature")

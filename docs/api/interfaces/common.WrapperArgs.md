@@ -25,7 +25,7 @@ The data table that may have been attached to the step in the feature file.
 
 #### Defined in
 
-[common/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L13)
+[src/common/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L13)
 
 ___
 
@@ -37,7 +37,7 @@ The content of the docstring that may have been attached to the step in the feat
 
 #### Defined in
 
-[common/index.ts:16](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L16)
+[src/common/index.ts:16](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L16)
 
 ___
 
@@ -49,7 +49,7 @@ The result of the match between the step function specification and the step tex
 
 #### Defined in
 
-[common/index.ts:11](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L11)
+[src/common/index.ts:11](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L11)
 
 ___
 
@@ -59,4 +59,4 @@ ___
 
 #### Defined in
 
-[common/index.ts:14](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L14)
+[src/common/index.ts:14](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L14)

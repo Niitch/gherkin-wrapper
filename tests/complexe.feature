@@ -14,7 +14,6 @@ Feature: Web page
   Background: Using chrome inside
   Given the browser is "chrome"
 
-    @skip
     Scenario Outline: Has expected title
       Given i am on the <url> website home page
       Then the page title should contain <title>
@@ -24,7 +23,7 @@ Feature: Web page
         | playwright.dev | Playwright |
         | www.google.com | Google |
         
-    @depreciated
+    @depreciated @skip
     Scenario: Google.com has expected title
       Given i am on the "www.google.com" website home page
       Then the page title should contain "Google"

@@ -14,4 +14,4 @@ wrapper.any(/.*/, async ({page, fake}, {dataTable}) => {
     await page.waitForTimeout(1000)
 })
 
-wrapper.test('./tests/complexe.feature')
+wrapper.test("./tests/complexe.feature")

@@ -53,7 +53,7 @@ Type of a step function
 
 #### Defined in
 
-[common/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L34)
+[src/common/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L34)
 
 ___
 
@@ -89,7 +89,7 @@ Type of a step hook
 
 #### Defined in
 
-[common/index.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L73)
+[src/common/index.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L73)
 
 ___
 
@@ -116,4 +116,4 @@ Type of a tag related hook
 
 #### Defined in
 
-[common/index.ts:62](https://github.com/Niitch/gherkin-wrapper/blob/5821231/src/common/index.ts#L62)
+[src/common/index.ts:62](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L62)
