@@ -3,6 +3,7 @@ import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cuc
 import { Wrapper as Base, StepFunction, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { PlaywrightBaseTestObject, RunnerArgs, WrapperOptions } from '.';
+import { cloneDeep } from 'lodash';
 
 /** @internal */
 type FixtureProvider<T extends PlaywrightBaseTestObject> = (
@@ -44,6 +45,8 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
   private _beforeEach: (location: any, callback: (args: RunnerArgs<T>) => any) => void;
   /** @internal */
   private _fixtures: {fixtures: {[k: string]: any}}[]
+  /** @internal */
+  private _info: PlaywrightBaseTestObject['info']
 
   /**
    * A GherkinWrapper for the Playwright test runner.
@@ -73,6 +76,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
     this._createTest = testRunnerImpl._createTest.bind(testRunnerImpl, 'default');
     this._step = testRunnerImpl._step.bind(testRunnerImpl);
     this._beforeEach = testRunnerImpl._hook.bind(testRunnerImpl, 'beforeEach');
+    this._info = testRunner.info.bind(testRunner)
 
     if (!options?.hooks)
       this.hooks.beforeStep(({ target, fn }) => {
@@ -125,25 +129,29 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
 
     for (const ex of scenarioOutline.examples)
       if (ex.tableHeader)
-        ex.tableBody.map((row, i) => {
+        ex.tableBody.forEach((row, i) => {
           const scenario = Object.assign({}, scenarioOutline);
           if (ex.name !== '') scenario.name += ' -- ' + ex.name;
           scenario.name += ' (' + (i + 1) + ')';
           scenario.examples = [];
-          scenario.steps = scenario.steps.map((step) => {
-            ex.tableHeader?.cells.map((cell, j) => {
+          scenario.steps = scenario.steps.map((model) => {
+            const step = cloneDeep(model)
+            ex.tableHeader?.cells.forEach((cell, j) => {
               step.text = step.text.replace('<' + cell.value + '>', '<' + row.cells[j].value + '>');
             });
+            Object.assign(step.location, row.location)
             return step;
           });
           scenarios.push(scenario);
         });
 
-    for (const s of scenarios) this.runScenario(s);
+    //console.log(scenarios.map(s => s.steps))
+
+    for (const s of scenarios) this.runScenario(s, scenarioOutline);
   }
 
   /** @internal */
-  protected runScenario(scenario: Scenario) {
+  protected runScenario(scenario: Scenario, outline?: Scenario) {
     if (scenario.examples.length) return this.runScenarioOutline(scenario);
 
     const steps = this.prepareSteps(scenario);
@@ -153,6 +161,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
       scenario.location,
       scenario.name,
       provideFixture(async (runnerArgs: RunnerArgs<T>) => {
+        if (outline) this._info().annotations.push({type: `Built from scenario outline "${outline.name}"`})
         for (const { name: tag } of scenario.tags) this.hooks.triggerTag(tag, { target: scenario });
         for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
