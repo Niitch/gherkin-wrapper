@@ -16,11 +16,15 @@ export interface WrapperArgs {
   docString?: DocString['content'];
 }
 
-/** @internal */
-type KeyValue = { [k: string | number | symbol]: any };
+/** Type helper that represents any object. */
+export type KeyValue = { [key: string | number | symbol]: any };
 
-/** @internal */
-type WithDefault<Base, Default> = {
+/**
+ * Type helper that hints a default type for unknown members of an object
+ * @typeParam Base Type of the base object
+ * @typeParam Default The default type to hint when accessing unknown members of Base
+ */
+export type WithDefault<Base, Default> = {
   [K in keyof (Base & Omit<KeyValue, keyof Base>)]: K extends keyof Base ? Base[K] : Default;
 };
 
