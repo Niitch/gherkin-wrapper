@@ -18,15 +18,33 @@
 
 ### Type Aliases
 
+- [KeyValue](common.md#keyvalue)
 - [StepFunction](common.md#stepfunction)
 - [StepHook](common.md#stephook)
 - [TagHook](common.md#taghook)
+- [WithDefault](common.md#withdefault)
 
 ## Type Aliases
 
+### KeyValue
+
+Ƭ **KeyValue**: `Object`
+
+Type helper that represents any object.
+
+#### Index signature
+
+▪ [key: `string` \| `number` \| `symbol`]: `any`
+
+#### Defined in
+
+[src/common/index.ts:20](https://github.com/Niitch/gherkin-wrapper/blob/4bfbd8c/src/common/index.ts#L20)
+
+___
+
 ### StepFunction
 
-Ƭ **StepFunction**<`RunnerArgs`\>: (`runnerArgs`: `WithDefault`<`RunnerArgs`, `undefined`\>, `wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
+Ƭ **StepFunction**<`RunnerArgs`\>: (`runnerArgs`: [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\>, `wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
 
 #### Type parameters
 
@@ -44,7 +62,7 @@ Type of a step function
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `runnerArgs` | `WithDefault`<`RunnerArgs`, `undefined`\> | an object holding arguments provided by the runner |
+| `runnerArgs` | [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\> | an object holding arguments provided by the runner |
 | `wrapperArgs` | [`WrapperArgs`](../interfaces/common.WrapperArgs.md) | an object holding arguments provided by the wrapper |
 
 ##### Returns
@@ -53,7 +71,7 @@ Type of a step function
 
 #### Defined in
 
-[src/common/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L34)
+[src/common/index.ts:38](https://github.com/Niitch/gherkin-wrapper/blob/4bfbd8c/src/common/index.ts#L38)
 
 ___
 
@@ -89,7 +107,7 @@ Type of a step hook
 
 #### Defined in
 
-[src/common/index.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L73)
+[src/common/index.ts:77](https://github.com/Niitch/gherkin-wrapper/blob/4bfbd8c/src/common/index.ts#L77)
 
 ___
 
@@ -116,4 +134,23 @@ Type of a tag related hook
 
 #### Defined in
 
-[src/common/index.ts:62](https://github.com/Niitch/gherkin-wrapper/blob/63e64be/src/common/index.ts#L62)
+[src/common/index.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/4bfbd8c/src/common/index.ts#L66)
+
+___
+
+### WithDefault
+
+Ƭ **WithDefault**<`Base`, `Default`\>: { [K in keyof (Base & Omit<KeyValue, keyof Base\>)]: K extends keyof Base ? Base[K] : Default }
+
+Type helper that hints a default type for unknown members of an object
+
+#### Type parameters
+
+| Name | Description |
+| :------ | :------ |
+| `Base` | Type of the base object |
+| `Default` | The default type to hint when accessing unknown members of Base |
+
+#### Defined in
+
+[src/common/index.ts:27](https://github.com/Niitch/gherkin-wrapper/blob/4bfbd8c/src/common/index.ts#L27)

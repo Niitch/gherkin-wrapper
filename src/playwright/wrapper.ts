@@ -1,5 +1,5 @@
 import { LibraryMethodByStepType } from '../common/library';
-import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
+import { Background, Feature, Location, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
 import { Wrapper as Base, StepFunction, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { PlaywrightBaseTestObject, RunnerArgs, WrapperOptions } from '.';
@@ -117,7 +117,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
     this._beforeEach(
       background.location,
       provideFixture(async (runnerArgs: RunnerArgs<T>) => {
-        for (const s of steps) this.runStep({ ...s, runnerArgs });
+        for (const s of steps) await this.runStep({ ...s, runnerArgs });
       }),
     );
   }
