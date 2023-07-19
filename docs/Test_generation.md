@@ -1,6 +1,6 @@
 [Gherkin wrapper - Documentation](./README.md) / Test generation
 
-# How tests are built
+# How tests are made
 
 Gherkin wrapper is a runtime wrapper that doesn't rely on code generation.
 
@@ -12,4 +12,3 @@ For each test frameworks, the gherkin objects are handled like so:
 - a `Scenario` or `Example` converts to a `test` block
 - a `Scenario Outline` or `Scenario Template` converts to `test` blocks for each of its `Examples`
 - a `Step` converts to a `step` block
-
