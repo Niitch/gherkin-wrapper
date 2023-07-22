@@ -4,6 +4,7 @@
   "description": "A wrapper that allows any test runner to handle the gherkin format",
   "keywords": [
     "playwright",
+    "jest",
     "gherkin",
     "bdd",
     "wrapper"
