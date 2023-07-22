@@ -91,7 +91,7 @@ wrapper.test('feature.file')
 
 #### Defined in
 
-[src/playwright/wrapper.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/playwright/wrapper.ts#L67)
+[src/playwright/wrapper.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/playwright/wrapper.ts#L67)
 
 ## Properties
 
@@ -107,7 +107,7 @@ The wrapper hook library
 
 #### Defined in
 
-[src/common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L17)
+[src/common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L17)
 
 ___
 
@@ -123,7 +123,7 @@ The wrapper step function library
 
 #### Defined in
 
-[src/common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L15)
+[src/common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L15)
 
 ## Methods
 
@@ -158,7 +158,7 @@ Register a hook that runs after each step.
 
 #### Defined in
 
-[src/common/wrapper.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L66)
+[src/common/wrapper.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L66)
 
 ___
 
@@ -189,7 +189,7 @@ Register a step function to be run against any steps having a text that match a 
 
 #### Defined in
 
-[src/common/wrapper.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L50)
+[src/common/wrapper.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L50)
 
 ___
 
@@ -224,7 +224,7 @@ Register a hook that runs before each step.
 
 #### Defined in
 
-[src/common/wrapper.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L61)
+[src/common/wrapper.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L61)
 
 ___
 
@@ -260,7 +260,7 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/wrapper.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L56)
+[src/common/wrapper.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L56)
 
 ___
 
@@ -291,7 +291,7 @@ Register a step function to be run against "context" steps having a text that ma
 
 #### Defined in
 
-[src/common/wrapper.ts:35](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L35)
+[src/common/wrapper.ts:35](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L35)
 
 ___
 
@@ -322,7 +322,7 @@ Register a step function to be run against "outcome" steps having a text that ma
 
 #### Defined in
 
-[src/common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L45)
+[src/common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L45)
 
 ___
 
@@ -353,7 +353,7 @@ Register a step function to be run against "action" steps having a text that mat
 
 #### Defined in
 
-[src/common/wrapper.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L40)
+[src/common/wrapper.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L40)
 
 ___
 
@@ -380,4 +380,4 @@ Run tests for a feature file.
 
 #### Defined in
 
-[src/common/wrapper.ts:82](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/wrapper.ts#L82)
+[src/common/wrapper.ts:82](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/wrapper.ts#L82)

@@ -38,7 +38,7 @@ Type helper that represents any object.
 
 #### Defined in
 
-[src/common/index.ts:20](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L20)
+[src/common/index.ts:20](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/index.ts#L20)
 
 ___
 
@@ -64,7 +64,7 @@ an object holding arguments provided by the wrapper
 
 #### Defined in
 
-[src/common/index.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L40)
+[src/common/index.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/index.ts#L40)
 
 ___
 
@@ -100,7 +100,7 @@ Type of a step hook
 
 #### Defined in
 
-[src/common/index.ts:78](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L78)
+[src/common/index.ts:78](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/index.ts#L78)
 
 ___
 
@@ -127,7 +127,7 @@ Type of a tag related hook
 
 #### Defined in
 
-[src/common/index.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L67)
+[src/common/index.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/index.ts#L67)
 
 ___
 
@@ -146,4 +146,4 @@ Type helper that hints a default type for unknown members of an object
 
 #### Defined in
 
-[src/common/index.ts:27](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L27)
+[src/common/index.ts:27](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/index.ts#L27)

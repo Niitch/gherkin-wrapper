@@ -28,7 +28,7 @@ Type of the default playwright test object
 
 #### Defined in
 
-[src/playwright/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/playwright/index.ts#L5)
+[src/playwright/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/playwright/index.ts#L5)
 
 ___
 
@@ -47,4 +47,4 @@ For Playwright, it is the fixtures object usually passed as first parameters to 
 
 #### Defined in
 
-[src/playwright/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/playwright/index.ts#L13)
+[src/playwright/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/playwright/index.ts#L13)
