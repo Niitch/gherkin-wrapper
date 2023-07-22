@@ -36,7 +36,7 @@ const hooks = new Hooks()
 const foo = new GherkinWrapper.forPlaywright(test, { hooks })
 
 const bar = new GherkinWrapper.forPlaywright(test, { hooks })
-const baz = new GherkinWrapper.forPlaywright(test, { hooks: wrapper.hooks })
+const baz = new GherkinWrapper.forPlaywright(test, { hooks: bar.hooks })
 ```
 Here `foo` has its own library while `bar` and `baz` share one.
 
@@ -46,7 +46,7 @@ Here `foo` has its own library while `bar` and `baz` share one.
 
 #### Defined in
 
-[src/playwright/index.ts:52](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/playwright/index.ts#L52)
+[src/playwright/index.ts:52](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/playwright/index.ts#L52)
 
 ___
 
@@ -65,7 +65,7 @@ const library = new PlaywrightLibrary<typeof test>()
 const foo = new GherkinWrapper.forPlaywright(test, { library })
 
 const bar = new GherkinWrapper.forPlaywright(test, { library })
-const baz = new GherkinWrapper.forPlaywright(test, { library: wrapper.library })
+const baz = new GherkinWrapper.forPlaywright(test, { library: bar.library })
 ```
 Here `foo` has its own library while `bar` and `baz` share one.
 
@@ -75,4 +75,4 @@ Here `foo` has its own library while `bar` and `baz` share one.
 
 #### Defined in
 
-[src/playwright/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/playwright/index.ts#L34)
+[src/playwright/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/playwright/index.ts#L34)

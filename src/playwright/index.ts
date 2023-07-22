@@ -27,7 +27,7 @@ export interface WrapperOptions extends BaseWrapperOptions {
    * const foo = new GherkinWrapper.forPlaywright(test, { library })
    *
    * const bar = new GherkinWrapper.forPlaywright(test, { library })
-   * const baz = new GherkinWrapper.forPlaywright(test, { library: wrapper.library })
+   * const baz = new GherkinWrapper.forPlaywright(test, { library: bar.library })
    * ```
    * Here `foo` has its own library while `bar` and `baz` share one.
    */
@@ -45,7 +45,7 @@ export interface WrapperOptions extends BaseWrapperOptions {
    * const foo = new GherkinWrapper.forPlaywright(test, { hooks })
    *
    * const bar = new GherkinWrapper.forPlaywright(test, { hooks })
-   * const baz = new GherkinWrapper.forPlaywright(test, { hooks: wrapper.hooks })
+   * const baz = new GherkinWrapper.forPlaywright(test, { hooks: bar.hooks })
    * ```
    * Here `foo` has its own library while `bar` and `baz` share one.
    */

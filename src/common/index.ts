@@ -24,9 +24,11 @@ export type KeyValue = { [key: string | number | symbol]: any };
  * @typeParam Base Type of the base object
  * @typeParam Default The default type to hint when accessing unknown members of Base
  */
-export type WithDefault<Base, Default> = {
-  [K in keyof (Base & Omit<KeyValue, keyof Base>)]: K extends keyof Base ? Base[K] : Default;
-};
+export type WithDefault<Base, Default> = Base extends KeyValue
+  ? {
+      [K in keyof (Base & Omit<KeyValue, keyof Base>)]: K extends keyof Base ? Base[K] : Default;
+    }
+  : Base;
 
 /**
  * Type of a step function
@@ -35,10 +37,9 @@ export type WithDefault<Base, Default> = {
  * @param runnerArgs an object holding arguments provided by the runner
  * @param wrapperArgs an object holding arguments provided by the wrapper
  */
-export type StepFunction<RunnerArgs> = (
-  runnerArgs: WithDefault<RunnerArgs, undefined>,
-  wrapperArgs: WrapperArgs,
-) => any;
+export type StepFunction<RunnerArgs> = RunnerArgs extends null | undefined
+  ? (wrapperArgs: WrapperArgs) => any
+  : (runnerArgs: WithDefault<RunnerArgs, undefined>, wrapperArgs: WrapperArgs) => any;
 
 /**
  * Represents a test specification
@@ -76,8 +77,8 @@ export type TagHook = (hookArgs: { target: Feature | Rule | Scenario }) => any;
  */
 export type StepHook<RunnerArgs> = (
   hookArgs: { target: Step; fn?: StepFunction<RunnerArgs> },
-  runnerArgs: RunnerArgs,
-  wrapperArgs: WrapperArgs,
+  runnerOrWrapperArgs: RunnerArgs extends null | undefined ? WrapperArgs : WithDefault<RunnerArgs, undefined>,
+  wrapperArgs?: WrapperArgs,
 ) => any;
 
 export { Library } from './library';

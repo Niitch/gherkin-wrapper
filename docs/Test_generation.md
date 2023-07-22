@@ -11,4 +11,4 @@ For each test frameworks, the gherkin objects are handled like so:
 - a `Background` converts to a `beforeEach` block
 - a `Scenario` or `Example` converts to a `test` block
 - a `Scenario Outline` or `Scenario Template` converts to `test` blocks for each of its `Examples`
-- a `Step` converts to a `step` block
+- a `Step` converts to a `step` block (if the test runner handles it)

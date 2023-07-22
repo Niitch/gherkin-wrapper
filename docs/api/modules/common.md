@@ -38,13 +38,23 @@ Type helper that represents any object.
 
 #### Defined in
 
-[src/common/index.ts:20](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/common/index.ts#L20)
+[src/common/index.ts:20](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L20)
 
 ___
 
 ### StepFunction
 
-Ƭ **StepFunction**<`RunnerArgs`\>: (`runnerArgs`: [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\>, `wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
+Ƭ **StepFunction**<`RunnerArgs`\>: `RunnerArgs` extends ``null`` \| `undefined` ? (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` : (`runnerArgs`: [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\>, `wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
+
+Type of a step function
+
+**`Param`**
+
+an object holding arguments provided by the runner
+
+**`Param`**
+
+an object holding arguments provided by the wrapper
 
 #### Type parameters
 
@@ -52,32 +62,15 @@ ___
 | :------ | :------ |
 | `RunnerArgs` | Type of the runnerArgs parameter |
 
-#### Type declaration
-
-▸ (`runnerArgs`, `wrapperArgs`): `any`
-
-Type of a step function
-
-##### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `runnerArgs` | [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\> | an object holding arguments provided by the runner |
-| `wrapperArgs` | [`WrapperArgs`](../interfaces/common.WrapperArgs.md) | an object holding arguments provided by the wrapper |
-
-##### Returns
-
-`any`
-
 #### Defined in
 
-[src/common/index.ts:38](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/common/index.ts#L38)
+[src/common/index.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L40)
 
 ___
 
 ### StepHook
 
-Ƭ **StepHook**<`RunnerArgs`\>: (`hookArgs`: { `fn?`: [`StepFunction`](common.md#stepfunction)<`RunnerArgs`\> ; `target`: `Step`  }, `runnerArgs`: `RunnerArgs`, `wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
+Ƭ **StepHook**<`RunnerArgs`\>: (`hookArgs`: { `fn?`: [`StepFunction`](common.md#stepfunction)<`RunnerArgs`\> ; `target`: `Step`  }, `runnerOrWrapperArgs`: `RunnerArgs` extends ``null`` \| `undefined` ? [`WrapperArgs`](../interfaces/common.WrapperArgs.md) : [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\>, `wrapperArgs?`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
 
 #### Type parameters
 
@@ -87,7 +80,7 @@ ___
 
 #### Type declaration
 
-▸ (`hookArgs`, `runnerArgs`, `wrapperArgs`): `any`
+▸ (`hookArgs`, `runnerOrWrapperArgs`, `wrapperArgs?`): `any`
 
 Type of a step hook
 
@@ -98,8 +91,8 @@ Type of a step hook
 | `hookArgs` | `Object` | - |
 | `hookArgs.fn?` | [`StepFunction`](common.md#stepfunction)<`RunnerArgs`\> | the current step function |
 | `hookArgs.target` | `Step` | the current step |
-| `runnerArgs` | `RunnerArgs` | an object holding the runner arguments passed to the step function |
-| `wrapperArgs` | [`WrapperArgs`](../interfaces/common.WrapperArgs.md) | an object holding the wrapper arguments passed to the step function |
+| `runnerOrWrapperArgs` | `RunnerArgs` extends ``null`` \| `undefined` ? [`WrapperArgs`](../interfaces/common.WrapperArgs.md) : [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\> | - |
+| `wrapperArgs?` | [`WrapperArgs`](../interfaces/common.WrapperArgs.md) | an object holding the wrapper arguments passed to the step function |
 
 ##### Returns
 
@@ -107,7 +100,7 @@ Type of a step hook
 
 #### Defined in
 
-[src/common/index.ts:77](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/common/index.ts#L77)
+[src/common/index.ts:78](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L78)
 
 ___
 
@@ -134,13 +127,13 @@ Type of a tag related hook
 
 #### Defined in
 
-[src/common/index.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/common/index.ts#L66)
+[src/common/index.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L67)
 
 ___
 
 ### WithDefault
 
-Ƭ **WithDefault**<`Base`, `Default`\>: { [K in keyof (Base & Omit<KeyValue, keyof Base\>)]: K extends keyof Base ? Base[K] : Default }
+Ƭ **WithDefault**<`Base`, `Default`\>: `Base` extends [`KeyValue`](common.md#keyvalue) ? { [K in keyof (Base & Omit<KeyValue, keyof Base\>)]: K extends keyof Base ? Base[K] : Default } : `Base`
 
 Type helper that hints a default type for unknown members of an object
 
@@ -153,4 +146,4 @@ Type helper that hints a default type for unknown members of an object
 
 #### Defined in
 
-[src/common/index.ts:27](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/common/index.ts#L27)
+[src/common/index.ts:27](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/index.ts#L27)

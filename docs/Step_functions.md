@@ -26,6 +26,8 @@ The first arguement of a step function is an object containing arguments from yo
 
 - For __Playwright__, it is the [fixture object](https://playwright.dev/docs/test-fixtures)
 
+> For __Jest__, the runnerArgs object is not provided and the wrapperArgs object is passed as the first arguement instead. 
+
 ## Wrapper arguments
 
 The second arguement of a step function is an object containing arguments from the wrapper. Most of them come from the definition of the step in the feature file.

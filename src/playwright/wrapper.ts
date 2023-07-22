@@ -1,6 +1,6 @@
 import { LibraryMethodByStepType } from '../common/library';
 import { Background, Feature, Location, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
-import { Wrapper as Base, StepFunction, WrapperArgs } from '../common';
+import { Wrapper as Base, StepFunction, StepHook, WithDefault, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { PlaywrightBaseTestObject, RunnerArgs, WrapperOptions } from '.';
 import { cloneDeep } from 'lodash';
@@ -167,16 +167,18 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
 
   /** @internal */
   protected async runStep(args: StepRunnerArgs<RunnerArgs<T>>) {
+    type RuntimeRunnerArgs = Parameters<StepFunction<RunnerArgs<T>>>[0] & Parameters<StepHook<RunnerArgs<T>>>[1];
+
     await this._step(args.step.location, args.step.keyword + args.step.text, async () => {
       await Promise.all(
         this.hooks.triggerLifecycle(
           'beforeStep',
           { target: args.step, fn: args.fn },
-          args.runnerArgs,
+          args.runnerArgs as RuntimeRunnerArgs,
           args.wrapperArgs as WrapperArgs,
         ),
       );
-      await args.fn?.(args.runnerArgs as Parameters<StepFunction<RunnerArgs<T>>>[0], {
+      await args.fn?.(args.runnerArgs as RuntimeRunnerArgs, {
         ...(args.wrapperArgs as WrapperArgs),
         rawdataTable: args.step.dataTable,
         dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
@@ -186,7 +188,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
         this.hooks.triggerLifecycle(
           'afterStep',
           { target: args.step, fn: args.fn },
-          args.runnerArgs,
+          args.runnerArgs as RuntimeRunnerArgs,
           args.wrapperArgs as WrapperArgs,
         ),
       );

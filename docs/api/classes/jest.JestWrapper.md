@@ -1,89 +1,74 @@
-[Gherkin wrapper - API Reference](../README.md) / [playwright](../modules/playwright.md) / PlaywrightWrapper
+[Gherkin wrapper - API Reference](../README.md) / [jest](../modules/jest.md) / JestWrapper
 
-# Class: PlaywrightWrapper<T\>
+# Class: JestWrapper
 
-[playwright](../modules/playwright.md).PlaywrightWrapper
+[jest](../modules/jest.md).JestWrapper
 
-A GherkinWrapper for the Playwright test runner.
+A GherkinWrapper for the Jest test runner.
 
 **Usage**
 ```ts
-import { test } from "@playwright/test";
 import GherkinWrapper from "gherkin-wrapper"
 
-const wrapper = new GherkinWrapper.forPlaywright(test)
+const wrapper = new GherkinWrapper.forJest()
 wrapper.given(...)
 wrapper.when(...)
 wrapper.then(...)
 wrapper.test('feature.file')
 ```
 
-## Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`PlaywrightBaseTestObject`](../modules/playwright.md#playwrightbasetestobject) |
-
 ## Hierarchy
 
-- [`Wrapper`](common.Wrapper.md)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>
+- [`Wrapper`](common.Wrapper.md)<``null``\>
 
-  ↳ **`PlaywrightWrapper`**
+  ↳ **`JestWrapper`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](playwright.PlaywrightWrapper.md#constructor)
+- [constructor](jest.JestWrapper.md#constructor)
 
 ### Properties
 
-- [hooks](playwright.PlaywrightWrapper.md#hooks)
-- [library](playwright.PlaywrightWrapper.md#library)
+- [hooks](jest.JestWrapper.md#hooks)
+- [library](jest.JestWrapper.md#library)
 
 ### Methods
 
-- [afterStep](playwright.PlaywrightWrapper.md#afterstep)
-- [any](playwright.PlaywrightWrapper.md#any)
-- [beforeStep](playwright.PlaywrightWrapper.md#beforestep)
-- [beforeTag](playwright.PlaywrightWrapper.md#beforetag)
-- [given](playwright.PlaywrightWrapper.md#given)
-- [then](playwright.PlaywrightWrapper.md#then)
-- [when](playwright.PlaywrightWrapper.md#when)
-- [test](playwright.PlaywrightWrapper.md#test)
+- [afterStep](jest.JestWrapper.md#afterstep)
+- [any](jest.JestWrapper.md#any)
+- [beforeStep](jest.JestWrapper.md#beforestep)
+- [beforeTag](jest.JestWrapper.md#beforetag)
+- [given](jest.JestWrapper.md#given)
+- [then](jest.JestWrapper.md#then)
+- [when](jest.JestWrapper.md#when)
+- [test](jest.JestWrapper.md#test)
 
 ## Constructors
 
 ### constructor
 
-• **new PlaywrightWrapper**<`T`\>(`testRunner`, `options?`)
+• **new JestWrapper**(`options?`)
 
-A GherkinWrapper for the Playwright test runner.
+A GherkinWrapper for the Jest test runner.
 
 **Usage**
 ```ts
-import { test } from "@playwright/test";
 import GherkinWrapper from "gherkin-wrapper"
 
-const wrapper = new GherkinWrapper.forPlaywright(test)
+const wrapper = new GherkinWrapper.forJest()
 wrapper.given(...)
 wrapper.when(...)
 wrapper.then(...)
 wrapper.test('feature.file')
 ```
 
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `TestType`<`PlaywrightTestArgs` & `PlaywrightTestOptions`, `PlaywrightWorkerArgs` & `PlaywrightWorkerOptions`, `T`\> |
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `testRunner` | `T` | a playwright test object |
-| `options?` | [`WrapperOptions`](../interfaces/playwright.WrapperOptions.md) | wrapper options |
+| `options?` | [`WrapperOptions`](../interfaces/jest.WrapperOptions.md) | wrapper options |
 
 #### Overrides
 
@@ -91,13 +76,13 @@ wrapper.test('feature.file')
 
 #### Defined in
 
-[src/playwright/wrapper.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/playwright/wrapper.ts#L67)
+[src/jest/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/jest/wrapper.ts#L45)
 
 ## Properties
 
 ### hooks
 
-• `Readonly` **hooks**: [`Hooks`](common.Hooks.md)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>
+• `Readonly` **hooks**: [`Hooks`](common.Hooks.md)<``null``\>
 
 The wrapper hook library
 
@@ -113,7 +98,7 @@ ___
 
 ### library
 
-• `Readonly` **library**: [`Library`](common.Library.md)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>
+• `Readonly` **library**: [`Library`](common.Library.md)<``null``\>
 
 The wrapper step function library
 
@@ -129,7 +114,7 @@ The wrapper step function library
 
 ### afterStep
 
-• **afterStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **afterStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<``null``\>) => `void`
 
 #### Type declaration
 
@@ -146,7 +131,7 @@ Register a hook that runs after each step.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the hook function |
+| `callback` | [`StepHook`](../modules/common.md#stephook)<``null``\> | the hook function |
 
 ##### Returns
 
@@ -164,7 +149,7 @@ ___
 
 ### any
 
-• **any**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **any**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
 #### Type declaration
 
@@ -177,7 +162,7 @@ Register a step function to be run against any steps having a text that match a 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 ##### Returns
 
@@ -195,7 +180,7 @@ ___
 
 ### beforeStep
 
-• **beforeStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **beforeStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<``null``\>) => `void`
 
 #### Type declaration
 
@@ -212,7 +197,7 @@ Register a hook that runs before each step.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the hook function |
+| `callback` | [`StepHook`](../modules/common.md#stephook)<``null``\> | the hook function |
 
 ##### Returns
 
@@ -266,7 +251,7 @@ ___
 
 ### given
 
-• **given**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **given**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
 #### Type declaration
 
@@ -279,7 +264,7 @@ Register a step function to be run against "context" steps having a text that ma
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 ##### Returns
 
@@ -297,7 +282,7 @@ ___
 
 ### then
 
-• **then**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **then**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
 #### Type declaration
 
@@ -310,7 +295,7 @@ Register a step function to be run against "outcome" steps having a text that ma
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 ##### Returns
 
@@ -328,7 +313,7 @@ ___
 
 ### when
 
-• **when**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **when**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
 #### Type declaration
 
@@ -341,7 +326,7 @@ Register a step function to be run against "action" steps having a text that mat
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 ##### Returns
 

@@ -1,55 +1,69 @@
-[Gherkin wrapper - API Reference](../README.md) / [common](../modules/common.md) / Library
+[Gherkin wrapper - API Reference](../README.md) / [jest](../modules/jest.md) / JestLibrary
 
-# Class: Library<RunnerArgs\>
+# Class: JestLibrary
 
-[common](../modules/common.md).Library
+[jest](../modules/jest.md).JestLibrary
 
-Generic step function library
+Helper class to build step function libraries for the Jest GherkinWrapper.
 
-## Type parameters
+**Usage**
+```ts
+import GherkinWrapper from "gherkin-wrapper"
+import { JestLibrary } from "gherkin-wrapper/jest"
 
-| Name | Description |
-| :------ | :------ |
-| `RunnerArgs` | Type of the object holding the runner arguments and passed to the [step functions](../modules/common.md#stepfunction) |
+const library = new JestLibrary()
+library.given(...)
+library.when(...)
+library.then(...)
+const library = new GherkinWrapper.forJest({ library })
+```
 
 ## Hierarchy
 
-- **`Library`**
+- [`Library`](common.Library.md)<``null``\>
 
-  ↳ [`PlaywrightLibrary`](playwright.PlaywrightLibrary.md)
-
-  ↳ [`JestLibrary`](jest.JestLibrary.md)
+  ↳ **`JestLibrary`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](common.Library.md#constructor)
+- [constructor](jest.JestLibrary.md#constructor)
 
 ### Methods
 
-- [any](common.Library.md#any)
-- [given](common.Library.md#given)
-- [then](common.Library.md#then)
-- [when](common.Library.md#when)
+- [any](jest.JestLibrary.md#any)
+- [given](jest.JestLibrary.md#given)
+- [then](jest.JestLibrary.md#then)
+- [when](jest.JestLibrary.md#when)
 
 ## Constructors
 
 ### constructor
 
-• **new Library**<`RunnerArgs`\>()
+• **new JestLibrary**()
 
-Generic step function library
+Helper class to build step function libraries for the Jest GherkinWrapper.
 
-#### Type parameters
+**Usage**
+```ts
+import GherkinWrapper from "gherkin-wrapper"
+import { JestLibrary } from "gherkin-wrapper/jest"
 
-| Name | Description |
-| :------ | :------ |
-| `RunnerArgs` | Type of the object holding the runner arguments and passed to the [step functions](../modules/common.md#stepfunction) |
+const library = new JestLibrary()
+library.given(...)
+library.when(...)
+library.then(...)
+const library = new GherkinWrapper.forJest({ library })
+```
+
+#### Overrides
+
+[Library](common.Library.md).[constructor](common.Library.md#constructor)
 
 #### Defined in
 
-[src/common/library.ts:52](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/common/library.ts#L52)
+[src/jest/library.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/jest/library.ts#L34)
 
 ## Methods
 
@@ -72,11 +86,15 @@ Functions registered using a given|when|then method are prioritized over functio
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<`RunnerArgs`\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[Library](common.Library.md).[any](common.Library.md#any)
 
 #### Defined in
 
@@ -99,11 +117,15 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<`RunnerArgs`\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[Library](common.Library.md).[given](common.Library.md#given)
 
 #### Defined in
 
@@ -126,11 +148,15 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<`RunnerArgs`\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[Library](common.Library.md).[then](common.Library.md#then)
 
 #### Defined in
 
@@ -153,11 +179,15 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<`RunnerArgs`\> | the step function |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
 
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[Library](common.Library.md).[when](common.Library.md#when)
 
 #### Defined in
 

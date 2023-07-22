@@ -8,4 +8,5 @@ Gherkin wrapper - API Reference
 
 - [common](modules/common.md)
 - [index](modules/index.md)
+- [jest](modules/jest.md)
 - [playwright](modules/playwright.md)

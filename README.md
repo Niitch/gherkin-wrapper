@@ -47,19 +47,44 @@ wrapper.test('./features/example.feature')
 ```
 
 ```shell
-npx playwright test example.spec.ts
+npx playwright test
+```
+
+### For Jest
+
+```typescript
+// step-definitions/example.spec.ts
+
+import GherkinWrapper from "gherkin-wrapper";
+
+// Build the wrapper
+const wrapper = new GherkinWrapper.forJest(test)
+
+// Register step functions
+wrapper.given(/the Maker has started a game with the word "(.*)"/, async ({ match }) => {
+    // Do things ...
+})
+wrapper.when("the Maker starts a game", () => {...})
+wrapper.then("the Maker waits for a Breaker to join", () => {...})
+
+// Run tests 
+wrapper.test('./features/example.feature')
+```
+
+```shell
+npx jest
 ```
 
 ---
 
-_**What is it for ?**_
+_**Motivation**_
 
 Since I've learnt about the Gherkin format for test specs definitions, I couldn't find a way to use complexe test runners like the Playwright one with a gherkin support without loosing most of the features brought by the runner.
 Most of the time, it was "Cucumber + another test tool". But tools like Cucumber want to act as the test runner, hence restrincting the "other test tool" features.
 
 I wanted something that allows you to use a given test runner at its full potential and makes it handle the Ghearkin format. So I made one!
 
-_**How does it work ?**_
+_**Concept**_
 
 It's basically a wrapper for your favorite test runner.
 
@@ -67,8 +92,10 @@ Just like with Cucumber, you define your steps using `given`, `when` and `then` 
 Then, you launch your tests the very same way you used to for your test runner.
 The wrapper will read the feature files and build the tests for the your runner to run.
 
-_**What's next ?**_
+_**Roadmap**_
 
-As you could tell, the wrapper only works for Playwright for now. I plan on adding support for more popular test runners.
-
-I'll continue to improve the handling the gherkin format and maybe add a custom html reporter for Playwright.
+- [x] Wrapper for Playwright
+- [x] Wrapper for Jest
+- [] Hook effects
+- [] Concurrency
+- [] Wrapper for Vitest

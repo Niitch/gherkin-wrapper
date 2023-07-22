@@ -1,6 +1,6 @@
 {
     "$schema": "https://typedoc.org/schema.json",
-    "entryPoints": ["src/index.ts", "src/playwright", "src/common"],
+    "entryPoints": ["src/index.ts", "src/common", "src/playwright", "src/jest"],
     "out": "docs/api",
     "plugin": ["typedoc-plugin-markdown"],
     "readme": "none",

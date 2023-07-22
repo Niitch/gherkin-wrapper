@@ -18,8 +18,9 @@
 
 | Name | Type |
 | :------ | :------ |
+| `forJest` | typeof [`JestWrapper`](../classes/jest.JestWrapper.md) |
 | `forPlaywright` | typeof [`PlaywrightWrapper`](../classes/playwright.PlaywrightWrapper.md) |
 
 #### Defined in
 
-[src/index.ts:3](https://github.com/Niitch/gherkin-wrapper/blob/c096300/src/index.ts#L3)
+[src/index.ts:4](https://github.com/Niitch/gherkin-wrapper/blob/03216b1/src/index.ts#L4)
