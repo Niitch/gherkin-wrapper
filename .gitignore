@@ -4,3 +4,6 @@ lib
 # playwright
 playwright-report
 test-results
+
+# jest
+tests/jest/coverage

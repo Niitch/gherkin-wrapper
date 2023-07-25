@@ -11,13 +11,21 @@
   ],
   "author": "Florian Nitcheu Tcheumo",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Niitch/gherkin-wrapper.git"
+  },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "exports": {
     ".": "./lib/index.js",
     "./common": "./lib/common/index.js",
-    "./playwright": "./lib/playwright/index.js"
+    "./playwright": "./lib/playwright/index.js",
+    "./jest": "./lib/jest/index.js"
   },
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "test": "npm run test:playwright && npm run test:jest",
     "test:playwright": "npx playwright test -c .\\tests\\playwright\\",
@@ -49,12 +57,5 @@
     "typedoc": "^0.24.7",
     "typedoc-plugin-markdown": "^3.15.3",
     "typescript": "^5.0.4"
-  },
-  "files": [
-    "lib/**/*"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Niitch/gherkin-wrapper.git"
   }
 }

@@ -1,6 +1,5 @@
 import { test as base, expect } from "@playwright/test";
-import GherkinWrapper from "../../src/";
-import { PlaywrightLibrary } from "../../src/playwright";
+import GherkinWrapper, { PlaywrightLibrary } from "../../src/";
 
 interface fixture {
     /** A simple text value */
