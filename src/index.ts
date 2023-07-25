@@ -7,8 +7,4 @@ export default {
   forJest: JestWrapper,
 };
 
-export {
-  PlaywrightLibrary,
-  JestLibrary,
-  Hooks,
-}
+export { PlaywrightLibrary, JestLibrary, Hooks };

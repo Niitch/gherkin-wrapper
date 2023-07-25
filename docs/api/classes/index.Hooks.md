@@ -1,8 +1,8 @@
-[Gherkin wrapper - API Reference](../README.md) / [common](../modules/common.md) / Hooks
+[Gherkin wrapper - API Reference](../README.md) / [index](../modules/index.md) / Hooks
 
 # Class: Hooks<RunnerArgs\>
 
-[common](../modules/common.md).Hooks
+[index](../modules/index.md).Hooks
 
 Generic hook library
 
@@ -16,13 +16,13 @@ Generic hook library
 
 ### Constructors
 
-- [constructor](common.Hooks.md#constructor)
+- [constructor](index.Hooks.md#constructor)
 
 ### Methods
 
-- [afterStep](common.Hooks.md#afterstep)
-- [beforeStep](common.Hooks.md#beforestep)
-- [beforeTag](common.Hooks.md#beforetag)
+- [afterStep](index.Hooks.md#afterstep)
+- [beforeStep](index.Hooks.md#beforestep)
+- [beforeTag](index.Hooks.md#beforetag)
 
 ## Constructors
 
@@ -40,7 +40,7 @@ Generic hook library
 
 #### Defined in
 
-[src/common/hooks.ts:23](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/hooks.ts#L23)
+[src/common/hooks.ts:23](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/hooks.ts#L23)
 
 ## Methods
 
@@ -67,7 +67,7 @@ Register a hook that runs after each step.
 
 #### Defined in
 
-[src/common/hooks.ts:49](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/hooks.ts#L49)
+[src/common/hooks.ts:49](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/hooks.ts#L49)
 
 ___
 
@@ -94,7 +94,7 @@ Register a hook that runs before each step.
 
 #### Defined in
 
-[src/common/hooks.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/hooks.ts#L36)
+[src/common/hooks.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/hooks.ts#L36)
 
 ___
 
@@ -122,4 +122,4 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/hooks.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/hooks.ts#L73)
+[src/common/hooks.ts:73](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/hooks.ts#L73)

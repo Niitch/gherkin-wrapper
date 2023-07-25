@@ -4,11 +4,20 @@
 
 ## Table of contents
 
+### References
+
+- [JestLibrary](jest.md#jestlibrary)
+
 ### Classes
 
-- [JestLibrary](../classes/jest.JestLibrary.md)
 - [JestWrapper](../classes/jest.JestWrapper.md)
 
 ### Interfaces
 
 - [WrapperOptions](../interfaces/jest.WrapperOptions.md)
+
+## References
+
+### JestLibrary
+
+Re-exports [JestLibrary](../classes/index.JestLibrary.md)

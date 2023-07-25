@@ -16,9 +16,9 @@ Generic step function library
 
 - **`Library`**
 
-  ↳ [`PlaywrightLibrary`](playwright.PlaywrightLibrary.md)
+  ↳ [`PlaywrightLibrary`](index.PlaywrightLibrary.md)
 
-  ↳ [`JestLibrary`](jest.JestLibrary.md)
+  ↳ [`JestLibrary`](index.JestLibrary.md)
 
 ## Table of contents
 
@@ -49,7 +49,7 @@ Generic step function library
 
 #### Defined in
 
-[src/common/library.ts:52](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/library.ts#L52)
+[src/common/library.ts:52](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L52)
 
 ## Methods
 
@@ -80,7 +80,7 @@ Functions registered using a given|when|then method are prioritized over functio
 
 #### Defined in
 
-[src/common/library.ts:101](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/library.ts#L101)
+[src/common/library.ts:101](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L101)
 
 ___
 
@@ -107,7 +107,7 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 #### Defined in
 
-[src/common/library.ts:64](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/library.ts#L64)
+[src/common/library.ts:64](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L64)
 
 ___
 
@@ -134,7 +134,7 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 #### Defined in
 
-[src/common/library.ts:88](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/library.ts#L88)
+[src/common/library.ts:88](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L88)
 
 ___
 
@@ -161,4 +161,4 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 #### Defined in
 
-[src/common/library.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/library.ts#L76)
+[src/common/library.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L76)

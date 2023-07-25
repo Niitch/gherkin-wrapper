@@ -4,6 +4,12 @@
 
 ## Table of contents
 
+### Classes
+
+- [Hooks](../classes/index.Hooks.md)
+- [JestLibrary](../classes/index.JestLibrary.md)
+- [PlaywrightLibrary](../classes/index.PlaywrightLibrary.md)
+
 ### Variables
 
 - [default](index.md#default)
@@ -23,4 +29,4 @@
 
 #### Defined in
 
-[src/index.ts:4](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/index.ts#L4)
+[src/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/index.ts#L5)

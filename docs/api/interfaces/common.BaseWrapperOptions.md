@@ -25,11 +25,11 @@ The minimal wrapper options
 
 ### hooks
 
-• `Optional` **hooks**: [`Hooks`](../classes/common.Hooks.md)<`any`\>
+• `Optional` **hooks**: [`Hooks`](../classes/index.Hooks.md)<`any`\>
 
 #### Defined in
 
-[src/common/index.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/index.ts#L61)
+[src/common/index.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L61)
 
 ___
 
@@ -39,4 +39,4 @@ ___
 
 #### Defined in
 
-[src/common/index.ts:60](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/common/index.ts#L60)
+[src/common/index.ts:60](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L60)

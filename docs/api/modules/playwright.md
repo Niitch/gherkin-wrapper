@@ -4,9 +4,12 @@
 
 ## Table of contents
 
+### References
+
+- [PlaywrightLibrary](playwright.md#playwrightlibrary)
+
 ### Classes
 
-- [PlaywrightLibrary](../classes/playwright.PlaywrightLibrary.md)
 - [PlaywrightWrapper](../classes/playwright.PlaywrightWrapper.md)
 
 ### Interfaces
@@ -18,6 +21,12 @@
 - [PlaywrightBaseTestObject](playwright.md#playwrightbasetestobject)
 - [RunnerArgs](playwright.md#runnerargs)
 
+## References
+
+### PlaywrightLibrary
+
+Re-exports [PlaywrightLibrary](../classes/index.PlaywrightLibrary.md)
+
 ## Type Aliases
 
 ### PlaywrightBaseTestObject
@@ -28,7 +37,7 @@ Type of the default playwright test object
 
 #### Defined in
 
-[src/playwright/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/playwright/index.ts#L5)
+[src/playwright/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/playwright/index.ts#L5)
 
 ___
 
@@ -47,4 +56,4 @@ For Playwright, it is the fixtures object usually passed as first parameters to 
 
 #### Defined in
 
-[src/playwright/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/1cd6560/src/playwright/index.ts#L13)
+[src/playwright/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/playwright/index.ts#L13)
