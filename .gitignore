@@ -2,8 +2,8 @@ node_modules
 lib
 
 # playwright
-playwright-report
-test-results
+tests/playwright/report
+tests/playwright/test-results
 
 # jest
 tests/jest/coverage

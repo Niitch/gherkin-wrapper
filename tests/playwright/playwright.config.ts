@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   // Look for test files in the "tests" directory, relative to this configuration file.
   testDir: '.',
+  outputDir: './test-results',
 
   // Run all tests in parallel.
   fullyParallel: true,
@@ -17,7 +18,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   // Reporter to use
-  reporter: 'html',
+  reporter: [['html', { outputFolder: './report' }]],
 
   use: {
   },
