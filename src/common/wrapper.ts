@@ -2,7 +2,7 @@ import { Library, usableStepType } from './library';
 import { Background, Feature, Rule, Scenario, Step } from '@cucumber/messages';
 import { parse } from './parser';
 import { Hooks } from './hooks';
-import { BaseWrapperOptions } from '.';
+import { BaseWrapperOptions, HookEffect } from '.';
 
 /**
  * Generic gherkin wrapper
@@ -54,6 +54,11 @@ export abstract class Wrapper<RunnerArgs, Options extends BaseWrapperOptions = B
    * @group Methods
    */
   beforeTag: typeof this.hooks.beforeTag = this.hooks.beforeTag.bind(this.hooks);
+  /**
+   * {@inheritDoc common!Hooks#afterTag}
+   * @group Methods
+   */
+  afterTag: typeof this.hooks.afterTag = this.hooks.afterTag.bind(this.hooks);
   /**
    * {@inheritDoc common!Hooks#beforeStep}
    * @group Methods

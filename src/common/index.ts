@@ -61,10 +61,16 @@ export interface BaseWrapperOptions {
   hooks?: Hooks<any>;
 }
 
+export interface HookEffect {
+  concurrent?: boolean;
+}
+
 /**
  * Type of a tag related hook
  */
-export type TagHook = (hookArgs: { target: Feature | Rule | Scenario }) => any;
+export type TagHook = (hookArgs: {
+  target: Feature | Rule | Scenario;
+}) => HookEffect | Promise<HookEffect | void> | void;
 
 /**
  * Type of a step hook
@@ -79,7 +85,7 @@ export type StepHook<RunnerArgs> = (
   hookArgs: { target: Step; fn?: StepFunction<RunnerArgs> },
   runnerOrWrapperArgs: RunnerArgs extends null | undefined ? WrapperArgs : WithDefault<RunnerArgs, undefined>,
   wrapperArgs?: WrapperArgs,
-) => any;
+) => HookEffect | Promise<HookEffect | void> | void;
 
 export { Library } from './library';
 export { Wrapper } from './wrapper';

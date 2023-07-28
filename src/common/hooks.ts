@@ -1,4 +1,5 @@
-import { StepHook, TagHook } from '.';
+import { Feature, Rule, Scenario } from '@cucumber/messages';
+import { HookEffect, StepHook, TagHook } from '.';
 
 /**
  * Generic hook library
@@ -21,7 +22,7 @@ export class Hooks<RunnerArgs> {
    * @typeParam RunnerArgs Type of the object holding the runner arguments and passed to the {@link StepHook | step related hooks}
    */
   constructor() {
-    // nothing to do
+    // nothing to do - doc only
   }
 
   /**
@@ -51,32 +52,64 @@ export class Hooks<RunnerArgs> {
   }
 
   /** @internal */
-  triggerLifecycle(name: keyof typeof this._lifecycleBased, ...args: Parameters<StepHook<RunnerArgs>>) {
-    return this._lifecycleBased[name].map((hook) => hook(...args));
+  async triggerLifecycle(name: keyof typeof this._lifecycleBased, ...args: Parameters<StepHook<RunnerArgs>>) {
+    const effects = await Promise.all(this._lifecycleBased[name].map((hook) => hook(...args)));
+    return effects.reduce((prev, effect) => ({ ...prev, ...effect }), {});
   }
 
   /** @internal Tag based hooks */
   private _tagBased: {
-    [tag: string]: TagHook[];
-  } = {};
+    [type in 'before' | 'after']: { [tag: string]: TagHook[] };
+  } = { before: {}, after: {} };
 
   /**
    * Register a hook that runs before each Feature|Rule|Scenario having a given tag.
    *
    * @remarks
    * - You can register multiple hooks for the same tag.
-   * - The hook runs within the test.describe or test block.
+   * - The hook runs within the describe or test block.
+   * - Effects of async hooks are ignored for Features and Rules
    *
    * @param tag the tag
    * @param callback the hook function
    */
-  beforeTag(tag: string, callback: TagHook) {
-    if (this._tagBased[tag]) this._tagBased[tag].push(callback);
-    else this._tagBased[tag] = [callback];
+  beforeTag = this._registerTagHook.bind(this, 'before');
+
+  /**
+   * Register a hook that runs after each Feature|Rule|Scenario having a given tag.
+   *
+   * @remarks
+   * - You can register multiple hooks for the same tag.
+   * - The hook runs within the describe or test block.
+   * - Effects of async hooks are ignored for Features and Rules
+   *
+   * @param tag the tag
+   * @param callback the hook function
+   */
+  afterTag = this._registerTagHook.bind(this, 'after');
+
+  /** @internal */
+  private _registerTagHook(type: 'before' | 'after', tag: string, callback: TagHook) {
+    if (this._tagBased[type][tag]) this._tagBased[type][tag].push(callback);
+    else this._tagBased[type][tag] = [callback];
   }
 
   /** @internal */
-  triggerTag(name: string, ...args: Parameters<TagHook>) {
-    return this._tagBased[name]?.map((hook) => hook(...args));
+  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: { target: Feature | Rule }): HookEffect;
+  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: { target: Scenario }): Promise<HookEffect>;
+  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: Parameters<TagHook>[0]) {
+    const selectedHooks = Object.entries(this._tagBased[type]).reduce(
+      (selected, [tag, hooks]) => (tags.includes(tag) ? [...selected, ...hooks] : selected),
+      [] as TagHook[],
+    );
+    if (hookArgs.target instanceof Scenario)
+      return Promise.all(selectedHooks.map((hook) => hook(hookArgs))).then((effects) =>
+        effects.reduce((prev, effect) => ({ ...prev, ...effect }), {} as HookEffect),
+      );
+    return selectedHooks.reduce((effect, hook) => {
+      const newEffect = hook(hookArgs);
+      if (newEffect instanceof Promise) return effect; // ignore effects of async hooks
+      return { ...effect, ...newEffect };
+    }, {} as HookEffect);
   }
 }

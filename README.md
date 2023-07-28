@@ -96,6 +96,6 @@ _**Roadmap**_
 
 - [x] Wrapper for Playwright
 - [x] Wrapper for Jest
-- [ ] Hook effects
+- [x] Hook effects
 - [ ] Concurrency
 - [ ] Wrapper for Vitest

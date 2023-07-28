@@ -1,6 +1,6 @@
 import { LibraryMethodByStepType } from '../common/library';
-import { Background, Feature, Location, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
-import { Wrapper as Base, StepFunction, StepHook, WithDefault, WrapperArgs } from '../common';
+import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
+import { Wrapper as Base, StepFunction, StepHook, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { PlaywrightBaseTestObject, RunnerArgs, WrapperOptions } from '.';
 import { cloneDeep } from 'lodash';
@@ -91,21 +91,39 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
   /** @internal */
   protected runFeature(feature: Feature) {
     this._describe(feature.location, feature.name, () => {
-      for (const { name: tag } of feature.tags) this.hooks.triggerTag(tag, { target: feature });
+      const beforeEffect = this.hooks.triggerTags(
+        'before',
+        feature.tags.map((tag) => tag.name),
+        { target: feature },
+      );
       for (const child of feature.children)
         if (child.rule) this.runRule(child.rule);
         else if (child.background) this.runBackground(child.background);
         else if (child.scenario) this.runScenario(child.scenario);
+      const afterEffect = this.hooks.triggerTags(
+        'after',
+        feature.tags.map((tag) => tag.name),
+        { target: feature },
+      );
     });
   }
 
   /** @internal */
   protected runRule(rule: Rule) {
     this._describe(rule.location, rule.name, () => {
-      for (const { name: tag } of rule.tags) this.hooks.triggerTag(tag, { target: rule });
+      const beforeEffect = this.hooks.triggerTags(
+        'before',
+        rule.tags.map((tag) => tag.name),
+        { target: rule },
+      );
       for (const child of rule.children)
         if (child.scenario) this.runScenario(child.scenario);
         else if (child.background) this.runBackground(child.background);
+      const afterEffect = this.hooks.triggerTags(
+        'after',
+        rule.tags.map((tag) => tag.name),
+        { target: rule },
+      );
     });
   }
 
@@ -159,8 +177,17 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
       scenario.name,
       provideFixture(async (runnerArgs: RunnerArgs<T>) => {
         if (outline) this._info().annotations.push({ type: 'Built from scenario outline', description: outline.name });
-        for (const { name: tag } of scenario.tags) this.hooks.triggerTag(tag, { target: scenario });
+        const beforeEffect = await this.hooks.triggerTags(
+          'before',
+          scenario.tags.map((tag) => tag.name),
+          { target: scenario },
+        );
         for (const s of steps) await this.runStep({ ...s, runnerArgs });
+        const afterEffect = await this.hooks.triggerTags(
+          'after',
+          scenario.tags.map((tag) => tag.name),
+          { target: scenario },
+        );
       }),
     );
   }
@@ -170,13 +197,11 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
     type RuntimeRunnerArgs = Parameters<StepFunction<RunnerArgs<T>>>[0] & Parameters<StepHook<RunnerArgs<T>>>[1];
 
     await this._step(args.step.location, args.step.keyword + args.step.text, async () => {
-      await Promise.all(
-        this.hooks.triggerLifecycle(
-          'beforeStep',
-          { target: args.step, fn: args.fn },
-          args.runnerArgs as RuntimeRunnerArgs,
-          args.wrapperArgs as WrapperArgs,
-        ),
+      const beforeEffect = this.hooks.triggerLifecycle(
+        'beforeStep',
+        { target: args.step, fn: args.fn },
+        args.runnerArgs as RuntimeRunnerArgs,
+        args.wrapperArgs as WrapperArgs,
       );
       await args.fn?.(args.runnerArgs as RuntimeRunnerArgs, {
         ...(args.wrapperArgs as WrapperArgs),
@@ -184,13 +209,11 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
         dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
         docString: args.step.docString?.content,
       });
-      await Promise.all(
-        this.hooks.triggerLifecycle(
-          'afterStep',
-          { target: args.step, fn: args.fn },
-          args.runnerArgs as RuntimeRunnerArgs,
-          args.wrapperArgs as WrapperArgs,
-        ),
+      const afterEffect = await this.hooks.triggerLifecycle(
+        'afterStep',
+        { target: args.step, fn: args.fn },
+        args.runnerArgs as RuntimeRunnerArgs,
+        args.wrapperArgs as WrapperArgs,
       );
     });
   }

@@ -61,21 +61,39 @@ export class JestWrapper extends Base<null> {
   /** @internal */
   protected runFeature(feature: Feature) {
     describe(feature.name, () => {
-      for (const { name: tag } of feature.tags) this.hooks.triggerTag(tag, { target: feature });
+      const beforeEffect = this.hooks.triggerTags(
+        'before',
+        feature.tags.map((tag) => tag.name),
+        { target: feature },
+      );
       for (const child of feature.children)
         if (child.rule) this.runRule(child.rule);
         else if (child.background) this.runBackground(child.background);
         else if (child.scenario) this.runScenario(child.scenario);
+      const afterEffect = this.hooks.triggerTags(
+        'after',
+        feature.tags.map((tag) => tag.name),
+        { target: feature },
+      );
     });
   }
 
   /** @internal */
   protected runRule(rule: Rule) {
     describe(rule.name, () => {
-      for (const { name: tag } of rule.tags) this.hooks.triggerTag(tag, { target: rule });
+      const beforeEffect = this.hooks.triggerTags(
+        'before',
+        rule.tags.map((tag) => tag.name),
+        { target: rule },
+      );
       for (const child of rule.children)
         if (child.scenario) this.runScenario(child.scenario);
         else if (child.background) this.runBackground(child.background);
+      const afterEffect = this.hooks.triggerTags(
+        'after',
+        rule.tags.map((tag) => tag.name),
+        { target: rule },
+      );
     });
   }
 
@@ -120,15 +138,26 @@ export class JestWrapper extends Base<null> {
     const steps = this.prepareSteps(scenario);
 
     test(scenario.name, async () => {
-      for (const { name: tag } of scenario.tags) this.hooks.triggerTag(tag, { target: scenario });
+      const beforeEffect = await this.hooks.triggerTags(
+        'before',
+        scenario.tags.map((tag) => tag.name),
+        { target: scenario },
+      );
       for (const s of steps) await this.runStep({ ...s });
+      const afterEffect = await this.hooks.triggerTags(
+        'after',
+        scenario.tags.map((tag) => tag.name),
+        { target: scenario },
+      );
     });
   }
 
   /** @internal */
   protected async runStep(args: StepRunnerArgs) {
-    await Promise.all(
-      this.hooks.triggerLifecycle('beforeStep', { target: args.step, fn: args.fn }, args.wrapperArgs as WrapperArgs),
+    const beforeEffect = await this.hooks.triggerLifecycle(
+      'beforeStep',
+      { target: args.step, fn: args.fn },
+      args.wrapperArgs as WrapperArgs,
     );
     await args.fn?.({
       ...(args.wrapperArgs as WrapperArgs),
@@ -136,8 +165,10 @@ export class JestWrapper extends Base<null> {
       dataTable: args.step.dataTable ? new DataTable(args.step.dataTable) : undefined,
       docString: args.step.docString?.content,
     });
-    await Promise.all(
-      this.hooks.triggerLifecycle('afterStep', { target: args.step, fn: args.fn }, args.wrapperArgs as WrapperArgs),
+    const afterEffect = await this.hooks.triggerLifecycle(
+      'afterStep',
+      { target: args.step, fn: args.fn },
+      args.wrapperArgs as WrapperArgs,
     );
   }
 
