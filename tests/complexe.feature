@@ -14,6 +14,7 @@ Feature: Web page
   Background: Using chrome inside
   Given the browser is "chrome"
 
+    @concurent
     Scenario Outline: Has expected title
       Given i am on the <url> website home page
       Then the page title should contain <title>

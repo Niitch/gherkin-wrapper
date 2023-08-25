@@ -95,14 +95,19 @@ export class Hooks<RunnerArgs> {
   }
 
   /** @internal */
-  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: { target: Feature | Rule }): HookEffect;
-  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: { target: Scenario }): Promise<HookEffect>;
-  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: Parameters<TagHook>[0]) {
+  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: { target: Feature | Rule | Scenario }): HookEffect;
+  triggerTags(
+    type: 'before' | 'after',
+    tags: string[],
+    hookArgs: { target: Scenario },
+    async: true,
+  ): Promise<HookEffect>;
+  triggerTags(type: 'before' | 'after', tags: string[], hookArgs: Parameters<TagHook>[0], async = false) {
     const selectedHooks = Object.entries(this._tagBased[type]).reduce(
       (selected, [tag, hooks]) => (tags.includes(tag) ? [...selected, ...hooks] : selected),
       [] as TagHook[],
     );
-    if (hookArgs.target instanceof Scenario)
+    if (hookArgs.target instanceof Scenario && async)
       return Promise.all(selectedHooks.map((hook) => hook(hookArgs))).then((effects) =>
         effects.reduce((prev, effect) => ({ ...prev, ...effect }), {} as HookEffect),
       );

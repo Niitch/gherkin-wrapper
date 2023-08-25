@@ -1,6 +1,6 @@
 import { LibraryMethodByStepType } from '../common/library';
 import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
-import { Wrapper as Base, StepFunction, StepHook, WrapperArgs } from '../common';
+import { Wrapper as Base, HookEffect, StepFunction, StepHook, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { PlaywrightBaseTestObject, RunnerArgs, WrapperOptions } from '.';
 import { cloneDeep } from 'lodash';
@@ -99,7 +99,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
       for (const child of feature.children)
         if (child.rule) this.runRule(child.rule);
         else if (child.background) this.runBackground(child.background);
-        else if (child.scenario) this.runScenario(child.scenario);
+        else if (child.scenario) this.runScenario(child.scenario, beforeEffect);
       const afterEffect = this.hooks.triggerTags(
         'after',
         feature.tags.map((tag) => tag.name),
@@ -117,7 +117,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
         { target: rule },
       );
       for (const child of rule.children)
-        if (child.scenario) this.runScenario(child.scenario);
+        if (child.scenario) this.runScenario(child.scenario, beforeEffect);
         else if (child.background) this.runBackground(child.background);
       const afterEffect = this.hooks.triggerTags(
         'after',
@@ -162,11 +162,11 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
           scenarios.push(scenario);
         });
 
-    for (const s of scenarios) this.runScenario(s, scenarioOutline);
+    for (const s of scenarios) this.runScenario(s, {}, scenarioOutline);
   }
 
   /** @internal */
-  protected runScenario(scenario: Scenario, outline?: Scenario) {
+  protected runScenario(scenario: Scenario, _: HookEffect, outline?: Scenario) {
     if (scenario.examples.length) return this.runScenarioOutline(scenario);
 
     const steps = this.prepareSteps(scenario);
@@ -181,12 +181,14 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
           'before',
           scenario.tags.map((tag) => tag.name),
           { target: scenario },
+          true,
         );
         for (const s of steps) await this.runStep({ ...s, runnerArgs });
         const afterEffect = await this.hooks.triggerTags(
           'after',
           scenario.tags.map((tag) => tag.name),
           { target: scenario },
+          true,
         );
       }),
     );

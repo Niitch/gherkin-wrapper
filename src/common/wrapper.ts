@@ -96,9 +96,9 @@ export abstract class Wrapper<RunnerArgs, Options extends BaseWrapperOptions = B
   /** @internal */
   protected abstract runRule(scenario: Rule): void;
   /** @internal */
-  protected abstract runScenarioOutline(scenarioOutline: Scenario): void;
+  protected abstract runScenarioOutline(scenarioOutline: Scenario, effect: HookEffect): void;
   /** @internal */
-  protected abstract runScenario(scenario: Scenario): void;
+  protected abstract runScenario(scenario: Scenario, effect: HookEffect, outline?: Scenario): void;
   /** @internal */
   protected abstract runStep(...args: any[]): void;
 }

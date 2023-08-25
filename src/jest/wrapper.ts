@@ -1,6 +1,6 @@
 import { LibraryMethodByStepType } from '../common/library';
 import { Background, Feature, Location, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
-import { Wrapper as Base, StepFunction, WrapperArgs } from '../common';
+import { Wrapper as Base, HookEffect, StepFunction, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { WrapperOptions } from '.';
 import { cloneDeep } from 'lodash';
@@ -69,7 +69,10 @@ export class JestWrapper extends Base<null> {
       for (const child of feature.children)
         if (child.rule) this.runRule(child.rule);
         else if (child.background) this.runBackground(child.background);
-        else if (child.scenario) this.runScenario(child.scenario);
+        else if (child.scenario) {
+          if (child.scenario.examples.length) this.runScenarioOutline(child.scenario, beforeEffect);
+          else this.runScenario(child.scenario, beforeEffect);
+        }
       const afterEffect = this.hooks.triggerTags(
         'after',
         feature.tags.map((tag) => tag.name),
@@ -87,8 +90,10 @@ export class JestWrapper extends Base<null> {
         { target: rule },
       );
       for (const child of rule.children)
-        if (child.scenario) this.runScenario(child.scenario);
-        else if (child.background) this.runBackground(child.background);
+        if (child.scenario) {
+          if (child.scenario.examples.length) this.runScenarioOutline(child.scenario, beforeEffect);
+          else this.runScenario(child.scenario, beforeEffect);
+        } else if (child.background) this.runBackground(child.background);
       const afterEffect = this.hooks.triggerTags(
         'after',
         rule.tags.map((tag) => tag.name),
@@ -107,7 +112,7 @@ export class JestWrapper extends Base<null> {
   }
 
   /** @internal */
-  protected runScenarioOutline(scenarioOutline: Scenario) {
+  protected runScenarioOutline(scenarioOutline: Scenario, effect: HookEffect) {
     const scenarios: Scenario[] = [];
 
     for (const ex of scenarioOutline.examples)
@@ -128,28 +133,42 @@ export class JestWrapper extends Base<null> {
           scenarios.push(scenario);
         });
 
-    for (const s of scenarios) this.runScenario(s, scenarioOutline);
+    const beforeEffect = this.hooks.triggerTags(
+      'before',
+      scenarioOutline.tags.map((tag) => tag.name),
+      { target: scenarioOutline },
+    );
+    for (const s of scenarios) this.runScenario(s, { ...effect, ...beforeEffect }, scenarioOutline);
+    const afterEffect = this.hooks.triggerTags(
+      'after',
+      scenarioOutline.tags.map((tag) => tag.name),
+      { target: scenarioOutline },
+    );
   }
 
   /** @internal */
-  protected runScenario(scenario: Scenario, outline?: Scenario) {
-    if (scenario.examples.length) return this.runScenarioOutline(scenario);
-
+  protected runScenario(scenario: Scenario, effect: HookEffect, outline?: Scenario) {
     const steps = this.prepareSteps(scenario);
 
-    test(scenario.name, async () => {
+    const runner = async () => {
       const beforeEffect = await this.hooks.triggerTags(
         'before',
         scenario.tags.map((tag) => tag.name),
         { target: scenario },
+        true,
       );
       for (const s of steps) await this.runStep({ ...s });
       const afterEffect = await this.hooks.triggerTags(
         'after',
         scenario.tags.map((tag) => tag.name),
         { target: scenario },
+        true,
       );
-    });
+    };
+
+    if (effect.concurrent) {
+      test.concurrent(scenario.name, runner);
+    } else test(scenario.name, runner);
   }
 
   /** @internal */
