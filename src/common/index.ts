@@ -62,6 +62,11 @@ export interface BaseWrapperOptions {
 }
 
 export interface HookEffect {
+  /**
+   * Run scenarios concurrently
+   * @remark Jest only
+   * @remark Feature and Rule only
+   */
   concurrent?: boolean;
 }
 

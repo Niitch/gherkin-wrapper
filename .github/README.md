@@ -36,9 +36,11 @@ _**Roadmap**_
 
 - [x] Wrapper for Playwright
 - [x] Wrapper for Jest
-- [ ] Hook effects
-- [ ] Concurrency
+- [x] Setup for hook effects
+- [x] Concurrency for Jest (hook effect)
 - [ ] Wrapper for Vitest
+- [ ] Hook presets
+- [ ] More hook effects
 
 ---
 

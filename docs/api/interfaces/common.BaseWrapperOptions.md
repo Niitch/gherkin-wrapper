@@ -29,7 +29,7 @@ The minimal wrapper options
 
 #### Defined in
 
-[src/common/index.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L61)
+[src/common/index.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L61)
 
 ___
 
@@ -39,4 +39,4 @@ ___
 
 #### Defined in
 
-[src/common/index.ts:60](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L60)
+[src/common/index.ts:60](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L60)

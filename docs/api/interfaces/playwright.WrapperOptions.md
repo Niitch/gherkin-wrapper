@@ -46,7 +46,7 @@ Here `foo` has its own library while `bar` and `baz` share one.
 
 #### Defined in
 
-[src/playwright/index.ts:52](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/playwright/index.ts#L52)
+[src/playwright/index.ts:52](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/playwright/index.ts#L52)
 
 ___
 
@@ -75,4 +75,4 @@ Here `foo` has its own library while `bar` and `baz` share one.
 
 #### Defined in
 
-[src/playwright/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/playwright/index.ts#L34)
+[src/playwright/index.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/playwright/index.ts#L34)

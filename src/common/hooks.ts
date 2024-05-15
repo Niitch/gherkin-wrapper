@@ -94,7 +94,6 @@ export class Hooks<RunnerArgs> {
     else this._tagBased[type][tag] = [callback];
   }
 
-  /** @internal */
   triggerTags(type: 'before' | 'after', tags: string[], hookArgs: { target: Feature | Rule | Scenario }): HookEffect;
   triggerTags(
     type: 'before' | 'after',
@@ -102,6 +101,7 @@ export class Hooks<RunnerArgs> {
     hookArgs: { target: Scenario },
     async: true,
   ): Promise<HookEffect>;
+  /** @internal */
   triggerTags(type: 'before' | 'after', tags: string[], hookArgs: Parameters<TagHook>[0], async = false) {
     const selectedHooks = Object.entries(this._tagBased[type]).reduce(
       (selected, [tag, hooks]) => (tags.includes(tag) ? [...selected, ...hooks] : selected),

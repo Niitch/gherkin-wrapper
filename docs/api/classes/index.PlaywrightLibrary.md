@@ -77,7 +77,7 @@ const library = new GherkinWrapper.forPlaywright(test, { library })
 
 #### Defined in
 
-[src/playwright/library.ts:37](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/playwright/library.ts#L37)
+[src/playwright/library.ts:37](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/playwright/library.ts#L37)
 
 ## Methods
 
@@ -112,7 +112,7 @@ Functions registered using a given|when|then method are prioritized over functio
 
 #### Defined in
 
-[src/common/library.ts:101](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L101)
+[src/common/library.ts:101](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L101)
 
 ___
 
@@ -143,7 +143,7 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 #### Defined in
 
-[src/common/library.ts:64](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L64)
+[src/common/library.ts:64](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L64)
 
 ___
 
@@ -174,7 +174,7 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 #### Defined in
 
-[src/common/library.ts:88](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L88)
+[src/common/library.ts:88](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L88)
 
 ___
 
@@ -205,4 +205,4 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 #### Defined in
 
-[src/common/library.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/library.ts#L76)
+[src/common/library.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L76)

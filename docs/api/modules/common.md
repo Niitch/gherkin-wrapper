@@ -16,6 +16,7 @@
 ### Interfaces
 
 - [BaseWrapperOptions](../interfaces/common.BaseWrapperOptions.md)
+- [HookEffect](../interfaces/common.HookEffect.md)
 - [TestSpec](../interfaces/common.TestSpec.md)
 - [WrapperArgs](../interfaces/common.WrapperArgs.md)
 
@@ -47,7 +48,7 @@ Type helper that represents any object.
 
 #### Defined in
 
-[src/common/index.ts:20](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L20)
+[src/common/index.ts:20](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L20)
 
 ___
 
@@ -73,13 +74,13 @@ an object holding arguments provided by the wrapper
 
 #### Defined in
 
-[src/common/index.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L40)
+[src/common/index.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L40)
 
 ___
 
 ### StepHook
 
-Ƭ **StepHook**<`RunnerArgs`\>: (`hookArgs`: { `fn?`: [`StepFunction`](common.md#stepfunction)<`RunnerArgs`\> ; `target`: `Step`  }, `runnerOrWrapperArgs`: `RunnerArgs` extends ``null`` \| `undefined` ? [`WrapperArgs`](../interfaces/common.WrapperArgs.md) : [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\>, `wrapperArgs?`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`
+Ƭ **StepHook**<`RunnerArgs`\>: (`hookArgs`: { `fn?`: [`StepFunction`](common.md#stepfunction)<`RunnerArgs`\> ; `target`: `Step`  }, `runnerOrWrapperArgs`: `RunnerArgs` extends ``null`` \| `undefined` ? [`WrapperArgs`](../interfaces/common.WrapperArgs.md) : [`WithDefault`](common.md#withdefault)<`RunnerArgs`, `undefined`\>, `wrapperArgs?`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => [`HookEffect`](../interfaces/common.HookEffect.md) \| `Promise`<[`HookEffect`](../interfaces/common.HookEffect.md) \| `void`\> \| `void`
 
 #### Type parameters
 
@@ -89,7 +90,7 @@ ___
 
 #### Type declaration
 
-▸ (`hookArgs`, `runnerOrWrapperArgs`, `wrapperArgs?`): `any`
+▸ (`hookArgs`, `runnerOrWrapperArgs`, `wrapperArgs?`): [`HookEffect`](../interfaces/common.HookEffect.md) \| `Promise`<[`HookEffect`](../interfaces/common.HookEffect.md) \| `void`\> \| `void`
 
 Type of a step hook
 
@@ -105,21 +106,21 @@ Type of a step hook
 
 ##### Returns
 
-`any`
+[`HookEffect`](../interfaces/common.HookEffect.md) \| `Promise`<[`HookEffect`](../interfaces/common.HookEffect.md) \| `void`\> \| `void`
 
 #### Defined in
 
-[src/common/index.ts:78](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L78)
+[src/common/index.ts:84](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L84)
 
 ___
 
 ### TagHook
 
-Ƭ **TagHook**: (`hookArgs`: { `target`: `Feature` \| `Rule` \| `Scenario`  }) => `any`
+Ƭ **TagHook**: (`hookArgs`: { `target`: `Feature` \| `Rule` \| `Scenario`  }) => [`HookEffect`](../interfaces/common.HookEffect.md) \| `Promise`<[`HookEffect`](../interfaces/common.HookEffect.md) \| `void`\> \| `void`
 
 #### Type declaration
 
-▸ (`hookArgs`): `any`
+▸ (`hookArgs`): [`HookEffect`](../interfaces/common.HookEffect.md) \| `Promise`<[`HookEffect`](../interfaces/common.HookEffect.md) \| `void`\> \| `void`
 
 Type of a tag related hook
 
@@ -132,11 +133,11 @@ Type of a tag related hook
 
 ##### Returns
 
-`any`
+[`HookEffect`](../interfaces/common.HookEffect.md) \| `Promise`<[`HookEffect`](../interfaces/common.HookEffect.md) \| `void`\> \| `void`
 
 #### Defined in
 
-[src/common/index.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L67)
+[src/common/index.ts:71](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L71)
 
 ___
 
@@ -155,4 +156,4 @@ Type helper that hints a default type for unknown members of an object
 
 #### Defined in
 
-[src/common/index.ts:27](https://github.com/Niitch/gherkin-wrapper/blob/967a43d/src/common/index.ts#L27)
+[src/common/index.ts:27](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L27)
