@@ -100,5 +100,5 @@ export abstract class Wrapper<RunnerArgs, Options extends BaseWrapperOptions = B
   /** @internal */
   protected abstract runScenario(scenario: Scenario, effect: HookEffect, outline?: Scenario): void;
   /** @internal */
-  protected abstract runStep(...args: any[]): void;
+  protected abstract runStep(...args: any[]): void; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

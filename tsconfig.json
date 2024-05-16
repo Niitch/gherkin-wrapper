@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "target": "es5",
+      "target": "es2019",
       "module": "CommonJS",
       "declaration": true,
       "declarationMap": false,
@@ -8,6 +8,7 @@
       "strict": true,
       "stripInternal": true,
       "downlevelIteration": true,
+      "esModuleInterop": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "tests"]

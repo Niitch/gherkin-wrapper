@@ -11,7 +11,7 @@ export type PlaywrightBaseTestObject = typeof test;
  * @typeParam PlaywrightTestObject Type of the playwright test object
  */
 export type RunnerArgs<PlaywrightTestObject extends PlaywrightBaseTestObject> = Parameters<
-  Parameters<PlaywrightTestObject>[1]
+  Parameters<PlaywrightTestObject>[2]
 >[0];
 
 export interface WrapperOptions extends BaseWrapperOptions {

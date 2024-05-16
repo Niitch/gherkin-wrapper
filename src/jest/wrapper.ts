@@ -1,9 +1,9 @@
 import { LibraryMethodByStepType } from '../common/library';
-import { Background, Feature, Location, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
+import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cucumber/messages';
 import { Wrapper as Base, HookEffect, StepFunction, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { WrapperOptions } from '.';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 
 /** @internal */
 interface StepRunnerArgs {

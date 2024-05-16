@@ -2,6 +2,10 @@
 
 Make any test framework handle the Gherkin format.
 
+__Supported test runners :__
+- Playwright 1.44.0 and above
+- Jest 29.7.0 and above
+
 ## Usage
 
 Given the following feature file:

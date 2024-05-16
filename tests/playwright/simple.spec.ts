@@ -8,7 +8,7 @@ interface fixture {
 
 const test = base.extend<fixture>({
     value: async ({}, use) => {
-        await use('go')
+        await use('go').catch()
     }
 })
 

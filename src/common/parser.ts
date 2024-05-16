@@ -34,14 +34,14 @@ function addFileToLocations<T extends GherkinDocument | Feature | Rule | Scenari
   return o;
 }
 
-function isGherkinDocument(o: any): o is GherkinDocument {
+function isGherkinDocument(o: object): o is GherkinDocument {
   return Object.keys(o).includes('feature');
 }
 
-function isFeatureOrRule(o: any): o is Feature & Rule {
+function isFeatureOrRule(o: object): o is Feature & Rule {
   return Object.keys(o).includes('children');
 }
 
-function isScenarioOrBackground(o: any): o is Scenario & Background {
+function isScenarioOrBackground(o: object): o is Scenario & Background {
   return Object.keys(o).includes('steps');
 }

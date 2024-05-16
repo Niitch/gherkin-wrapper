@@ -3,7 +3,9 @@ import { Background, Feature, Rule, Scenario, Step, StepKeywordType } from '@cuc
 import { Wrapper as Base, HookEffect, StepFunction, StepHook, WrapperArgs } from '../common';
 import { DataTable } from '@cucumber/cucumber';
 import { PlaywrightBaseTestObject, RunnerArgs, WrapperOptions } from '.';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /** @internal */
 type FixtureProvider<T extends PlaywrightBaseTestObject> = (
@@ -17,6 +19,8 @@ interface StepRunnerArgs<T extends RunnerArgs<PlaywrightBaseTestObject>> {
   runnerArgs: T;
   wrapperArgs: WrapperArgs;
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * A GherkinWrapper for the Playwright test runner.
@@ -34,6 +38,8 @@ interface StepRunnerArgs<T extends RunnerArgs<PlaywrightBaseTestObject>> {
  * ```
  */
 export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<RunnerArgs<T>> {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+
   /** @internal */
   private _describe: (location: any, title: string, callback: () => void) => void;
   /** @internal */
@@ -46,6 +52,8 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
   private _fixtures: { fixtures: { [k: string]: any } }[];
   /** @internal */
   private _info: PlaywrightBaseTestObject['info'];
+
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   /**
    * A GherkinWrapper for the Playwright test runner.
@@ -68,22 +76,38 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
     super(options);
 
     const sym = Reflect.ownKeys(testRunner).find((key) => key.toString() === 'Symbol(testType)') as symbol;
-    // @ts-expect-error
+    // @ts-expect-error Reaching playwright internal
     const testRunnerImpl = testRunner[sym];
     this._fixtures = testRunnerImpl.fixtures;
     this._describe = testRunnerImpl._describe.bind(testRunnerImpl, 'default');
     this._createTest = testRunnerImpl._createTest.bind(testRunnerImpl, 'default');
-    this._step = testRunnerImpl._step.bind(testRunnerImpl);
     this._beforeEach = testRunnerImpl._hook.bind(testRunnerImpl, 'beforeEach');
     this._info = testRunner.info.bind(testRunner);
 
+    this._step = async (location, title, body) => {
+      // @ts-expect-error Reaching playwright internal
+      const { zones } = await import('playwright-core/lib/utils');
+      // @ts-expect-error Reaching playwright internal
+      const step = this._info()._addStep({ category: 'test.step', wallTime: Date.now(), title, location });
+      return await zones.run('stepZone', step, async () => {
+        try {
+          const result = await body();
+          step.complete({});
+          return result;
+        } catch (error) {
+          step.complete({ error });
+          throw error;
+        }
+      });
+    };
+
     if (!options?.hooks)
       this.hooks.beforeStep(({ target, fn }) => {
-        testRunner.skip(
+        this._info().skip(
           !fn,
-          `No test function found for step '${target.keyword + target.text}'. Consider adding one using the wrapper ${
+          `No test function found for step '${target.keyword + target.text}'. Consider adding one using the wrapper '${
             LibraryMethodByStepType[target.keywordType as StepKeywordType]
-          } method`,
+          }' method`,
         );
       });
   }
@@ -244,6 +268,7 @@ export class PlaywrightWrapper<T extends PlaywrightBaseTestObject> extends Base<
 }
 
 // playwright functions to identify fixture parameters
+/* eslint-disable */
 
 /** @internal */
 function fixtureParameterNames(fn: any) {
