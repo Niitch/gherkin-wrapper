@@ -16,6 +16,16 @@
 
 • `Optional` **concurrent**: `boolean`
 
+Run scenarios concurrently
+
+**`Remark`**
+
+Jest only
+
+**`Remark`**
+
+Feature and Rule only
+
 #### Defined in
 
-[src/common/index.ts:65](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L65)
+[src/common/index.ts:70](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/index.ts#L70)

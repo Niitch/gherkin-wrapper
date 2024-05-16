@@ -23,7 +23,7 @@ The minimal wrapper options
 
 ### hooks
 
-• `Optional` **hooks**: [`Hooks`](../classes/index.Hooks.md)<`any`\>
+• `Optional` **hooks**: [`Hooks`](../classes/index.Hooks.md)\<`any`\>
 
 A prebuild hook library for the wrapper to start with.
 
@@ -45,13 +45,13 @@ Here `foo` has its own library while `bar` and `baz` share one.
 
 #### Defined in
 
-[src/jest/index.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/jest/index.ts#L36)
+[src/jest/index.ts:36](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/jest/index.ts#L36)
 
 ___
 
 ### library
 
-• `Optional` **library**: [`Library`](../classes/common.Library.md)<`any`\>
+• `Optional` **library**: [`Library`](../classes/common.Library.md)\<`any`\>
 
 A prebuild step function library for the wrapper to start with.
 
@@ -73,4 +73,4 @@ Here `foo` has its own library while `bar` and `baz` share one.
 
 #### Defined in
 
-[src/jest/index.ts:19](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/jest/index.ts#L19)
+[src/jest/index.ts:19](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/jest/index.ts#L19)

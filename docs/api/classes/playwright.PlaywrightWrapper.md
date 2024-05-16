@@ -1,6 +1,6 @@
 [Gherkin wrapper - API Reference](../README.md) / [playwright](../modules/playwright.md) / PlaywrightWrapper
 
-# Class: PlaywrightWrapper<T\>
+# Class: PlaywrightWrapper\<T\>
 
 [playwright](../modules/playwright.md).PlaywrightWrapper
 
@@ -26,7 +26,7 @@ wrapper.test('feature.file')
 
 ## Hierarchy
 
-- [`Wrapper`](common.Wrapper.md)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>
+- [`Wrapper`](common.Wrapper.md)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>
 
   ↳ **`PlaywrightWrapper`**
 
@@ -57,7 +57,7 @@ wrapper.test('feature.file')
 
 ### constructor
 
-• **new PlaywrightWrapper**<`T`\>(`testRunner`, `options?`)
+• **new PlaywrightWrapper**\<`T`\>(`testRunner`, `options?`): [`PlaywrightWrapper`](playwright.PlaywrightWrapper.md)\<`T`\>
 
 A GherkinWrapper for the Playwright test runner.
 
@@ -77,7 +77,7 @@ wrapper.test('feature.file')
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends `TestType`<`PlaywrightTestArgs` & `PlaywrightTestOptions`, `PlaywrightWorkerArgs` & `PlaywrightWorkerOptions`, `T`\> |
+| `T` | extends `TestType`\<`PlaywrightTestArgs` & `PlaywrightTestOptions`, `PlaywrightWorkerArgs` & `PlaywrightWorkerOptions`\> |
 
 #### Parameters
 
@@ -86,19 +86,23 @@ wrapper.test('feature.file')
 | `testRunner` | `T` | a playwright test object |
 | `options?` | [`WrapperOptions`](../interfaces/playwright.WrapperOptions.md) | wrapper options |
 
+#### Returns
+
+[`PlaywrightWrapper`](playwright.PlaywrightWrapper.md)\<`T`\>
+
 #### Overrides
 
 [Wrapper](common.Wrapper.md).[constructor](common.Wrapper.md#constructor)
 
 #### Defined in
 
-[src/playwright/wrapper.ts:67](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/playwright/wrapper.ts#L67)
+[src/playwright/wrapper.ts:75](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/playwright/wrapper.ts#L75)
 
 ## Properties
 
 ### hooks
 
-• `Readonly` **hooks**: [`Hooks`](index.Hooks.md)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>
+• `Readonly` **hooks**: [`Hooks`](index.Hooks.md)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>
 
 The wrapper hook library
 
@@ -108,13 +112,13 @@ The wrapper hook library
 
 #### Defined in
 
-[src/common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L17)
+[src/common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L17)
 
 ___
 
 ### library
 
-• `Readonly` **library**: [`Library`](common.Library.md)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>
+• `Readonly` **library**: [`Library`](common.Library.md)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>
 
 The wrapper step function library
 
@@ -124,17 +128,13 @@ The wrapper step function library
 
 #### Defined in
 
-[src/common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L15)
+[src/common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L15)
 
 ## Methods
 
 ### afterStep
 
-• **afterStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
-
-#### Type declaration
-
-▸ (`callback`): `void`
+• **afterStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>) => `void`
 
 Register a hook that runs after each step.
 
@@ -143,11 +143,15 @@ Register a hook that runs after each step.
 - You can register multiple afterStep hooks.
 - The hook runs within the test.step block.
 
+#### Type declaration
+
+▸ (`callback`): `void`
+
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the hook function |
+| Name | Type |
+| :------ | :------ |
+| `callback` | [`StepHook`](../modules/common.md#stephook)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\> |
 
 ##### Returns
 
@@ -159,17 +163,13 @@ Register a hook that runs after each step.
 
 #### Defined in
 
-[src/common/wrapper.ts:71](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L71)
+[src/common/wrapper.ts:71](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L71)
 
 ___
 
 ### afterTag
 
 • **afterTag**: (...`args`: [tag: string, callback: TagHook]) => `void`
-
-#### Type declaration
-
-▸ (`...args`): `void`
 
 Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 
@@ -178,6 +178,10 @@ Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 - You can register multiple hooks for the same tag.
 - The hook runs within the describe or test block.
 - Effects of async hooks are ignored for Features and Rules
+
+#### Type declaration
+
+▸ (`...args`): `void`
 
 ##### Parameters
 
@@ -195,26 +199,26 @@ Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/wrapper.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L61)
+[src/common/wrapper.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L61)
 
 ___
 
 ### any
 
-• **any**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **any**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>) => `void`
+
+Register a step function to be run against any steps having a text that match a pattern.
 
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against any steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\> |
 
 ##### Returns
 
@@ -226,17 +230,13 @@ Register a step function to be run against any steps having a text that match a 
 
 #### Defined in
 
-[src/common/wrapper.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L50)
+[src/common/wrapper.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L50)
 
 ___
 
 ### beforeStep
 
-• **beforeStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
-
-#### Type declaration
-
-▸ (`callback`): `void`
+• **beforeStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>) => `void`
 
 Register a hook that runs before each step.
 
@@ -245,11 +245,15 @@ Register a hook that runs before each step.
 - You can register multiple beforeStep hooks.
 - The hook runs within the test.step block.
 
+#### Type declaration
+
+▸ (`callback`): `void`
+
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the hook function |
+| Name | Type |
+| :------ | :------ |
+| `callback` | [`StepHook`](../modules/common.md#stephook)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\> |
 
 ##### Returns
 
@@ -261,17 +265,13 @@ Register a hook that runs before each step.
 
 #### Defined in
 
-[src/common/wrapper.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L66)
+[src/common/wrapper.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L66)
 
 ___
 
 ### beforeTag
 
 • **beforeTag**: (...`args`: [tag: string, callback: TagHook]) => `void`
-
-#### Type declaration
-
-▸ (`...args`): `void`
 
 Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
@@ -280,6 +280,10 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 - You can register multiple hooks for the same tag.
 - The hook runs within the describe or test block.
 - Effects of async hooks are ignored for Features and Rules
+
+#### Type declaration
+
+▸ (`...args`): `void`
 
 ##### Parameters
 
@@ -297,26 +301,26 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/wrapper.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L56)
+[src/common/wrapper.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L56)
 
 ___
 
 ### given
 
-• **given**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **given**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>) => `void`
+
+Register a step function to be run against "context" steps having a text that match a pattern.
 
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against "context" steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\> |
 
 ##### Returns
 
@@ -328,26 +332,26 @@ Register a step function to be run against "context" steps having a text that ma
 
 #### Defined in
 
-[src/common/wrapper.ts:35](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L35)
+[src/common/wrapper.ts:35](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L35)
 
 ___
 
 ### then
 
-• **then**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **then**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>) => `void`
+
+Register a step function to be run against "outcome" steps having a text that match a pattern.
 
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against "outcome" steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\> |
 
 ##### Returns
 
@@ -359,26 +363,26 @@ Register a step function to be run against "outcome" steps having a text that ma
 
 #### Defined in
 
-[src/common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L45)
+[src/common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L45)
 
 ___
 
 ### when
 
-• **when**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\>) => `void`
+• **when**: (`pattern`: `string` \| `RegExp`, `fn`: [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\>) => `void`
+
+Register a step function to be run against "action" steps having a text that match a pattern.
 
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against "action" steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | [`StepFunction`](../modules/common.md#stepfunction)<[`RunnerArgs`](../modules/playwright.md#runnerargs)<`T`\>\> | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | [`StepFunction`](../modules/common.md#stepfunction)\<[`RunnerArgs`](../modules/playwright.md#runnerargs)\<`T`\>\> |
 
 ##### Returns
 
@@ -390,7 +394,7 @@ Register a step function to be run against "action" steps having a text that mat
 
 #### Defined in
 
-[src/common/wrapper.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L40)
+[src/common/wrapper.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L40)
 
 ___
 
@@ -417,4 +421,4 @@ Run tests for a feature file.
 
 #### Defined in
 
-[src/common/wrapper.ts:87](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L87)
+[src/common/wrapper.ts:87](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L87)

@@ -19,7 +19,7 @@ wrapper.test('feature.file')
 
 ## Hierarchy
 
-- [`Wrapper`](common.Wrapper.md)<``null``\>
+- [`Wrapper`](common.Wrapper.md)\<``null``\>
 
   ↳ **`JestWrapper`**
 
@@ -50,7 +50,7 @@ wrapper.test('feature.file')
 
 ### constructor
 
-• **new JestWrapper**(`options?`)
+• **new JestWrapper**(`options?`): [`JestWrapper`](jest.JestWrapper.md)
 
 A GherkinWrapper for the Jest test runner.
 
@@ -71,19 +71,23 @@ wrapper.test('feature.file')
 | :------ | :------ | :------ |
 | `options?` | [`WrapperOptions`](../interfaces/jest.WrapperOptions.md) | wrapper options |
 
+#### Returns
+
+[`JestWrapper`](jest.JestWrapper.md)
+
 #### Overrides
 
 [Wrapper](common.Wrapper.md).[constructor](common.Wrapper.md#constructor)
 
 #### Defined in
 
-[src/jest/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/jest/wrapper.ts#L45)
+[src/jest/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/jest/wrapper.ts#L45)
 
 ## Properties
 
 ### hooks
 
-• `Readonly` **hooks**: [`Hooks`](index.Hooks.md)<``null``\>
+• `Readonly` **hooks**: [`Hooks`](index.Hooks.md)\<``null``\>
 
 The wrapper hook library
 
@@ -93,13 +97,13 @@ The wrapper hook library
 
 #### Defined in
 
-[src/common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L17)
+[src/common/wrapper.ts:17](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L17)
 
 ___
 
 ### library
 
-• `Readonly` **library**: [`Library`](common.Library.md)<``null``\>
+• `Readonly` **library**: [`Library`](common.Library.md)\<``null``\>
 
 The wrapper step function library
 
@@ -109,17 +113,13 @@ The wrapper step function library
 
 #### Defined in
 
-[src/common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L15)
+[src/common/wrapper.ts:15](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L15)
 
 ## Methods
 
 ### afterStep
 
-• **afterStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<``null``\>) => `void`
-
-#### Type declaration
-
-▸ (`callback`): `void`
+• **afterStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)\<``null``\>) => `void`
 
 Register a hook that runs after each step.
 
@@ -128,11 +128,15 @@ Register a hook that runs after each step.
 - You can register multiple afterStep hooks.
 - The hook runs within the test.step block.
 
+#### Type declaration
+
+▸ (`callback`): `void`
+
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<``null``\> | the hook function |
+| Name | Type |
+| :------ | :------ |
+| `callback` | [`StepHook`](../modules/common.md#stephook)\<``null``\> |
 
 ##### Returns
 
@@ -144,17 +148,13 @@ Register a hook that runs after each step.
 
 #### Defined in
 
-[src/common/wrapper.ts:71](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L71)
+[src/common/wrapper.ts:71](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L71)
 
 ___
 
 ### afterTag
 
 • **afterTag**: (...`args`: [tag: string, callback: TagHook]) => `void`
-
-#### Type declaration
-
-▸ (`...args`): `void`
 
 Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 
@@ -163,6 +163,10 @@ Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 - You can register multiple hooks for the same tag.
 - The hook runs within the describe or test block.
 - Effects of async hooks are ignored for Features and Rules
+
+#### Type declaration
+
+▸ (`...args`): `void`
 
 ##### Parameters
 
@@ -180,7 +184,7 @@ Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/wrapper.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L61)
+[src/common/wrapper.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L61)
 
 ___
 
@@ -188,18 +192,18 @@ ___
 
 • **any**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
+Register a step function to be run against any steps having a text that match a pattern.
+
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against any steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` |
 
 ##### Returns
 
@@ -211,17 +215,13 @@ Register a step function to be run against any steps having a text that match a 
 
 #### Defined in
 
-[src/common/wrapper.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L50)
+[src/common/wrapper.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L50)
 
 ___
 
 ### beforeStep
 
-• **beforeStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)<``null``\>) => `void`
-
-#### Type declaration
-
-▸ (`callback`): `void`
+• **beforeStep**: (`callback`: [`StepHook`](../modules/common.md#stephook)\<``null``\>) => `void`
 
 Register a hook that runs before each step.
 
@@ -230,11 +230,15 @@ Register a hook that runs before each step.
 - You can register multiple beforeStep hooks.
 - The hook runs within the test.step block.
 
+#### Type declaration
+
+▸ (`callback`): `void`
+
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<``null``\> | the hook function |
+| Name | Type |
+| :------ | :------ |
+| `callback` | [`StepHook`](../modules/common.md#stephook)\<``null``\> |
 
 ##### Returns
 
@@ -246,17 +250,13 @@ Register a hook that runs before each step.
 
 #### Defined in
 
-[src/common/wrapper.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L66)
+[src/common/wrapper.ts:66](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L66)
 
 ___
 
 ### beforeTag
 
 • **beforeTag**: (...`args`: [tag: string, callback: TagHook]) => `void`
-
-#### Type declaration
-
-▸ (`...args`): `void`
 
 Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
@@ -265,6 +265,10 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 - You can register multiple hooks for the same tag.
 - The hook runs within the describe or test block.
 - Effects of async hooks are ignored for Features and Rules
+
+#### Type declaration
+
+▸ (`...args`): `void`
 
 ##### Parameters
 
@@ -282,7 +286,7 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/wrapper.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L56)
+[src/common/wrapper.ts:56](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L56)
 
 ___
 
@@ -290,18 +294,18 @@ ___
 
 • **given**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
+Register a step function to be run against "context" steps having a text that match a pattern.
+
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against "context" steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` |
 
 ##### Returns
 
@@ -313,7 +317,7 @@ Register a step function to be run against "context" steps having a text that ma
 
 #### Defined in
 
-[src/common/wrapper.ts:35](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L35)
+[src/common/wrapper.ts:35](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L35)
 
 ___
 
@@ -321,18 +325,18 @@ ___
 
 • **then**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
+Register a step function to be run against "outcome" steps having a text that match a pattern.
+
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against "outcome" steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` |
 
 ##### Returns
 
@@ -344,7 +348,7 @@ Register a step function to be run against "outcome" steps having a text that ma
 
 #### Defined in
 
-[src/common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L45)
+[src/common/wrapper.ts:45](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L45)
 
 ___
 
@@ -352,18 +356,18 @@ ___
 
 • **when**: (`pattern`: `string` \| `RegExp`, `fn`: (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any`) => `void`
 
+Register a step function to be run against "action" steps having a text that match a pattern.
+
 #### Type declaration
 
 ▸ (`pattern`, `fn`): `void`
 
-Register a step function to be run against "action" steps having a text that match a pattern.
-
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pattern` | `string` \| `RegExp` | the pattern |
-| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` | the step function |
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `fn` | (`wrapperArgs`: [`WrapperArgs`](../interfaces/common.WrapperArgs.md)) => `any` |
 
 ##### Returns
 
@@ -375,7 +379,7 @@ Register a step function to be run against "action" steps having a text that mat
 
 #### Defined in
 
-[src/common/wrapper.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L40)
+[src/common/wrapper.ts:40](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L40)
 
 ___
 
@@ -402,4 +406,4 @@ Run tests for a feature file.
 
 #### Defined in
 
-[src/common/wrapper.ts:87](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/wrapper.ts#L87)
+[src/common/wrapper.ts:87](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/wrapper.ts#L87)

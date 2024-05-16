@@ -1,6 +1,6 @@
 [Gherkin wrapper - API Reference](../README.md) / [index](../modules/index.md) / Hooks
 
-# Class: Hooks<RunnerArgs\>
+# Class: Hooks\<RunnerArgs\>
 
 [index](../modules/index.md).Hooks
 
@@ -32,7 +32,7 @@ Generic hook library
 
 ### constructor
 
-• **new Hooks**<`RunnerArgs`\>()
+• **new Hooks**\<`RunnerArgs`\>(): [`Hooks`](index.Hooks.md)\<`RunnerArgs`\>
 
 Generic hook library
 
@@ -42,19 +42,19 @@ Generic hook library
 | :------ | :------ |
 | `RunnerArgs` | Type of the object holding the runner arguments and passed to the [step related hooks](../modules/common.md#stephook) |
 
+#### Returns
+
+[`Hooks`](index.Hooks.md)\<`RunnerArgs`\>
+
 #### Defined in
 
-[src/common/hooks.ts:24](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/hooks.ts#L24)
+[src/common/hooks.ts:24](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/hooks.ts#L24)
 
 ## Properties
 
 ### afterTag
 
 • **afterTag**: (...`args`: [tag: string, callback: TagHook]) => `void`
-
-#### Type declaration
-
-▸ (`...args`): `void`
 
 Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 
@@ -64,6 +64,10 @@ Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 - The hook runs within the describe or test block.
 - Effects of async hooks are ignored for Features and Rules
 
+#### Type declaration
+
+▸ (`...args`): `void`
+
 ##### Parameters
 
 | Name | Type |
@@ -76,17 +80,13 @@ Register a hook that runs after each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/hooks.ts:89](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/hooks.ts#L89)
+[src/common/hooks.ts:89](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/hooks.ts#L89)
 
 ___
 
 ### beforeTag
 
 • **beforeTag**: (...`args`: [tag: string, callback: TagHook]) => `void`
-
-#### Type declaration
-
-▸ (`...args`): `void`
 
 Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
@@ -96,6 +96,10 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 - The hook runs within the describe or test block.
 - Effects of async hooks are ignored for Features and Rules
 
+#### Type declaration
+
+▸ (`...args`): `void`
+
 ##### Parameters
 
 | Name | Type |
@@ -108,7 +112,7 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
 #### Defined in
 
-[src/common/hooks.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/hooks.ts#L76)
+[src/common/hooks.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/hooks.ts#L76)
 
 ## Methods
 
@@ -118,24 +122,24 @@ Register a hook that runs before each Feature|Rule|Scenario having a given tag.
 
 Register a hook that runs after each step.
 
-**`Remarks`**
-
-- You can register multiple afterStep hooks.
-- The hook runs within the test.step block.
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<`RunnerArgs`\> | the hook function |
+| `callback` | [`StepHook`](../modules/common.md#stephook)\<`RunnerArgs`\> | the hook function |
 
 #### Returns
 
 `void`
 
+**`Remarks`**
+
+- You can register multiple afterStep hooks.
+- The hook runs within the test.step block.
+
 #### Defined in
 
-[src/common/hooks.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/hooks.ts#L50)
+[src/common/hooks.ts:50](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/hooks.ts#L50)
 
 ___
 
@@ -145,21 +149,21 @@ ___
 
 Register a hook that runs before each step.
 
-**`Remarks`**
-
-- You can register multiple beforeStep hooks.
-- The hook runs within the test.step block.
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`StepHook`](../modules/common.md#stephook)<`RunnerArgs`\> | the hook function |
+| `callback` | [`StepHook`](../modules/common.md#stephook)\<`RunnerArgs`\> | the hook function |
 
 #### Returns
 
 `void`
 
+**`Remarks`**
+
+- You can register multiple beforeStep hooks.
+- The hook runs within the test.step block.
+
 #### Defined in
 
-[src/common/hooks.ts:37](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/hooks.ts#L37)
+[src/common/hooks.ts:37](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/hooks.ts#L37)

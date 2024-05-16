@@ -20,7 +20,7 @@ const library = new GherkinWrapper.forJest({ library })
 
 ## Hierarchy
 
-- [`Library`](common.Library.md)<``null``\>
+- [`Library`](common.Library.md)\<``null``\>
 
   ↳ **`JestLibrary`**
 
@@ -41,7 +41,7 @@ const library = new GherkinWrapper.forJest({ library })
 
 ### constructor
 
-• **new JestLibrary**()
+• **new JestLibrary**(): [`JestLibrary`](index.JestLibrary.md)
 
 Helper class to build step function libraries for the Jest GherkinWrapper.
 
@@ -57,13 +57,17 @@ library.then(...)
 const library = new GherkinWrapper.forJest({ library })
 ```
 
+#### Returns
+
+[`JestLibrary`](index.JestLibrary.md)
+
 #### Overrides
 
 [Library](common.Library.md).[constructor](common.Library.md#constructor)
 
 #### Defined in
 
-[src/jest/library.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/jest/library.ts#L34)
+[src/jest/library.ts:34](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/jest/library.ts#L34)
 
 ## Methods
 
@@ -73,14 +77,6 @@ const library = new GherkinWrapper.forJest({ library })
 
 Register a step function to be run against any steps having a text that match a pattern.
 
-**`Remark`**
-
-The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
-
-**`Remark`**
-
-Functions registered using a given|when|then method are prioritized over functions registered using this method.
-
 #### Parameters
 
 | Name | Type | Description |
@@ -92,13 +88,21 @@ Functions registered using a given|when|then method are prioritized over functio
 
 `void`
 
+**`Remark`**
+
+The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+
+**`Remark`**
+
+Functions registered using a given|when|then method are prioritized over functions registered using this method.
+
 #### Inherited from
 
 [Library](common.Library.md).[any](common.Library.md#any)
 
 #### Defined in
 
-[src/common/library.ts:101](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L101)
+[src/common/library.ts:101](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/library.ts#L101)
 
 ___
 
@@ -108,10 +112,6 @@ ___
 
 Register a step function to be run against "context" steps having a text that match a pattern.
 
-**`Remark`**
-
-The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
-
 #### Parameters
 
 | Name | Type | Description |
@@ -123,13 +123,17 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 `void`
 
+**`Remark`**
+
+The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+
 #### Inherited from
 
 [Library](common.Library.md).[given](common.Library.md#given)
 
 #### Defined in
 
-[src/common/library.ts:64](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L64)
+[src/common/library.ts:64](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/library.ts#L64)
 
 ___
 
@@ -139,10 +143,6 @@ ___
 
 Register a step function to be run against "outcome" steps having a text that match a pattern.
 
-**`Remark`**
-
-The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
-
 #### Parameters
 
 | Name | Type | Description |
@@ -154,13 +154,17 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 `void`
 
+**`Remark`**
+
+The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+
 #### Inherited from
 
 [Library](common.Library.md).[then](common.Library.md#then)
 
 #### Defined in
 
-[src/common/library.ts:88](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L88)
+[src/common/library.ts:88](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/library.ts#L88)
 
 ___
 
@@ -170,10 +174,6 @@ ___
 
 Register a step function to be run against "action" steps having a text that match a pattern.
 
-**`Remark`**
-
-The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
-
 #### Parameters
 
 | Name | Type | Description |
@@ -185,10 +185,14 @@ The step functions are stored and then searched in a FIFO fashion and only 1 fun
 
 `void`
 
+**`Remark`**
+
+The step functions are stored and then searched in a FIFO fashion and only 1 function is called for each step.
+
 #### Inherited from
 
 [Library](common.Library.md).[when](common.Library.md#when)
 
 #### Defined in
 
-[src/common/library.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/library.ts#L76)
+[src/common/library.ts:76](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/library.ts#L76)

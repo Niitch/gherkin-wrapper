@@ -37,13 +37,13 @@ Type of the default playwright test object
 
 #### Defined in
 
-[src/playwright/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/playwright/index.ts#L5)
+[src/playwright/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/playwright/index.ts#L5)
 
 ___
 
 ### RunnerArgs
 
-Ƭ **RunnerArgs**<`PlaywrightTestObject`\>: `Parameters`<`Parameters`<`PlaywrightTestObject`\>[``1``]\>[``0``]
+Ƭ **RunnerArgs**\<`PlaywrightTestObject`\>: `Parameters`\<`Parameters`\<`PlaywrightTestObject`\>[``2``]\>[``0``]
 
 Type of the runner argument for a given playwright test object.
 For Playwright, it is the fixtures object usually passed as first parameters to the test functions.
@@ -56,4 +56,4 @@ For Playwright, it is the fixtures object usually passed as first parameters to 
 
 #### Defined in
 
-[src/playwright/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/playwright/index.ts#L13)
+[src/playwright/index.ts:13](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/playwright/index.ts#L13)

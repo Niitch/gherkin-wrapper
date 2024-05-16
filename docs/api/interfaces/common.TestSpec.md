@@ -1,6 +1,6 @@
 [Gherkin wrapper - API Reference](../README.md) / [common](../modules/common.md) / TestSpec
 
-# Interface: TestSpec<RunnerArgs\>
+# Interface: TestSpec\<RunnerArgs\>
 
 [common](../modules/common.md).TestSpec
 
@@ -23,13 +23,13 @@ Represents a test specification
 
 ### fn
 
-• **fn**: [`StepFunction`](../modules/common.md#stepfunction)<`RunnerArgs`\>
+• **fn**: [`StepFunction`](../modules/common.md#stepfunction)\<`RunnerArgs`\>
 
 The function to run against the matching steps
 
 #### Defined in
 
-[src/common/index.ts:53](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L53)
+[src/common/index.ts:53](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/index.ts#L53)
 
 ___
 
@@ -41,4 +41,4 @@ The pattern a step text should match
 
 #### Defined in
 
-[src/common/index.ts:51](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L51)
+[src/common/index.ts:51](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/index.ts#L51)

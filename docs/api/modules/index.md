@@ -29,4 +29,4 @@
 
 #### Defined in
 
-[src/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/index.ts#L5)
+[src/index.ts:5](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/index.ts#L5)

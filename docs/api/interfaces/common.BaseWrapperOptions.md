@@ -25,18 +25,18 @@ The minimal wrapper options
 
 ### hooks
 
-• `Optional` **hooks**: [`Hooks`](../classes/index.Hooks.md)<`any`\>
+• `Optional` **hooks**: [`Hooks`](../classes/index.Hooks.md)\<`any`\>
 
 #### Defined in
 
-[src/common/index.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L61)
+[src/common/index.ts:61](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/index.ts#L61)
 
 ___
 
 ### library
 
-• `Optional` **library**: [`Library`](../classes/common.Library.md)<`any`\>
+• `Optional` **library**: [`Library`](../classes/common.Library.md)\<`any`\>
 
 #### Defined in
 
-[src/common/index.ts:60](https://github.com/Niitch/gherkin-wrapper/blob/79f02ed/src/common/index.ts#L60)
+[src/common/index.ts:60](https://github.com/Niitch/gherkin-wrapper/blob/0fb44bdd84c0fef4ddb343cfa7f4026e36d5dacf/src/common/index.ts#L60)
